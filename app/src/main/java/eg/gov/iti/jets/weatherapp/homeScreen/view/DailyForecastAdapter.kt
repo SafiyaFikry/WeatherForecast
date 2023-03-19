@@ -10,6 +10,7 @@ import eg.gov.iti.jets.weatherapp.R
 import eg.gov.iti.jets.weatherapp.databinding.DailyForecastBinding
 import eg.gov.iti.jets.weatherapp.model.Daily
 import eg.gov.iti.jets.weatherapp.model.Root
+import java.text.SimpleDateFormat
 import java.util.*
 
 class DailyForecastAdapter (private var daily:List<Daily>,var root:Root, context: Context) : RecyclerView.Adapter<DailyForecastAdapter.ViewHolder>(){
@@ -28,26 +29,31 @@ class DailyForecastAdapter (private var daily:List<Daily>,var root:Root, context
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        Glide.with(mContext)
-            .load(daily[position].weather[0].icon)
-            .apply(
-                RequestOptions()
-                    .override(150, 150)
-                    .placeholder(R.drawable.ic_launcher_background)
-                    .error(R.drawable.ic_launcher_foreground)
-            )
-            .into(holder.binding.dayIconImageView)
-        val long =(daily[position].dt+root.timezone_offset-7200).toLong()*1000
-        val date = Date(long).toString()
-        holder.binding.dayTextView.text=date
-        holder.binding.dayTempTextView.text=daily[position].temp.toString()
-        holder.binding.dayStatusTextView.text=daily[position].weather[0].description
+        if (position+1<daily.size) {
+            Glide.with(mContext)
+                .load("https://openweathermap.org/img/wn/" + daily[position+1].weather[0].icon + "@2x.png")
+                .apply(
+                    RequestOptions()
+                        .override(150, 150)
+                        .placeholder(R.drawable.ic_launcher_background)
+                        .error(R.drawable.ic_launcher_foreground)
+                )
+                .into(holder.binding.dayIconImageView)
+            val long = (daily[position+1].dt + root.timezone_offset - 7200).toLong() * 1000
+            val date = Date(long)
+            val format = SimpleDateFormat("EEE, dd")
+            holder.binding.dayTextView.text = format.format(date)
+            holder.binding.dayTempTextView.text =
+                daily[position].temp.min.toInt().toString() + "/" + daily[position+1].temp.max.toInt()
+                    .toString() + " °C"
+            holder.binding.dayStatusTextView.text = daily[position+1].weather[0].description
 //        holder.binding.dayIconImageView.setImageResource(daily[position].thumbnail)
 
+        }
     }
 
     override fun getItemCount(): Int {
-        return daily.size
+        return daily.size-1
     }
 
     class ViewHolder(var binding: DailyForecastBinding) : RecyclerView.ViewHolder(binding.root)

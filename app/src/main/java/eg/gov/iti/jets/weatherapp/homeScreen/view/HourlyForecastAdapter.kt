@@ -10,6 +10,7 @@ import eg.gov.iti.jets.weatherapp.R
 import eg.gov.iti.jets.weatherapp.databinding.HourlyForecastBinding
 import eg.gov.iti.jets.weatherapp.model.Hourly
 import eg.gov.iti.jets.weatherapp.model.Root
+import java.text.SimpleDateFormat
 import java.util.*
 
 class HourlyForecastAdapter (private var hours:List<Hourly>, var root: Root, context: Context) : RecyclerView.Adapter<HourlyForecastAdapter.ViewHolder>(){
@@ -29,7 +30,7 @@ class HourlyForecastAdapter (private var hours:List<Hourly>, var root: Root, con
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         Glide.with(mContext)
-            .load(hours[position].weather[0].icon)
+            .load("https://openweathermap.org/img/wn/"+hours[position].weather[0].icon+"@2x.png")
             .apply(
                 RequestOptions()
                     .override(150, 150)
@@ -38,9 +39,10 @@ class HourlyForecastAdapter (private var hours:List<Hourly>, var root: Root, con
             )
             .into(holder.binding.timeIconImageView)
         val long =(hours[position].dt+root.timezone_offset-7200).toLong()*1000
-        val date = Date(long).toString()
-        holder.binding.timeTextView.text=date
-        holder.binding.timeTempTextView.text=hours[position].temp.toString()
+        val date = Date(long)
+        val format = SimpleDateFormat("hh:mm a")
+        holder.binding.timeTextView.text=format.format(date)
+        holder.binding.timeTempTextView.text=hours[position].temp.toInt().toString()+" °C"
         //holder.binding.timeIconImageView.setImageResource(hours[position].thumbnail)
 
     }

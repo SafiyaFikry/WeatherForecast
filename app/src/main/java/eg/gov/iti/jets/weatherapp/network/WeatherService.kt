@@ -7,7 +7,7 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface WeatherService {
-    @GET("onecall?lat=33.44&lon=-94.04&appid=c76b13508b00d4f6977a17052745ff03")
+    @GET("onecall?lat=29.998098&lon=31.156610&lang=en&units=metric&appid=c76b13508b00d4f6977a17052745ff03")
     suspend fun getWeatherByLatAndLon(/*@Query("lat") lat: Double,@Query("lon") lon: Double,*/): Root
 }
 

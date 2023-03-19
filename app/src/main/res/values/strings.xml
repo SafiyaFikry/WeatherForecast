@@ -28,8 +28,8 @@
     <string name="Celsius">Celsius</string>
     <string name="Kelvin">Kelvin</string>
     <string name="Fehrenheit">Fehrenheit</string>
-    <string name="mps">Meter/Sec</string>
-    <string name="mph">Mile/Hour</string>
+    <string name="mps">m/s</string>
+    <string name="mph">mph</string>
     <string name="Off">Off</string>
     <string name="On">On</string>
     <string name="no_favorites_yet">No Favorites Places Yet</string>
@@ -49,7 +49,7 @@
         <item>Fehrenheit</item>
     </string-array>
     <string-array name="wind_speed">
-        <item>Meter/Sec</item>
-        <item>Mile/Hour</item>
+        <item>m/s</item>
+        <item>mph</item>
     </string-array>
 </resources>

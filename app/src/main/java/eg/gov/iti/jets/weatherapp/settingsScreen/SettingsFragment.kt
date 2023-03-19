@@ -79,10 +79,10 @@ class SettingsFragment : Fragment() {
             windPreference?.summaryProvider =
                 Preference.SummaryProvider<ListPreference> { preference ->
                     val text = preference.value
-                    if (text=="Meter/Sec") {
-                        "Meter/Sec"
+                    if (text=="m/s") {
+                        "m/s"
                     } else {
-                        "Mile/Hour"
+                        "mph"
                     }
                 }
         }

@@ -22,7 +22,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.583" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/dailyRecycleview"
@@ -49,9 +50,9 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/hourlyRecycleview"
             android:layout_width="match_parent"
-            android:layout_height="160dp"
+            android:layout_height="150dp"
             android:orientation="horizontal"
-            android:padding="10dp"
+            android:layout_margin="10dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
@@ -116,9 +117,9 @@
                     android:id="@+id/placeWeather_imageView"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginStart="104dp"
+                    android:layout_marginTop="52dp"
                     android:src="@drawable/ic_launcher_foreground"
-                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -126,14 +127,15 @@
                     android:id="@+id/weatherTemp_textView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="32dp"
                     android:fontFamily="casual"
                     android:text="TextView"
+                    android:textSize="30dp"
                     android:textColor="@color/white"
                     android:textStyle="bold"
-                    app:layout_constraintEnd_toEndOf="@+id/placeWeather_imageView"
-                    app:layout_constraintStart_toStartOf="@+id/placeWeather_imageView"
-                    app:layout_constraintTop_toBottomOf="@+id/placeWeather_imageView" />
+                    app:layout_constraintStart_toEndOf="@+id/placeWeather_imageView"
+                    app:layout_constraintTop_toTopOf="@+id/placeWeather_imageView" />
 
                 <TextView
                     android:id="@+id/weatherStatus_textView"
@@ -153,10 +155,11 @@
                     android:id="@+id/imageView2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="20dp"
                     android:src="@drawable/baseline_speed_24"
                     app:layout_constraintStart_toStartOf="@+id/place_textView"
-                    app:layout_constraintTop_toBottomOf="@+id/weatherStatus_textView" />
+                    app:layout_constraintTop_toBottomOf="@+id/placeWeather_imageView" />
 
                 <TextView
                     android:id="@+id/pressure_textView"
@@ -187,7 +190,7 @@
                     android:id="@+id/imageView3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="100dp"
+                    android:layout_marginStart="80dp"
                     android:src="@drawable/baseline_water_drop_24"
                     app:layout_constraintStart_toEndOf="@+id/imageView2"
                     app:layout_constraintTop_toTopOf="@+id/imageView2" />
@@ -221,7 +224,7 @@
                     android:id="@+id/imageView4"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="100dp"
+                    android:layout_marginStart="70dp"
                     android:src="@drawable/baseline_air_24"
                     app:layout_constraintStart_toEndOf="@+id/imageView3"
                     app:layout_constraintTop_toTopOf="@+id/imageView3" />
