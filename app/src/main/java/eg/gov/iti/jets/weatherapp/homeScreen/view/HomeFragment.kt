@@ -14,8 +14,6 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import eg.gov.iti.jets.weatherapp.R
 import eg.gov.iti.jets.weatherapp.databinding.FragmentHomeBinding
-import eg.gov.iti.jets.weatherapp.homeScreen.Day
-import eg.gov.iti.jets.weatherapp.homeScreen.Hour
 import eg.gov.iti.jets.weatherapp.homeScreen.viewModel.ViewModelFactoryHome
 import eg.gov.iti.jets.weatherapp.homeScreen.viewModel.ViewModelHome
 import eg.gov.iti.jets.weatherapp.model.Repository

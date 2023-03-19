@@ -8,7 +8,6 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import eg.gov.iti.jets.weatherapp.R
 import eg.gov.iti.jets.weatherapp.databinding.DailyForecastBinding
-import eg.gov.iti.jets.weatherapp.homeScreen.Day
 import eg.gov.iti.jets.weatherapp.model.Daily
 import eg.gov.iti.jets.weatherapp.model.Root
 import java.util.*
