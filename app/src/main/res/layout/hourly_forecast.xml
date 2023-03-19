@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="70dp"
+    android:layout_height="120dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="40dp"
+    android:elevation="10dp"
+    android:backgroundTint="@color/cobalt"
+    android:layout_margin="3dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="70dp"
+        android:layout_height="120dp"
+        android:id="@+id/hourly_forecast_itemLayout"
+        android:background="@color/cobalt">
+
+        <TextView
+            android:id="@+id/time_textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:fontFamily="casual"
+            android:text="TextView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/timeIcon_imageView"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginBottom="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/time_textView"
+            app:layout_constraintStart_toStartOf="@+id/time_textView"
+            app:layout_constraintTop_toBottomOf="@+id/time_textView"
+            app:layout_constraintVertical_bias="0.17"
+            app:srcCompat="@drawable/logo" />
+
+        <TextView
+            android:id="@+id/timeTemp_textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:text="TextView"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:fontFamily="casual"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/timeIcon_imageView"
+            app:layout_constraintStart_toStartOf="@+id/timeIcon_imageView"
+            app:layout_constraintTop_toBottomOf="@+id/timeIcon_imageView" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>

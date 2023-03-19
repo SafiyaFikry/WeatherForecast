@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory
+        app:key="prefenece"
+        app:title="Preferences">
+        <ListPreference
+            app:key="location"
+            app:title="Location"
+            android:entryValues="@array/loacation"
+            android:entries="@array/loacation"
+            android:defaultValue="@string/Map"
+            android:summary="@string/Map"/>
+
+        <ListPreference
+            app:key="language"
+            app:title="Languages"
+            android:entryValues="@array/language"
+            android:entries="@array/language"
+            android:defaultValue="@string/English"
+            android:summary="@string/English"/>
+
+        <SwitchPreferenceCompat
+            app:key="notifications"
+            app:title="Notifications"
+            android:summaryOn="@string/On"
+            android:summaryOff="@string/Off"
+            android:defaultValue="@string/Off" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        app:key="units"
+        app:title="Units">
+
+        <ListPreference
+            app:key="temperature"
+            app:title="Temperature Unit"
+            android:entryValues="@array/temp_unit"
+            android:entries="@array/temp_unit"
+            android:defaultValue="@string/Celsius"
+            android:summary="@string/Celsius"/>
+        <ListPreference
+            app:key="windSpeed"
+            app:title="Wind Speed"
+            android:entries="@array/wind_speed"
+            android:entryValues="@array/wind_speed"
+            android:defaultValue="@string/mps"
+            android:summary="@string/mps"/>
+
+    </PreferenceCategory>
+</PreferenceScreen>

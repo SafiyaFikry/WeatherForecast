@@ -1,0 +1,55 @@
+<resources>
+    <string name="app_name">Weather Forecast</string>
+    <string name="slogan">Know Before You Go</string>
+    <string name="home_blank_fragment">Home blank fragment</string>
+    <string name="favorite_blank_fragment">Favorite blank fragment</string>
+    <string name="alert_blank_fragment">Alert blank fragment</string>
+    <string name="settings_blank_fragment">Settings blank fragment</string>
+    <string name="open_nav">Open Navigation Drawer</string>
+    <string name="close_nav">Close Navigation Drawer</string>
+    <string name="home">Home</string>
+    <string name="favorite">Favorite</string>
+    <string name="alert">Alert</string>
+    <string name="settings">Settings</string>
+    <string name="pressure">Pressure</string>
+    <string name="humidity">Humidity</string>
+    <string name="wind">Wind</string>
+    <string name="cloud">Cloud</string>
+    <string name="ultra_violet">Ultra Violet</string>
+    <string name="visibility">Visibility</string>
+    <string name="today">Today</string>
+    <string name="daily_forecast">Daily Forecast</string>
+    <string name="hourly_forecast">Hourly Forecast</string>
+
+    <string name="Arabic">Arabic</string>
+    <string name="English">English</string>
+    <string name="GPS">Gps</string>
+    <string name="Map">Map</string>
+    <string name="Celsius">Celsius</string>
+    <string name="Kelvin">Kelvin</string>
+    <string name="Fehrenheit">Fehrenheit</string>
+    <string name="mps">Meter/Sec</string>
+    <string name="mph">Mile/Hour</string>
+    <string name="Off">Off</string>
+    <string name="On">On</string>
+    <string name="no_favorites_yet">No Favorites Places Yet</string>
+    <string name="no_alerts_yet">No Alerts Yet</string>
+
+    <string-array name="language">
+        <item>Arabic</item>
+        <item>English</item>
+    </string-array>
+    <string-array name="loacation">
+        <item>GPS</item>
+        <item>Map</item>
+    </string-array>
+    <string-array name="temp_unit">
+        <item>Celsius</item>
+        <item>Kelvin</item>
+        <item>Fehrenheit</item>
+    </string-array>
+    <string-array name="wind_speed">
+        <item>Meter/Sec</item>
+        <item>Mile/Hour</item>
+    </string-array>
+</resources>
