@@ -2,6 +2,7 @@ package eg.gov.iti.jets.weatherapp.homeScreen.view
 
 import android.content.SharedPreferences
 import android.location.Address
+import android.location.Geocoder
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -25,6 +26,7 @@ import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.time.Month
 import java.util.*
+import kotlin.math.roundToInt
 
 class HomeFragment : Fragment() {
 
@@ -33,6 +35,8 @@ class HomeFragment : Fragment() {
     lateinit var dailyForecastAdapter:DailyForecastAdapter
     lateinit var hourlyForecastAdapter:HourlyForecastAdapter
     lateinit var binding:FragmentHomeBinding
+    lateinit var address:MutableList<Address>
+    lateinit var geocoder: Geocoder
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -54,8 +58,15 @@ class HomeFragment : Fragment() {
         val language= sh.getString("language","English")
         val temperature= sh.getString("temperature","Celsius")
         val windSpeed= sh.getString("windSpeed","m/s")
-
-        viewModelFactoryHome= ViewModelFactoryHome(Repository.getInstance(WeatherClient.getInstance()))
+        val lang=if (language=="English"){
+            "en"
+        }else{
+            "ar"
+        }
+        val lat=sh.getString("lat","lat")
+        val lon=sh.getString("lon","lon")
+        geocoder= Geocoder(requireContext().applicationContext)
+        viewModelFactoryHome= ViewModelFactoryHome(Repository.getInstance(WeatherClient.getInstance()),lat!!.toDouble(),lon!!.toDouble(),lang)
         viewModelHome=ViewModelProvider(this,viewModelFactoryHome).get(ViewModelHome::class.java)
         lifecycleScope.launch {
             viewModelHome.root.collectLatest { root ->
@@ -97,26 +108,28 @@ class HomeFragment : Fragment() {
                         val date = Date(long)
                         val format = SimpleDateFormat("EEE, dd MMM")
                         binding.dateTimeTextView.text=format.format(date)
-                        binding.placeTextView.text=root.data.timezone
+                        address=geocoder.getFromLocation(root.data.lat,root.data.lon,10) as MutableList<Address>
+                        val des="${address[0].subAdminArea}\n${address[0].adminArea}\n${address[0].countryName}"
+                        binding.placeTextView.text=des
                         if(temperature=="Celsius") {
-                            binding.weatherTempTextView.text = root.data.current.temp.toInt().toString() + " °C"
+                            binding.weatherTempTextView.text = root.data.current.temp.roundToInt().toString() + " °C"
                         }
                         else if (temperature=="Fahrenheit"){
-                            binding.weatherTempTextView.text = convertFromCelsiusToFahrenheit(root.data.current.temp).toInt().toString() + " °F"
+                            binding.weatherTempTextView.text = convertFromCelsiusToFahrenheit(root.data.current.temp).roundToInt().toString() + " °F"
                         }
                         else{
-                            binding.weatherTempTextView.text = convertFromCelsiusToKelvin(root.data.current.temp).toInt().toString() + " °K"
+                            binding.weatherTempTextView.text = convertFromCelsiusToKelvin(root.data.current.temp).roundToInt().toString() + " °K"
                         }
                         binding.weatherStatusTextView.text=root.data.current.weather[0].description
                         binding.pressureTextView.text=root.data.current.pressure.toString()+" hpa"
                         binding.humidityTextView.text=root.data.current.humidity.toString()+" %"
                         if (windSpeed=="m/s") {
                             binding.windTextView.text =
-                                root.data.current.wind_speed.toString() + " m/s"
+                                root.data.current.wind_speed.roundToInt().toString() + " m/s"
                         }
                         else{
                             binding.windTextView.text =
-                                convertFromMPSToMPH(root.data.current.wind_speed).toString() + " mph"
+                                convertFromMPSToMPH(root.data.current.wind_speed).roundToInt().toString() + " mph"
                         }
                         binding.cloudTextView.text=root.data.current.clouds.toString()+" %"
                         binding.ultravioletTextView.text=root.data.current.uvi.toString()

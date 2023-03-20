@@ -4,11 +4,12 @@ import eg.gov.iti.jets.weatherapp.model.Root
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface WeatherService {
-    @GET("onecall?lat=29.998098&lon=31.156610&lang=en&units=metric&appid=c76b13508b00d4f6977a17052745ff03")
-    suspend fun getWeatherByLatAndLon(/*@Query("lat") lat: Double,@Query("lon") lon: Double,*/): Root
+    @GET("onecall?units=metric&appid=c76b13508b00d4f6977a17052745ff03")
+    suspend fun getWeatherByLatAndLon(@Query("lat") lat: Double,@Query("lon") lon: Double,@Query("lang") lang:String): Root
 }
 
 object RetrofitHelper{

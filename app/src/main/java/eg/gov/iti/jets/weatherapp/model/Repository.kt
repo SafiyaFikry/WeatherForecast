@@ -15,8 +15,8 @@ class Repository private constructor(var remoteSource: RemoteSource):RepositoryI
         }
     }
 
-    override suspend fun getWeather(/*lat: Double, lon: Double*/): Flow<Root> {
-        return remoteSource.getWeatherOverNetwork(/*lat,lon*/)
+    override suspend fun getWeather(lat: Double, lon: Double,lang:String): Flow<Root> {
+        return remoteSource.getWeatherOverNetwork(lat,lon,lang)
     }
 
 

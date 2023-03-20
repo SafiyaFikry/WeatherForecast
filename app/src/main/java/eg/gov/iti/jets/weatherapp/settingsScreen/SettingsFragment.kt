@@ -13,15 +13,16 @@ import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceManager
 import androidx.preference.SwitchPreference
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import eg.gov.iti.jets.weatherapp.R
 
 class SettingsFragment : Fragment() {
+    lateinit var mFusedLocationClient: FusedLocationProviderClient
 
-    lateinit var sh:SharedPreferences
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         fragmentManager?.beginTransaction()?.replace(R.id.fragment_container,MySettingsFragment())?.commit()
-        sh=PreferenceManager.getDefaultSharedPreferences(requireContext().applicationContext)
     }
 
     override fun onCreateView(
@@ -91,7 +92,10 @@ class SettingsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        mFusedLocationClient= LocationServices.getFusedLocationProviderClient(requireActivity().applicationContext)
+
     }
+
 
 }
 

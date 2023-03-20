@@ -14,6 +14,7 @@ import eg.gov.iti.jets.weatherapp.model.Hourly
 import eg.gov.iti.jets.weatherapp.model.Root
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.math.roundToInt
 
 class HourlyForecastAdapter (private var hours:List<Hourly>, var root: Root, context: Context) : RecyclerView.Adapter<HourlyForecastAdapter.ViewHolder>(){
     private var mContext: Context
@@ -44,16 +45,16 @@ class HourlyForecastAdapter (private var hours:List<Hourly>, var root: Root, con
             .into(holder.binding.timeIconImageView)
         val long =(hours[position].dt+root.timezone_offset-7200).toLong()*1000
         val date = Date(long)
-        val format = SimpleDateFormat("hh:mm a")
+        val format = SimpleDateFormat("hh a")
         holder.binding.timeTextView.text=format.format(date)
         if(temperature=="Celsius") {
-            holder.binding.timeTempTextView.text=hours[position].temp.toInt().toString()+" °C"
+            holder.binding.timeTempTextView.text=hours[position].temp.roundToInt().toString()+" °C"
         }
         else if (temperature=="Fahrenheit"){
-            holder.binding.timeTempTextView.text=convertFromCelsiusToFahrenheit(hours[position].temp).toInt().toString()+" °F"
+            holder.binding.timeTempTextView.text=convertFromCelsiusToFahrenheit(hours[position].temp).roundToInt().toString()+" °F"
         }
         else{
-            holder.binding.timeTempTextView.text=convertFromCelsiusToKelvin(hours[position].temp).toInt().toString()+" °K"
+            holder.binding.timeTempTextView.text=convertFromCelsiusToKelvin(hours[position].temp).roundToInt().toString()+" °K"
         }
 
         //holder.binding.timeIconImageView.setImageResource(hours[position].thumbnail)

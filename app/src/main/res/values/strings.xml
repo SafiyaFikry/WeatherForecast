@@ -15,7 +15,7 @@
     <string name="humidity">Humidity</string>
     <string name="wind">Wind</string>
     <string name="cloud">Cloud</string>
-    <string name="ultra_violet">Ultra Violet</string>
+    <string name="ultra_violet">Ultraviolet</string>
     <string name="visibility">Visibility</string>
     <string name="today">Today</string>
     <string name="daily_forecast">Daily Forecast</string>
@@ -39,7 +39,7 @@
         <item>Arabic</item>
         <item>English</item>
     </string-array>
-    <string-array name="loacation">
+    <string-array name="location">
         <item>GPS</item>
         <item>Map</item>
     </string-array>

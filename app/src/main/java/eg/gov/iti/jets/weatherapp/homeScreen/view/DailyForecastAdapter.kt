@@ -14,6 +14,7 @@ import eg.gov.iti.jets.weatherapp.model.Daily
 import eg.gov.iti.jets.weatherapp.model.Root
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.math.roundToInt
 
 class DailyForecastAdapter (private var daily:List<Daily>,var root:Root, context: Context) : RecyclerView.Adapter<DailyForecastAdapter.ViewHolder>(){
     private var mContext: Context
@@ -49,17 +50,17 @@ class DailyForecastAdapter (private var daily:List<Daily>,var root:Root, context
             holder.binding.dayTextView.text = format.format(date)
             if(temperature=="Celsius") {
                 holder.binding.dayTempTextView.text =
-                    daily[position].temp.min.toInt().toString() + "/" + daily[position+1].temp.max.toInt()
+                    daily[position].temp.min.roundToInt().toString() + "/" + daily[position+1].temp.max.roundToInt()
                         .toString() + " °C"
             }
             else if (temperature=="Fahrenheit"){
                 holder.binding.dayTempTextView.text =
-                    convertFromCelsiusToFahrenheit(daily[position].temp.min).toInt().toString() + "/" +convertFromCelsiusToFahrenheit( daily[position+1].temp.max).toInt()
+                    convertFromCelsiusToFahrenheit(daily[position].temp.min).roundToInt().toString() + "/" +convertFromCelsiusToFahrenheit( daily[position+1].temp.max).roundToInt()
                         .toString() + " °F"
             }
             else{
                 holder.binding.dayTempTextView.text =
-                    convertFromCelsiusToKelvin(daily[position].temp.min).toInt().toString() + "/" +convertFromCelsiusToKelvin( daily[position+1].temp.max).toInt()
+                    convertFromCelsiusToKelvin(daily[position].temp.min).roundToInt().toString() + "/" +convertFromCelsiusToKelvin( daily[position+1].temp.max).roundToInt()
                         .toString() + " °K"
             }
             holder.binding.dayStatusTextView.text = daily[position+1].weather[0].description

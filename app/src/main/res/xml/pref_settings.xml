@@ -8,8 +8,8 @@
         <ListPreference
             app:key="location"
             app:title="Location"
-            android:entryValues="@array/loacation"
-            android:entries="@array/loacation"
+            android:entryValues="@array/location"
+            android:entries="@array/location"
             android:defaultValue="@string/Map"
             android:summary="@string/Map"/>
 
