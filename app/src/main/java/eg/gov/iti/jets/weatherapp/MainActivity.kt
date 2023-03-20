@@ -1,11 +1,13 @@
 package eg.gov.iti.jets.weatherapp
 
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.view.GravityCompat
+import androidx.preference.PreferenceManager
 import com.google.android.material.navigation.NavigationView
 import eg.gov.iti.jets.weatherapp.alertScreen.AlertFragment
 import eg.gov.iti.jets.weatherapp.databinding.ActivityMainBinding
@@ -36,12 +38,22 @@ class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelected
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when(item.itemId){
-            R.id.nav_home->supportFragmentManager.beginTransaction().replace(R.id.fragment_container,
-                HomeFragment()
-            ).commit()
-            R.id.nav_favorites->supportFragmentManager.beginTransaction().replace(R.id.fragment_container,FavoriteFragment()).commit()
-            R.id.nav_alert->supportFragmentManager.beginTransaction().replace(R.id.fragment_container,AlertFragment()).commit()
-            R.id.nav_settings->supportFragmentManager.beginTransaction().replace(R.id.fragment_container,SettingsFragment()).commit()
+            R.id.nav_home->{
+                supportFragmentManager.beginTransaction().replace(R.id.fragment_container, HomeFragment()).commit()
+                binding.toolbar.title="Home"
+            }
+            R.id.nav_favorites->{
+                supportFragmentManager.beginTransaction().replace(R.id.fragment_container,FavoriteFragment()).commit()
+                binding.toolbar.title="Favorites"
+            }
+            R.id.nav_alert->{
+                supportFragmentManager.beginTransaction().replace(R.id.fragment_container,AlertFragment()).commit()
+                binding.toolbar.title="Alerts"
+            }
+            R.id.nav_settings->{
+                supportFragmentManager.beginTransaction().replace(R.id.fragment_container,SettingsFragment()).commit()
+                binding.toolbar.title="Settings"
+            }
             else->{}
         }
         binding.drawerLayout.closeDrawer(GravityCompat.START)
@@ -60,8 +72,13 @@ class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelected
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.add, menu)
         val shareItem: MenuItem = menu!!.findItem(R.id.add)
-        if (true) {
+        val sh: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
+        val location= sh.getString("location","Map")
+        if (location=="Map") {
             shareItem.isVisible = true
+        }
+        else{
+            shareItem.isVisible = false
         }
         return true
     }

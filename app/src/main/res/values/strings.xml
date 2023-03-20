@@ -27,7 +27,7 @@
     <string name="Map">Map</string>
     <string name="Celsius">Celsius</string>
     <string name="Kelvin">Kelvin</string>
-    <string name="Fehrenheit">Fehrenheit</string>
+    <string name="Fahrenheit">Fahrenheit</string>
     <string name="mps">m/s</string>
     <string name="mph">mph</string>
     <string name="Off">Off</string>
@@ -46,7 +46,7 @@
     <string-array name="temp_unit">
         <item>Celsius</item>
         <item>Kelvin</item>
-        <item>Fehrenheit</item>
+        <item>Fahrenheit</item>
     </string-array>
     <string-array name="wind_speed">
         <item>m/s</item>

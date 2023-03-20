@@ -1,5 +1,6 @@
 package eg.gov.iti.jets.weatherapp.homeScreen.view
 
+import android.content.SharedPreferences
 import android.location.Address
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -9,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.preference.PreferenceManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import eg.gov.iti.jets.weatherapp.R
@@ -46,6 +48,13 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val sh: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(requireContext().applicationContext)
+        val isChecked= sh.getBoolean("notifications",false)
+        val location= sh.getString("location","Map")
+        val language= sh.getString("language","English")
+        val temperature= sh.getString("temperature","Celsius")
+        val windSpeed= sh.getString("windSpeed","m/s")
+
         viewModelFactoryHome= ViewModelFactoryHome(Repository.getInstance(WeatherClient.getInstance()))
         viewModelHome=ViewModelProvider(this,viewModelFactoryHome).get(ViewModelHome::class.java)
         lifecycleScope.launch {
@@ -89,11 +98,26 @@ class HomeFragment : Fragment() {
                         val format = SimpleDateFormat("EEE, dd MMM")
                         binding.dateTimeTextView.text=format.format(date)
                         binding.placeTextView.text=root.data.timezone
-                        binding.weatherTempTextView.text=root.data.current.temp.toInt().toString()+" °C"
+                        if(temperature=="Celsius") {
+                            binding.weatherTempTextView.text = root.data.current.temp.toInt().toString() + " °C"
+                        }
+                        else if (temperature=="Fahrenheit"){
+                            binding.weatherTempTextView.text = convertFromCelsiusToFahrenheit(root.data.current.temp).toInt().toString() + " °F"
+                        }
+                        else{
+                            binding.weatherTempTextView.text = convertFromCelsiusToKelvin(root.data.current.temp).toInt().toString() + " °K"
+                        }
                         binding.weatherStatusTextView.text=root.data.current.weather[0].description
                         binding.pressureTextView.text=root.data.current.pressure.toString()+" hpa"
                         binding.humidityTextView.text=root.data.current.humidity.toString()+" %"
-                        binding.windTextView.text=root.data.current.wind_speed.toString()+" m/s"
+                        if (windSpeed=="m/s") {
+                            binding.windTextView.text =
+                                root.data.current.wind_speed.toString() + " m/s"
+                        }
+                        else{
+                            binding.windTextView.text =
+                                convertFromMPSToMPH(root.data.current.wind_speed).toString() + " mph"
+                        }
                         binding.cloudTextView.text=root.data.current.clouds.toString()+" %"
                         binding.ultravioletTextView.text=root.data.current.uvi.toString()
                         binding.visibilityTextView.text=root.data.current.visibility.toString()+" m"
@@ -110,5 +134,7 @@ class HomeFragment : Fragment() {
     }
     fun convertFromCelsiusToFahrenheit(cel:Double):Double=((cel * (9.0/5)) + 32)
     fun convertFromCelsiusToKelvin(cel:Double):Double=(cel + 273.15)
+    fun convertFromMPSToMPH(mps:Double):Double=(mps * 2.237)
+
 
 }

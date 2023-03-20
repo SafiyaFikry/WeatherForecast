@@ -1,8 +1,10 @@
 package eg.gov.iti.jets.weatherapp.homeScreen.view
 
 import android.content.Context
+import android.content.SharedPreferences
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
@@ -29,6 +31,8 @@ class HourlyForecastAdapter (private var hours:List<Hourly>, var root: Root, con
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        val sh: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(mContext)
+        val temperature= sh.getString("temperature","Celsius")
         Glide.with(mContext)
             .load("https://openweathermap.org/img/wn/"+hours[position].weather[0].icon+"@2x.png")
             .apply(
@@ -42,7 +46,16 @@ class HourlyForecastAdapter (private var hours:List<Hourly>, var root: Root, con
         val date = Date(long)
         val format = SimpleDateFormat("hh:mm a")
         holder.binding.timeTextView.text=format.format(date)
-        holder.binding.timeTempTextView.text=hours[position].temp.toInt().toString()+" °C"
+        if(temperature=="Celsius") {
+            holder.binding.timeTempTextView.text=hours[position].temp.toInt().toString()+" °C"
+        }
+        else if (temperature=="Fahrenheit"){
+            holder.binding.timeTempTextView.text=convertFromCelsiusToFahrenheit(hours[position].temp).toInt().toString()+" °F"
+        }
+        else{
+            holder.binding.timeTempTextView.text=convertFromCelsiusToKelvin(hours[position].temp).toInt().toString()+" °K"
+        }
+
         //holder.binding.timeIconImageView.setImageResource(hours[position].thumbnail)
 
     }
@@ -52,4 +65,6 @@ class HourlyForecastAdapter (private var hours:List<Hourly>, var root: Root, con
     }
 
     class ViewHolder(var binding: HourlyForecastBinding) : RecyclerView.ViewHolder(binding.root)
+    fun convertFromCelsiusToFahrenheit(cel:Double):Double=((cel * (9.0/5)) + 32)
+    fun convertFromCelsiusToKelvin(cel:Double):Double=(cel + 273.15)
 }

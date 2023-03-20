@@ -21,7 +21,7 @@
             android:id="@+id/nav_alert"
             android:enabled="true"
             android:icon="@drawable/baseline_notifications_24"
-            android:title="Alert"/>
+            android:title="Alerts"/>
 
         <item
             android:id="@+id/nav_settings"

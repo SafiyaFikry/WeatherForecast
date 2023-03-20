@@ -34,6 +34,7 @@ class SettingsFragment : Fragment() {
     class MySettingsFragment : PreferenceFragmentCompat() {
         override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
             setPreferencesFromResource(R.xml.pref_settings, rootKey)
+            //addPreferencesFromResource(R.xml.pref_settings)
             val sh:SharedPreferences=PreferenceManager.getDefaultSharedPreferences(requireContext().applicationContext)
             val isChecked= sh.getBoolean("notifications",false)
             if(isChecked){
@@ -72,7 +73,7 @@ class SettingsFragment : Fragment() {
                     else if (text=="Kelvin") {
                         "Kelvin"
                     } else {
-                        "Fehrenheit"
+                        "Fahrenheit"
                     }
                 }
             val windPreference: ListPreference? = findPreference("windSpeed")
