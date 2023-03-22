@@ -18,8 +18,6 @@ import com.google.android.gms.location.LocationServices
 import eg.gov.iti.jets.weatherapp.R
 
 class SettingsFragment : Fragment() {
-    lateinit var mFusedLocationClient: FusedLocationProviderClient
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         fragmentManager?.beginTransaction()?.replace(R.id.fragment_container,MySettingsFragment())?.commit()
@@ -34,8 +32,8 @@ class SettingsFragment : Fragment() {
     }
     class MySettingsFragment : PreferenceFragmentCompat() {
         override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
-            setPreferencesFromResource(R.xml.pref_settings, rootKey)
-            //addPreferencesFromResource(R.xml.pref_settings)
+            //setPreferencesFromResource(R.xml.pref_settings, rootKey)
+            addPreferencesFromResource(R.xml.pref_settings)
             val sh:SharedPreferences=PreferenceManager.getDefaultSharedPreferences(requireContext().applicationContext)
             val isChecked= sh.getBoolean("notifications",false)
             if(isChecked){
@@ -92,10 +90,7 @@ class SettingsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        mFusedLocationClient= LocationServices.getFusedLocationProviderClient(requireActivity().applicationContext)
-
     }
-
 
 }
 

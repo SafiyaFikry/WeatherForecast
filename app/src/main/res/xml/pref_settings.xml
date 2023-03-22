@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-
     <PreferenceCategory
         app:key="prefenece"
         app:title="Preferences">
@@ -10,8 +9,8 @@
             app:title="Location"
             android:entryValues="@array/location"
             android:entries="@array/location"
-            android:defaultValue="@string/Map"
-            android:summary="@string/Map"/>
+            android:defaultValue="@string/None"
+            android:summary="@string/None"/>
 
         <ListPreference
             app:key="language"
