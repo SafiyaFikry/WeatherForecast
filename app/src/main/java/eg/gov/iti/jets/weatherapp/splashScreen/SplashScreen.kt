@@ -19,11 +19,11 @@ import androidx.preference.PreferenceManager
 import com.google.android.gms.location.*
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import eg.gov.iti.jets.weatherapp.MainActivity
-import eg.gov.iti.jets.weatherapp.PERMISSION_ID
 import eg.gov.iti.jets.weatherapp.databinding.ActivitySplashScreenBinding
 import eg.gov.iti.jets.weatherapp.homeScreen.view.HomeFragment
 import eg.gov.iti.jets.weatherapp.homeScreen.view.MapFragment
 
+const val PERMISSION_ID=44
 class SplashScreen : AppCompatActivity() {
     lateinit var binding:ActivitySplashScreenBinding
     lateinit var mFusedLocationClient: FusedLocationProviderClient
@@ -104,7 +104,6 @@ class SplashScreen : AppCompatActivity() {
     private  val mLoactionCallback: LocationCallback =object : LocationCallback(){
         override fun onLocationResult(locationResult: LocationResult) {
             val mLastLocation: Location =locationResult.lastLocation
-            editor=sh.edit()
             editor.putString("lat",mLastLocation.latitude.toString())
             editor.commit()
             editor.putString("lon",mLastLocation.longitude.toString())
@@ -114,7 +113,6 @@ class SplashScreen : AppCompatActivity() {
     fun showRadioConfirmationDialog() {
         var selectedOptionIndex= 0
         val option = arrayOf("GPS", "Map")
-
         var selectedOption = option[selectedOptionIndex]
         MaterialAlertDialogBuilder(this)
             .setTitle("Get Location by ?")
@@ -126,7 +124,6 @@ class SplashScreen : AppCompatActivity() {
                 Toast.makeText(this, "$selectedOption Selected", Toast.LENGTH_SHORT)
                     .show()
                 if(selectedOption=="GPS"){
-                    val editor=sh.edit()
                     editor.putString("location","GPS")
                     editor.commit()
                     getLastLocation()
@@ -134,7 +131,6 @@ class SplashScreen : AppCompatActivity() {
                     startActivity(intent)
                 }
                 else{
-                    val editor=sh.edit()
                     editor.putString("location","Map")
                     editor.commit()
                     val intent=Intent(this@SplashScreen,MainActivity::class.java)

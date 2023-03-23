@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.ActionBar
 import androidx.preference.ListPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
@@ -20,7 +21,7 @@ import eg.gov.iti.jets.weatherapp.R
 class SettingsFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        fragmentManager?.beginTransaction()?.replace(R.id.fragment_container,MySettingsFragment())?.commit()
+        fragmentManager?.beginTransaction()?.replace(R.id.nav_host_fragment,MySettingsFragment())?.commit()
     }
 
     override fun onCreateView(

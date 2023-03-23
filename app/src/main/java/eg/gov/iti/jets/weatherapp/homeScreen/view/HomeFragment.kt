@@ -34,7 +34,6 @@ import java.text.SimpleDateFormat
 import java.time.Month
 import java.util.*
 import kotlin.math.roundToInt
-
 class HomeFragment : Fragment() {
 
     lateinit var viewModelHome: ViewModelHome
@@ -45,6 +44,8 @@ class HomeFragment : Fragment() {
     lateinit var address:MutableList<Address>
     lateinit var geocoder: Geocoder
     lateinit var des:String
+    lateinit var sh: SharedPreferences
+    lateinit var editor:SharedPreferences.Editor
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -61,24 +62,26 @@ class HomeFragment : Fragment() {
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val sh: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(requireContext().applicationContext)
+        sh= PreferenceManager.getDefaultSharedPreferences(requireContext().applicationContext)
+
         val isChecked= sh.getBoolean("notifications",false)
         val location= sh.getString("location","None")
         val language= sh.getString("language","English")
         val temperature= sh.getString("temperature","Celsius")
         val windSpeed= sh.getString("windSpeed","m/s")
+        val lat=sh.getString("lat","33.44")
+        val lon=sh.getString("lon","-94.04")
+
         val lang=if (language=="English"){
             "en"
         }else{
             "ar"
         }
-
         binding.addAnotherLocationBtn.setOnClickListener {
-            requireActivity().supportFragmentManager.beginTransaction().replace(R.id.fragment_container, MapFragment()).commit()
+            requireActivity().supportFragmentManager.beginTransaction().replace(R.id.nav_host_fragment, MapFragment()).commit()
         }
-        val lat=sh.getString("lat","0.0")
-        val lon=sh.getString("lon","0.0")
         geocoder= Geocoder(requireContext().applicationContext)
+
         if(checkForInternet(requireContext().applicationContext)) {
             viewModelFactoryHome = ViewModelFactoryHome(
                 Repository.getInstance(WeatherClient.getInstance()),

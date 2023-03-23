@@ -61,7 +61,7 @@ class MapFragment : Fragment() {
             editor.putString("lat",myPoint.latitude().toString())
             editor.putString("lon",myPoint.longitude().toString())
             editor.commit()
-            requireActivity().supportFragmentManager.beginTransaction().replace(R.id.fragment_container, HomeFragment()).commit()
+            requireActivity().supportFragmentManager.beginTransaction().replace(R.id.nav_host_fragment, HomeFragment()).commit()
         }
     }
 
