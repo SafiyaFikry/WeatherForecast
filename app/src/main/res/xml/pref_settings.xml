@@ -10,7 +10,8 @@
             android:entryValues="@array/location"
             android:entries="@array/location"
             android:defaultValue="@string/GPS"
-            android:summary="@string/GPS"/>
+            android:summary="@string/GPS"
+            app:useSimpleSummaryProvider="true"/>
 
         <ListPreference
             app:key="language"
@@ -18,14 +19,16 @@
             android:entryValues="@array/language"
             android:entries="@array/language"
             android:defaultValue="@string/English"
-            android:summary="@string/English"/>
+            android:summary="@string/English"
+            app:useSimpleSummaryProvider="true"/>
 
         <SwitchPreferenceCompat
             app:key="notifications"
             app:title="Notifications"
             android:summaryOn="@string/On"
             android:summaryOff="@string/Off"
-            android:defaultValue="@string/Off" />
+            android:defaultValue="@string/Off"
+            app:useSimpleSummaryProvider="true"/>
 
     </PreferenceCategory>
 
@@ -39,14 +42,16 @@
             android:entryValues="@array/temp_unit"
             android:entries="@array/temp_unit"
             android:defaultValue="@string/Celsius"
-            android:summary="@string/Celsius"/>
+            android:summary="@string/Celsius"
+            app:useSimpleSummaryProvider="true"/>
         <ListPreference
             app:key="windSpeed"
             app:title="Wind Speed"
             android:entries="@array/wind_speed"
             android:entryValues="@array/wind_speed"
             android:defaultValue="@string/mps"
-            android:summary="@string/mps"/>
+            android:summary="@string/mps"
+            app:useSimpleSummaryProvider="true"/>
 
     </PreferenceCategory>
 </PreferenceScreen>

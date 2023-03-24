@@ -23,7 +23,7 @@ import eg.gov.iti.jets.weatherapp.databinding.ActivitySplashScreenBinding
 import eg.gov.iti.jets.weatherapp.homeScreen.view.HomeFragment
 import eg.gov.iti.jets.weatherapp.homeScreen.view.MapFragment
 
-
+lateinit var shared: SharedPreferences
 class SplashScreen : AppCompatActivity() {
     lateinit var binding:ActivitySplashScreenBinding
     /*lateinit var mFusedLocationClient: FusedLocationProviderClient
@@ -34,14 +34,14 @@ class SplashScreen : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding= ActivitySplashScreenBinding.inflate(layoutInflater)
         setContentView(binding.root)
-       /* mFusedLocationClient= LocationServices.getFusedLocationProviderClient(this)
-        sh= PreferenceManager.getDefaultSharedPreferences(this)
-*/
+       // mFusedLocationClient= LocationServices.getFusedLocationProviderClient(this)
+        shared = this.getSharedPreferences("eg.gov.iti.jets.weatherapp_preferences", Context.MODE_PRIVATE)
+
+
         Handler().postDelayed(object : Runnable {
             override fun run() {
                 val intent=Intent(this@SplashScreen,MainActivity::class.java)
                 startActivity(intent)
-
             }
         }, 4000)
 

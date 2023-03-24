@@ -16,19 +16,17 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
 
-class ViewModelHome (private val repo: RepositoryInterface,val lat:Double,val lon:Double,val lang:String): ViewModel() {
+class ViewModelHome (private val repo: RepositoryInterface): ViewModel() {
     private  var _root = MutableStateFlow<ApiState>(ApiState.Loading)
     val root = _root.asStateFlow()
-    init {
-        getLocalProducts(lat,lon,lang)
-    }
+
     /*fun addProduct(root: Root){
         viewModelScope.launch (Dispatchers.IO){
             repo.insertProduct(product)
             getLocalProducts()
         }
     }*/
-    fun getLocalProducts(lat:Double,lon:Double,lang:String){
+    fun getWeatherDetails(lat:Double,lon:Double,lang:String){
         viewModelScope.launch {
             repo.getWeather(lat,lon,lang)
             .catch {

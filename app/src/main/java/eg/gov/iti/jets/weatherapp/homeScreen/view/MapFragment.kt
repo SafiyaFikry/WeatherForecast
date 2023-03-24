@@ -61,36 +61,28 @@ class MapFragment : Fragment() {
             editor.putString("lat",myPoint.latitude().toString())
             editor.putString("lon",myPoint.longitude().toString())
             editor.commit()
-            requireActivity().supportFragmentManager.beginTransaction().replace(R.id.nav_host_fragment, HomeFragment()).commit()
+            fragmentManager?.beginTransaction()?.replace(R.id.nav_host_fragment, HomeFragment())?.commit()
         }
     }
 
     private fun addAnnotationToMap(point:Point) {
 
-        // Create an instance of the Annotation API and get the PointAnnotationManager.
         bitmapFromDrawableRes(
             requireActivity().applicationContext,
             R.drawable.red_marker
         )?.let {
             val annotationApi = binding.mapView.annotations
             val pointAnnotationManager = annotationApi.createPointAnnotationManager(binding.mapView)
-            // Set options for the resulting symbol layer.
             val pointAnnotationOptions: PointAnnotationOptions = PointAnnotationOptions()
-            // Define a geographic coordinate.
                 .withPoint(point)
-            // Specify the bitmap you assigned to the point annotation
-            // The bitmap will be added to map style automatically.
                 .withIconImage(it)
-            // Add the resulting pointAnnotation to the map.
             pointAnnotationManager.create(pointAnnotationOptions)
 
 
         }
     }
-
     private fun bitmapFromDrawableRes(context: Context, @DrawableRes resourceId: Int) =
         convertDrawableToBitmap(AppCompatResources.getDrawable(context, resourceId))
-
     private fun convertDrawableToBitmap(sourceDrawable: Drawable?): Bitmap? {
         if (sourceDrawable == null) {
             return null
