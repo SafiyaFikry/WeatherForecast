@@ -65,7 +65,7 @@ class HomeFragment : Fragment() {
         sh= PreferenceManager.getDefaultSharedPreferences(requireContext().applicationContext)
 
         val isChecked= sh.getBoolean("notifications",false)
-        val location= sh.getString("location","None")
+        val location= sh.getString("location","GPS")
         val language= sh.getString("language","English")
         val temperature= sh.getString("temperature","Celsius")
         val windSpeed= sh.getString("windSpeed","m/s")
@@ -83,14 +83,9 @@ class HomeFragment : Fragment() {
         geocoder= Geocoder(requireContext().applicationContext)
 
         if(checkForInternet(requireContext().applicationContext)) {
-            viewModelFactoryHome = ViewModelFactoryHome(
-                Repository.getInstance(WeatherClient.getInstance()),
-                lat!!.toDouble(),
-                lon!!.toDouble(),
-                lang
-            )
-            viewModelHome =
-                ViewModelProvider(this, viewModelFactoryHome).get(ViewModelHome::class.java)
+            viewModelFactoryHome = ViewModelFactoryHome(Repository.getInstance(WeatherClient.getInstance()), lat!!.toDouble(), lon!!.toDouble(), lang)
+            viewModelHome = ViewModelProvider(this, viewModelFactoryHome).get(ViewModelHome::class.java)
+
             lifecycleScope.launch {
                 viewModelHome.root.collectLatest { root ->
                     when (root) {
@@ -149,11 +144,6 @@ class HomeFragment : Fragment() {
                                 root.data.lon,
                                 10
                             ) as MutableList<Address>
-/*
-                            geocoder.getFromLocation(root.data.lat,root.data.lon,10,
-                                Geocoder.GeocodeListener {
-                                })*/
-
                             des = "${address[0].subAdminArea}\n${address[0].adminArea}\n${address[0].countryName}"
                             binding.placeTextView.text = des
                             if (temperature == "Celsius") {

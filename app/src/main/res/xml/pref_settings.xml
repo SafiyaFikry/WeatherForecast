@@ -9,8 +9,8 @@
             app:title="Location"
             android:entryValues="@array/location"
             android:entries="@array/location"
-            android:defaultValue="@string/None"
-            android:summary="@string/None"/>
+            android:defaultValue="@string/GPS"
+            android:summary="@string/GPS"/>
 
         <ListPreference
             app:key="language"
