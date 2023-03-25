@@ -21,6 +21,7 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.Navigation
 import androidx.preference.PreferenceManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
@@ -53,8 +54,7 @@ class HomeFragment : Fragment() {
     lateinit var address:MutableList<Address>
     lateinit var geocoder: Geocoder
     lateinit var des:String
-   // lateinit var sh: SharedPreferences
-    lateinit var editor:SharedPreferences.Editor
+   // lateinit var shared:SharedPreferences
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -71,13 +71,11 @@ class HomeFragment : Fragment() {
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        /*binding.addAnotherLocationBtn.setOnClickListener {
-            requireActivity().supportFragmentManager.beginTransaction().replace(R.id.nav_host_fragment, MapFragment()).commit()
-        }*/
-     //   sh= PreferenceManager.getDefaultSharedPreferences(requireContext().applicationContext)
+        binding.addAnotherLocationBtn.setOnClickListener {
+            Navigation.findNavController(it).navigate(R.id.mapFragment)
+        }
         geocoder= Geocoder(requireContext().applicationContext)
-
-        val isChecked= shared.getBoolean("notifications",false)
+       // shared= PreferenceManager.getDefaultSharedPreferences(requireContext())
         val location= shared.getString("location","GPS")
         val language= shared.getString("language","English")
         val temperature= shared.getString("temperature","Celsius")
@@ -91,12 +89,11 @@ class HomeFragment : Fragment() {
         }else{
             "ar"
         }
-        println("lang : "+lang)
-        println("temp : "+temperature)
         if(checkForInternet(requireContext().applicationContext)) {
             viewModelFactoryHome = ViewModelFactoryHome(Repository.getInstance(WeatherClient.getInstance()))
             viewModelHome = ViewModelProvider(this, viewModelFactoryHome).get(ViewModelHome::class.java)
             viewModelHome.getWeatherDetails(lat!!.toDouble(),lon!!.toDouble(),lang)
+
             lifecycleScope.launch {
                 viewModelHome.root.collectLatest { root ->
                     when (root) {
@@ -107,6 +104,9 @@ class HomeFragment : Fragment() {
                             setSuccessStatus()
                             if(location=="Map"){
                                 binding.addAnotherLocationBtn.visibility=View.VISIBLE
+                            }
+                            else{
+                                binding.addAnotherLocationBtn.visibility=View.GONE
                             }
                             hourlyForecastAdapter = HourlyForecastAdapter(root.data.hourly, root.data, requireContext().applicationContext)
                             binding.hourlyRecycleview.adapter = hourlyForecastAdapter
@@ -201,7 +201,6 @@ class HomeFragment : Fragment() {
         binding.hourlyRecycleview.visibility = View.VISIBLE
         binding.textView19.visibility = View.VISIBLE
         binding.textView20.visibility = View.VISIBLE
-
     }
     fun setFailureStatus(){
         binding.progressBar.visibility = View.GONE

@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.ActionBar
+import androidx.navigation.Navigation
 import androidx.preference.ListPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
@@ -17,9 +18,11 @@ import androidx.preference.SwitchPreference
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import eg.gov.iti.jets.weatherapp.R
+import eg.gov.iti.jets.weatherapp.databinding.FragmentSettingsBinding
 import eg.gov.iti.jets.weatherapp.homeScreen.view.MapFragment
 
 class SettingsFragment : Fragment() {
+    lateinit var binding:FragmentSettingsBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         fragmentManager?.beginTransaction()?.replace(R.id.nav_host_fragment,MySettingsFragment())?.commit()//nav_host_fragment
@@ -28,20 +31,23 @@ class SettingsFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_settings, container, false)
+        binding=FragmentSettingsBinding.inflate(inflater,container,false)
+        return binding.root
     }
     class MySettingsFragment : PreferenceFragmentCompat() {
         override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
             setPreferencesFromResource(R.xml.pref_settings, rootKey)
-            /*val mapPreference=findPreference<ListPreference>("Map")
-            mapPreference?.setOnPreferenceClickListener {
-                fragmentManager?.beginTransaction()?.replace(R.id.nav_host_fragment,MapFragment())?.commit()
-                true
-            }*/
+            val mapPreference=findPreference<ListPreference>("location")
+                mapPreference?.setOnPreferenceChangeListener(Preference.OnPreferenceChangeListener{preference,newValue->
+                    val radio=newValue.toString()
+                    if (radio=="Map"){
+                        Navigation.findNavController(requireView()).navigate(R.id.mapFragment)
+                    }
+                    true
+                })
         }
     }
-
 }
 

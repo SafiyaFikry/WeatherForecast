@@ -13,6 +13,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.DrawableRes
 import androidx.appcompat.content.res.AppCompatResources
+import androidx.navigation.Navigation
 import androidx.preference.PreferenceManager
 import com.mapbox.geojson.Point
 import com.mapbox.maps.MapView
@@ -24,12 +25,13 @@ import com.mapbox.maps.plugin.annotation.generated.createPointAnnotationManager
 import com.mapbox.maps.plugin.gestures.addOnMapLongClickListener
 import eg.gov.iti.jets.weatherapp.R
 import eg.gov.iti.jets.weatherapp.databinding.FragmentMapBinding
+import eg.gov.iti.jets.weatherapp.splashScreen.shared
 
 class MapFragment : Fragment() {
 
     lateinit var binding:FragmentMapBinding
     lateinit var myPoint:Point
-    lateinit var sh: SharedPreferences
+    //lateinit var shared: SharedPreferences
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -45,7 +47,7 @@ class MapFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        sh= PreferenceManager.getDefaultSharedPreferences(requireContext().applicationContext)
+        //shared= PreferenceManager.getDefaultSharedPreferences(requireContext().applicationContext)
         binding.mapView.getMapboxMap().loadStyleUri(Style.MAPBOX_STREETS)
 
         binding.mapView.getMapboxMap().addOnMapLongClickListener { point ->
@@ -57,11 +59,11 @@ class MapFragment : Fragment() {
         }
 
         binding.setLocationBtn.setOnClickListener {
-            val editor=sh.edit()
+            val editor=shared.edit()
             editor.putString("lat",myPoint.latitude().toString())
             editor.putString("lon",myPoint.longitude().toString())
             editor.commit()
-            fragmentManager?.beginTransaction()?.replace(R.id.nav_host_fragment, HomeFragment())?.commit()
+            Navigation.findNavController(it).navigate(R.id.homeFragment)
         }
     }
 

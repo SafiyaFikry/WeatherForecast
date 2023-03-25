@@ -45,14 +45,14 @@ class MainActivity : AppCompatActivity() {
     lateinit var actionBar:ActionBar
     lateinit var navController:NavController
 
-   // lateinit var sh: SharedPreferences
-    lateinit var editor:SharedPreferences.Editor
+    //lateinit var shared: SharedPreferences
+    //lateinit var editor:SharedPreferences.Editor
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding= ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         mFusedLocationClient= LocationServices.getFusedLocationProviderClient(this)
-     //   sh= PreferenceManager.getDefaultSharedPreferences(this)
+        //shared= PreferenceManager.getDefaultSharedPreferences(this)
 
         drawerLayout=binding.drawerLayout
         navigationView=binding.navigationView
@@ -74,17 +74,23 @@ class MainActivity : AppCompatActivity() {
             }
         }
         NavigationUI.setupWithNavController(navigationView,navController)
-        getLastLocation()
+        if(shared.getString("location","GPS")=="GPS") {
+            getLastLocation()
+        }
     }
 
     override fun onResume() {
         super.onResume()
-        getLastLocation()
+        if(shared.getString("location","GPS")=="GPS") {
+            getLastLocation()
+        }
     }
 
     override fun onStart() {
         super.onStart()
-        getLastLocation()
+        if(shared.getString("location","GPS")=="GPS") {
+            getLastLocation()
+        }
     }
 
     @SuppressLint("MissingPermission")
