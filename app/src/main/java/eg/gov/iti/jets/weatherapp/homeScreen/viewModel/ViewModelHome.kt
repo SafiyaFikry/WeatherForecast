@@ -20,12 +20,12 @@ class ViewModelHome (private val repo: RepositoryInterface): ViewModel() {
     private  var _root = MutableStateFlow<ApiState>(ApiState.Loading)
     val root = _root.asStateFlow()
 
-    /*fun addProduct(root: Root){
+    fun addWeather(root: Root,lang:String){
         viewModelScope.launch (Dispatchers.IO){
-            repo.insertProduct(product)
-            getLocalProducts()
+            repo.insertWeather(root)
+            getWeatherDetails(root.lat,root.lon,lang)
         }
-    }*/
+    }
     fun getWeatherDetails(lat:Double,lon:Double,lang:String){
         viewModelScope.launch {
             repo.getWeather(lat,lon,lang)

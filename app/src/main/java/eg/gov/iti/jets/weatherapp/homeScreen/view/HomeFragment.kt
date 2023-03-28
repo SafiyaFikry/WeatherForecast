@@ -30,6 +30,7 @@ import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
 import eg.gov.iti.jets.weatherapp.R
+import eg.gov.iti.jets.weatherapp.database.ConcreteLocalSource
 import eg.gov.iti.jets.weatherapp.databinding.FragmentHomeBinding
 import eg.gov.iti.jets.weatherapp.homeScreen.viewModel.ViewModelFactoryHome
 import eg.gov.iti.jets.weatherapp.homeScreen.viewModel.ViewModelHome
@@ -90,7 +91,9 @@ class HomeFragment : Fragment() {
             "ar"
         }
         if(checkForInternet(requireContext().applicationContext)) {
-            viewModelFactoryHome = ViewModelFactoryHome(Repository.getInstance(WeatherClient.getInstance()))
+            viewModelFactoryHome = ViewModelFactoryHome(Repository.getInstance(WeatherClient.getInstance(),
+                ConcreteLocalSource(requireContext().applicationContext)
+            ))
             viewModelHome = ViewModelProvider(this, viewModelFactoryHome).get(ViewModelHome::class.java)
             viewModelHome.getWeatherDetails(lat!!.toDouble(),lon!!.toDouble(),lang)
 
@@ -101,6 +104,7 @@ class HomeFragment : Fragment() {
                             setLoadingStatus()
                         }
                         is ApiState.Success -> {
+                            viewModelHome.addWeather(root.data,lang)
                             setSuccessStatus()
                             if(location=="Map"){
                                 binding.addAnotherLocationBtn.visibility=View.VISIBLE

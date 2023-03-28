@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/carolina"
-    tools:context=".favoriteScreen.FavoriteFragment">
+    tools:context=".favoriteScreen.view.FavoriteFragment">
 
     <ImageView
         android:id="@+id/imageView"
