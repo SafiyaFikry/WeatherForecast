@@ -18,7 +18,6 @@ import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
-import eg.gov.iti.jets.weatherapp.PERMISSION_ID
 
 class LocationGPS(var application:Application) {
 

@@ -8,10 +8,8 @@ import kotlinx.coroutines.flow.Flow
 interface WeatherDao {
     @Query("Select * From root")
     fun getStoredWeather(): Flow<Root>
-
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertWeather(root:Root):Long
-
     @Update
     suspend fun updateWeather(root: Root)
 

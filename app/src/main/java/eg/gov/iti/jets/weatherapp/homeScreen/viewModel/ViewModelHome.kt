@@ -1,12 +1,9 @@
 package eg.gov.iti.jets.weatherapp.homeScreen.viewModel
 
-import android.app.Activity
-import android.content.Context
-import android.content.SharedPreferences
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.preference.PreferenceManager
-import eg.gov.iti.jets.weatherapp.MainActivity
 import eg.gov.iti.jets.weatherapp.model.RepositoryInterface
 import eg.gov.iti.jets.weatherapp.model.Root
 import eg.gov.iti.jets.weatherapp.network.ApiState
@@ -19,11 +16,23 @@ import kotlinx.coroutines.launch
 class ViewModelHome (private val repo: RepositoryInterface): ViewModel() {
     private  var _root = MutableStateFlow<ApiState>(ApiState.Loading)
     val root = _root.asStateFlow()
+    private  var _retrievedRoot: MutableLiveData<Root> = MutableLiveData<Root>()
+    val retrievedRoot : LiveData<Root> = _retrievedRoot
 
-    fun addWeather(root: Root,lang:String){
+    init {
+        getStoredWeather()
+    }
+    fun insertWeather(root: Root,lang:String){
         viewModelScope.launch (Dispatchers.IO){
             repo.insertWeather(root)
             getWeatherDetails(root.lat,root.lon,lang)
+        }
+    }
+    fun getStoredWeather(){
+        viewModelScope.launch (Dispatchers.IO){
+             repo.getAllStoredWeather().collect{
+                 _retrievedRoot.postValue(it)
+             }
         }
     }
     fun getWeatherDetails(lat:Double,lon:Double,lang:String){
@@ -37,8 +46,6 @@ class ViewModelHome (private val repo: RepositoryInterface): ViewModel() {
             }
         }
     }
-
-
 
 
 }

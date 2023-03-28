@@ -7,4 +7,5 @@ interface LocalSource {
     suspend fun insertWeather(root:Root)
     suspend fun deleteWeather(root:Root)
     fun getAllStoredWeather(): Flow<Root>
+
 }

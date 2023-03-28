@@ -16,6 +16,7 @@ import androidx.appcompat.content.res.AppCompatResources
 import androidx.navigation.Navigation
 import androidx.preference.PreferenceManager
 import com.mapbox.geojson.Point
+import com.mapbox.maps.CameraOptions
 import com.mapbox.maps.MapView
 import com.mapbox.maps.Style
 import com.mapbox.maps.plugin.annotation.annotations
@@ -49,7 +50,9 @@ class MapFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         //shared= PreferenceManager.getDefaultSharedPreferences(requireContext().applicationContext)
         binding.mapView.getMapboxMap().loadStyleUri(Style.MAPBOX_STREETS)
-
+       /* val camera=CameraOptions.Builder()
+            .center(Point.fromLngLat(shared.getString("lat","33.44")!!.toDouble(),shared.getString("lon","-94.04")!!.toDouble())).zoom(6.5).build()
+        binding.mapView.getMapboxMap().setCamera(camera)*/
         binding.mapView.getMapboxMap().addOnMapLongClickListener { point ->
             binding.mapView.annotations.cleanup()
             binding.setLocationBtn.visibility = View.VISIBLE

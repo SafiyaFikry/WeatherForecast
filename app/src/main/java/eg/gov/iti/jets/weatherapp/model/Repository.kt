@@ -24,6 +24,8 @@ class Repository private constructor(var remoteSource: RemoteSource,var localSou
         return localSource.getAllStoredWeather()
     }
 
+
+
     override suspend fun insertWeather(root: Root) {
         localSource.insertWeather(root)
     }

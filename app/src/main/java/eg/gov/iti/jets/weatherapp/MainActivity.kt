@@ -4,7 +4,6 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.location.Location
 import android.location.LocationManager
@@ -22,19 +21,11 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.ui.NavigationUI
-import androidx.preference.PreferenceManager
 import com.google.android.gms.location.*
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.navigation.NavigationView
 import eg.gov.iti.jets.weatherapp.databinding.ActivityMainBinding
-import eg.gov.iti.jets.weatherapp.homeScreen.view.HomeFragment
-import eg.gov.iti.jets.weatherapp.homeScreen.view.MapFragment
-import eg.gov.iti.jets.weatherapp.homeScreen.viewModel.ViewModelFactoryHome
-import eg.gov.iti.jets.weatherapp.homeScreen.viewModel.ViewModelHome
-import eg.gov.iti.jets.weatherapp.model.Repository
-import eg.gov.iti.jets.weatherapp.network.WeatherClient
-import eg.gov.iti.jets.weatherapp.settingsScreen.SettingsFragment
 import eg.gov.iti.jets.weatherapp.splashScreen.shared
+import eg.gov.iti.jets.weatherapp.R
 
 const val PERMISSION_ID=55
 lateinit var mFusedLocationClient: FusedLocationProviderClient
@@ -45,14 +36,12 @@ class MainActivity : AppCompatActivity() {
     lateinit var actionBar:ActionBar
     lateinit var navController:NavController
 
-    //lateinit var shared: SharedPreferences
-    //lateinit var editor:SharedPreferences.Editor
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding= ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         mFusedLocationClient= LocationServices.getFusedLocationProviderClient(this)
-        //shared= PreferenceManager.getDefaultSharedPreferences(this)
 
         drawerLayout=binding.drawerLayout
         navigationView=binding.navigationView
@@ -144,6 +133,7 @@ class MainActivity : AppCompatActivity() {
             editor.putString("lat",mLastLocation.latitude.toString())
             editor.putString("lon",mLastLocation.longitude.toString())
             editor.commit()
+
         }
     }
     //////////////////////////////////////////////////////////////////////////////////////////////
