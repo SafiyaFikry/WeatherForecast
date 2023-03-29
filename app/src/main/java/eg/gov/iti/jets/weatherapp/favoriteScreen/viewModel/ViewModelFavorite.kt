@@ -4,27 +4,41 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import eg.gov.iti.jets.weatherapp.model.FavoritesDB
 import eg.gov.iti.jets.weatherapp.model.RepositoryInterface
 import eg.gov.iti.jets.weatherapp.model.Root
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class ViewModelFavorite(private val repo: RepositoryInterface): ViewModel() {
-    private  var _weather: MutableLiveData<Root> = MutableLiveData<Root>()
-    val weather : LiveData<Root> = _weather
-    init {
-        getLocalProducts()
+    private  var _favoritesDB: MutableLiveData<List<FavoritesDB>> = MutableLiveData<List<FavoritesDB>>()
+    val favoritesDB : LiveData<List<FavoritesDB>> = _favoritesDB
+    var destination:String=""
+    fun setDes(des:String){
+        this.destination=des
     }
-    fun deleteWeather(root:Root){
+    fun getDes():String{
+        return this.destination
+    }
+    init {
+        getLocalFav()
+    }
+    fun deleteFav(favoritesDB: FavoritesDB){
         viewModelScope.launch (Dispatchers.IO){
-            repo.deleteWeather(root)
-            getLocalProducts()
+            repo.deleteFavoritesDB(favoritesDB)
+            getLocalFav()
         }
     }
-    fun getLocalProducts(){
+    fun addFav(favoritesDB: FavoritesDB){
+        viewModelScope.launch (Dispatchers.IO){
+            repo.insertFavoritesDB(favoritesDB)
+            getLocalFav()
+        }
+    }
+    fun getLocalFav(){
         viewModelScope.launch {
-            repo.getAllStoredWeather().collect{
-                _weather.postValue(it)
+            repo.getAllStoredFavoritesDB().collect{
+                _favoritesDB.postValue(it)
             }
         }
     }

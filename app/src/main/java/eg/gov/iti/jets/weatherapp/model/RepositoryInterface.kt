@@ -7,4 +7,8 @@ interface RepositoryInterface {
     fun  getAllStoredWeather(): Flow<Root>
     suspend fun  insertWeather(root:Root)
     suspend fun  deleteWeather(root:Root)
+
+    fun  getAllStoredFavoritesDB(): Flow<List<FavoritesDB>>
+    suspend fun  insertFavoritesDB(favoritesDB: FavoritesDB)
+    suspend fun  deleteFavoritesDB(favoritesDB: FavoritesDB)
 }

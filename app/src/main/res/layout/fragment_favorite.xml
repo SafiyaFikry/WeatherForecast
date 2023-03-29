@@ -7,7 +7,6 @@
     android:background="@color/carolina"
     tools:context=".favoriteScreen.view.FavoriteFragment">
 
-
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="100dp"
@@ -40,21 +39,19 @@
         android:text="@string/no_favorites_yet"
         android:textColor="@color/white"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/imageView"
-        app:layout_constraintHorizontal_bias="0.508"
         app:layout_constraintStart_toStartOf="@+id/imageView"
-        app:layout_constraintTop_toBottomOf="@+id/imageView"
-        app:layout_constraintVertical_bias="0.097" />
+        app:layout_constraintTop_toBottomOf="@+id/imageView"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/favorite_RecycleView"
-        android:layout_width="409dp"
-        android:layout_height="729dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent" >
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        android:orientation="vertical"/>
 
-    </androidx.recyclerview.widget.RecyclerView>
 </androidx.constraintlayout.widget.ConstraintLayout>

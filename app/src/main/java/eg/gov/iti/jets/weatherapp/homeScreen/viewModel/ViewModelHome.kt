@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.android.gms.location.FusedLocationProviderClient
 import eg.gov.iti.jets.weatherapp.model.RepositoryInterface
 import eg.gov.iti.jets.weatherapp.model.Root
 import eg.gov.iti.jets.weatherapp.network.ApiState

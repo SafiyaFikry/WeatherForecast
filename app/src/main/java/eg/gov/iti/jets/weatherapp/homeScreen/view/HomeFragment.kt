@@ -20,6 +20,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import eg.gov.iti.jets.weatherapp.Communicator
 import eg.gov.iti.jets.weatherapp.R
 import eg.gov.iti.jets.weatherapp.database.ConcreteLocalSource
 import eg.gov.iti.jets.weatherapp.databinding.FragmentHomeBinding
@@ -45,11 +46,16 @@ class HomeFragment : Fragment() {
     lateinit var address:MutableList<Address>
     lateinit var geocoder: Geocoder
     lateinit var des:String
+    private lateinit var communicator: Communicator
    // lateinit var shared:SharedPreferences
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
-
+    @Deprecated("Deprecated in Java")
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        communicator = activity as (Communicator)
+    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -63,6 +69,7 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.addAnotherLocationBtn.setOnClickListener {
+            communicator.set("home")
             Navigation.findNavController(it).navigate(R.id.mapFragment)
         }
         geocoder= Geocoder(requireContext().applicationContext)

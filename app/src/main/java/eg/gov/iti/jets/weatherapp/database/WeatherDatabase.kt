@@ -6,9 +6,10 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import eg.gov.iti.jets.weatherapp.model.Converter
+import eg.gov.iti.jets.weatherapp.model.FavoritesDB
 import eg.gov.iti.jets.weatherapp.model.Root
 
-@Database(entities = arrayOf(Root::class), version = 3)
+@Database(entities = arrayOf(Root::class,FavoritesDB::class), version = 4)
 @TypeConverters(Converter::class)
 abstract class WeatherDatabase:RoomDatabase() {
     abstract fun getWeatherDao():WeatherDao
@@ -17,7 +18,7 @@ abstract class WeatherDatabase:RoomDatabase() {
         private var INSTANCE:WeatherDatabase? = null
         fun getInstance(context: Context):WeatherDatabase{
             return INSTANCE?: synchronized(this){
-                val instance = Room.databaseBuilder(context.applicationContext,WeatherDatabase::class.java,"root").build()
+                val instance = Room.databaseBuilder(context.applicationContext,WeatherDatabase::class.java,"root").fallbackToDestructiveMigration().build()
                 INSTANCE = instance
                 instance
             }

@@ -34,5 +34,17 @@ class Repository private constructor(var remoteSource: RemoteSource,var localSou
         localSource.deleteWeather(root)
     }
 
+    override fun getAllStoredFavoritesDB(): Flow<List<FavoritesDB>> {
+        return localSource.getAllStoredFavoritesDB()
+    }
+
+    override suspend fun insertFavoritesDB(favoritesDB: FavoritesDB) {
+        localSource.insertFavoritesDB(favoritesDB)
+    }
+
+    override suspend fun deleteFavoritesDB(favoritesDB: FavoritesDB) {
+        localSource.deleteFavoritesDB(favoritesDB)
+    }
+
 
 }

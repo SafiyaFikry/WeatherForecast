@@ -6,13 +6,17 @@ import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
+import android.location.Address
+import android.location.Geocoder
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.annotation.DrawableRes
 import androidx.appcompat.content.res.AppCompatResources
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import androidx.preference.PreferenceManager
 import com.mapbox.geojson.Point
@@ -25,13 +29,26 @@ import com.mapbox.maps.plugin.annotation.generated.PointAnnotationOptions
 import com.mapbox.maps.plugin.annotation.generated.createPointAnnotationManager
 import com.mapbox.maps.plugin.gestures.addOnMapLongClickListener
 import eg.gov.iti.jets.weatherapp.R
+import eg.gov.iti.jets.weatherapp.database.ConcreteLocalSource
 import eg.gov.iti.jets.weatherapp.databinding.FragmentMapBinding
+import eg.gov.iti.jets.weatherapp.favoriteScreen.view.FavoriteAdapter
+import eg.gov.iti.jets.weatherapp.favoriteScreen.viewModel.ViewModelFactoryFavorites
+import eg.gov.iti.jets.weatherapp.favoriteScreen.viewModel.ViewModelFavorite
+import eg.gov.iti.jets.weatherapp.model.FavoritesDB
+import eg.gov.iti.jets.weatherapp.model.Repository
+import eg.gov.iti.jets.weatherapp.network.WeatherClient
 import eg.gov.iti.jets.weatherapp.splashScreen.shared
 
 class MapFragment : Fragment() {
 
     lateinit var binding:FragmentMapBinding
     lateinit var myPoint:Point
+    lateinit var destination: String
+    lateinit var favFactory: ViewModelFactoryFavorites
+    lateinit var viewModel:ViewModelFavorite
+    lateinit var address:MutableList<Address>
+    lateinit var geocoder: Geocoder
+    lateinit var des:String
     //lateinit var shared: SharedPreferences
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,6 +65,14 @@ class MapFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        destination=""
+        favFactory= ViewModelFactoryFavorites(
+            Repository.getInstance(
+                WeatherClient.getInstance(),
+            ConcreteLocalSource(requireContext().applicationContext)
+        ))
+        viewModel= ViewModelProvider(this,favFactory).get(ViewModelFavorite::class.java)
+        geocoder= Geocoder(requireContext().applicationContext)
         //shared= PreferenceManager.getDefaultSharedPreferences(requireContext().applicationContext)
         binding.mapView.getMapboxMap().loadStyleUri(Style.MAPBOX_STREETS)
        /* val camera=CameraOptions.Builder()
@@ -62,11 +87,22 @@ class MapFragment : Fragment() {
         }
 
         binding.setLocationBtn.setOnClickListener {
-            val editor=shared.edit()
-            editor.putString("lat",myPoint.latitude().toString())
-            editor.putString("lon",myPoint.longitude().toString())
-            editor.commit()
-            Navigation.findNavController(it).navigate(R.id.homeFragment)
+           /* if(viewModel.getDes()=="home") {
+                val editor=shared.edit()
+                editor.putString("lat",myPoint.latitude().toString())
+                editor.putString("lon",myPoint.longitude().toString())
+                editor.commit()
+                Navigation.findNavController(it).navigate(R.id.homeFragment)
+            }
+            else if(viewModel.getDes()=="fav"){
+            */    address = geocoder.getFromLocation(myPoint.latitude(),myPoint.longitude(), 10) as MutableList<Address>
+                des = "${address[0].adminArea}\n${address[0].countryName}"
+                viewModel.addFav(FavoritesDB(des,myPoint.latitude(),myPoint.longitude()))
+                Navigation.findNavController(it).navigate(R.id.favoriteFragment)
+           /* }
+            else{
+                Toast.makeText(requireContext(),"nothing",Toast.LENGTH_SHORT).show()
+            }*/
         }
     }
 
@@ -82,7 +118,6 @@ class MapFragment : Fragment() {
                 .withPoint(point)
                 .withIconImage(it)
             pointAnnotationManager.create(pointAnnotationOptions)
-
 
         }
     }
@@ -107,5 +142,8 @@ class MapFragment : Fragment() {
             drawable.draw(canvas)
             bitmap
         }
+    }
+    fun setData(destination: String){
+        this.destination =destination
     }
 }

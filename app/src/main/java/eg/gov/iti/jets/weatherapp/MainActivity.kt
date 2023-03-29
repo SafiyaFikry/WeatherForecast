@@ -17,6 +17,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
@@ -26,15 +27,17 @@ import com.google.android.material.navigation.NavigationView
 import eg.gov.iti.jets.weatherapp.databinding.ActivityMainBinding
 import eg.gov.iti.jets.weatherapp.splashScreen.shared
 import eg.gov.iti.jets.weatherapp.R
+import eg.gov.iti.jets.weatherapp.homeScreen.view.MapFragment
 
 const val PERMISSION_ID=55
 lateinit var mFusedLocationClient: FusedLocationProviderClient
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity() ,Communicator{
     lateinit var binding: ActivityMainBinding
     lateinit var drawerLayout: DrawerLayout
     lateinit var navigationView: NavigationView
     lateinit var actionBar:ActionBar
     lateinit var navController:NavController
+    private lateinit var mgr: FragmentManager
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,11 +45,10 @@ class MainActivity : AppCompatActivity() {
         binding= ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         mFusedLocationClient= LocationServices.getFusedLocationProviderClient(this)
-
+        mgr = supportFragmentManager
         drawerLayout=binding.drawerLayout
         navigationView=binding.navigationView
 
-       // getLastLocation()
         actionBar=supportActionBar as ActionBar
         actionBar.setHomeAsUpIndicator(R.drawable.baseline_menu_24)
         actionBar.setDisplayShowHomeEnabled(true)
@@ -147,6 +149,10 @@ class MainActivity : AppCompatActivity() {
             }
         }
         return   super.onOptionsItemSelected(item)
+    }
+    override fun set(destination: String) {
+        val mapFragment=MapFragment()
+        mapFragment.setData(destination)
     }
 
     /*  fun showRadioConfirmationDialog() {

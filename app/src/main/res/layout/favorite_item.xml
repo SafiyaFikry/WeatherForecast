@@ -12,7 +12,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:id="@+id/daily_forecast_itemLayout">
+        android:id="@+id/favItemLayout">
 
         <TextView
             android:id="@+id/favLocation_TextView"
@@ -28,7 +28,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
-            android:id="@+id/favLocationDeleteBtn_ImageView"
+            android:id="@+id/favLocationDeleteBtn_ImageButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="40dp"
