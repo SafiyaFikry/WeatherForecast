@@ -116,7 +116,7 @@ class MapFragment : Fragment() {
             else if(viewModelAlerts.getDes()=="alerts"){
                 address = geocoder.getFromLocation(myPoint.latitude(),myPoint.longitude(), 10) as MutableList<Address>
                 des = "${address[0].adminArea}\n${address[0].countryName}"
-                viewModelAlerts.insertAlert(AlertsDB(0,des,viewModelAlerts.getDateTime(),viewModelAlerts.getType()))
+                viewModelAlerts.insertAlert(AlertsDB(countryName = des, dateTime = viewModelAlerts.getDateTime(), type = viewModelAlerts.getType()))
                 viewModelAlerts.setDes("home")
                 Navigation.findNavController(it).navigate(R.id.alertFragment)
             }
