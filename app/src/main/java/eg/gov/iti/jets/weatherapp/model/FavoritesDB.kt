@@ -5,4 +5,4 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity("favoritesDB")
-class FavoritesDB(@PrimaryKey @ColumnInfo val place:String,@ColumnInfo val lat:Double,@ColumnInfo val lon:Double)
+class FavoritesDB(@PrimaryKey  val place:String, val lat:Double, val lon:Double)

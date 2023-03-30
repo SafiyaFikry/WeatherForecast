@@ -31,21 +31,17 @@ import eg.gov.iti.jets.weatherapp.homeScreen.view.MapFragment
 
 const val PERMISSION_ID=55
 lateinit var mFusedLocationClient: FusedLocationProviderClient
-class MainActivity : AppCompatActivity() ,Communicator{
+class MainActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainBinding
     lateinit var drawerLayout: DrawerLayout
     lateinit var navigationView: NavigationView
     lateinit var actionBar:ActionBar
     lateinit var navController:NavController
-    private lateinit var mgr: FragmentManager
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding= ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         mFusedLocationClient= LocationServices.getFusedLocationProviderClient(this)
-        mgr = supportFragmentManager
         drawerLayout=binding.drawerLayout
         navigationView=binding.navigationView
 
@@ -149,10 +145,6 @@ class MainActivity : AppCompatActivity() ,Communicator{
             }
         }
         return   super.onOptionsItemSelected(item)
-    }
-    override fun set(destination: String) {
-        val mapFragment=MapFragment()
-        mapFragment.setData(destination)
     }
 
     /*  fun showRadioConfirmationDialog() {

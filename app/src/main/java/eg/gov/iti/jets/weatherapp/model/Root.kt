@@ -10,20 +10,13 @@ import com.google.gson.annotations.Expose
 @Entity(tableName = "root")
 data class Root(
     @PrimaryKey
-    @ColumnInfo
-    val id :Int,
-    @ColumnInfo
-    val current: Current,
-    @ColumnInfo
-    val daily: List<Daily>,
-    @ColumnInfo
-    val hourly: List<Hourly>,
-    @ColumnInfo
-    val lat: Double,
-    @ColumnInfo
-    val lon: Double,
-    @ColumnInfo
-    val timezone: String,
-    @ColumnInfo
-    val timezone_offset: Int
+    var id :Int,
+    var current: Current,
+    var daily: List<Daily>,
+    var hourly: List<Hourly>,
+    var lat: Double,
+    var lon: Double,
+    var timezone: String,
+    var timezone_offset: Int,
+    var alerts:List<Alerts>
 )

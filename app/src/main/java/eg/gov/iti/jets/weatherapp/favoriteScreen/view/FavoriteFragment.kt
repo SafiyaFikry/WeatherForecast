@@ -7,11 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
-import eg.gov.iti.jets.weatherapp.Communicator
 import eg.gov.iti.jets.weatherapp.R
 import eg.gov.iti.jets.weatherapp.database.ConcreteLocalSource
 import eg.gov.iti.jets.weatherapp.databinding.FragmentFavoriteBinding
-import eg.gov.iti.jets.weatherapp.databinding.FragmentHomeBinding
 import eg.gov.iti.jets.weatherapp.favoriteScreen.viewModel.ViewModelFactoryFavorites
 import eg.gov.iti.jets.weatherapp.favoriteScreen.viewModel.ViewModelFavorite
 import eg.gov.iti.jets.weatherapp.model.Repository
@@ -23,15 +21,10 @@ class FavoriteFragment : Fragment() {
     lateinit var viewModel:ViewModelFavorite
     lateinit var favFactory:ViewModelFactoryFavorites
     lateinit var favAdapter:FavoriteAdapter
-    private lateinit var communicator: Communicator
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
-    @Deprecated("Deprecated in Java")
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        communicator = activity as (Communicator)
-    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -64,7 +57,6 @@ class FavoriteFragment : Fragment() {
             }
         }
         binding.favoriteFloatingActionButton.setOnClickListener{
-            //communicator.set("fav")
             viewModel.setDes("fav")
             Navigation.findNavController(it).navigate(R.id.mapFragment)
         }

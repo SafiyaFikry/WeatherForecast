@@ -13,12 +13,14 @@ import kotlinx.coroutines.launch
 class ViewModelFavorite(private val repo: RepositoryInterface): ViewModel() {
     private  var _favoritesDB: MutableLiveData<List<FavoritesDB>> = MutableLiveData<List<FavoritesDB>>()
     val favoritesDB : LiveData<List<FavoritesDB>> = _favoritesDB
-    var destination:String=""
+    companion object {
+        var destination: String = "home"
+    }
     fun setDes(des:String){
-        this.destination=des
+        destination=des
     }
     fun getDes():String{
-        return this.destination
+        return destination
     }
     init {
         getLocalFav()

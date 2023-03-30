@@ -29,11 +29,14 @@ import com.mapbox.maps.plugin.annotation.generated.PointAnnotationOptions
 import com.mapbox.maps.plugin.annotation.generated.createPointAnnotationManager
 import com.mapbox.maps.plugin.gestures.addOnMapLongClickListener
 import eg.gov.iti.jets.weatherapp.R
+import eg.gov.iti.jets.weatherapp.alertScreen.viewModel.ViewModelAlerts
+import eg.gov.iti.jets.weatherapp.alertScreen.viewModel.ViewModelFactoryAlerts
 import eg.gov.iti.jets.weatherapp.database.ConcreteLocalSource
 import eg.gov.iti.jets.weatherapp.databinding.FragmentMapBinding
 import eg.gov.iti.jets.weatherapp.favoriteScreen.view.FavoriteAdapter
 import eg.gov.iti.jets.weatherapp.favoriteScreen.viewModel.ViewModelFactoryFavorites
 import eg.gov.iti.jets.weatherapp.favoriteScreen.viewModel.ViewModelFavorite
+import eg.gov.iti.jets.weatherapp.model.AlertsDB
 import eg.gov.iti.jets.weatherapp.model.FavoritesDB
 import eg.gov.iti.jets.weatherapp.model.Repository
 import eg.gov.iti.jets.weatherapp.network.WeatherClient
@@ -45,7 +48,9 @@ class MapFragment : Fragment() {
     lateinit var myPoint:Point
     lateinit var destination: String
     lateinit var favFactory: ViewModelFactoryFavorites
-    lateinit var viewModel:ViewModelFavorite
+    lateinit var viewModelFav:ViewModelFavorite
+    lateinit var alertsFactory: ViewModelFactoryAlerts
+    lateinit var viewModelAlerts:ViewModelAlerts
     lateinit var address:MutableList<Address>
     lateinit var geocoder: Geocoder
     lateinit var des:String
@@ -71,7 +76,14 @@ class MapFragment : Fragment() {
                 WeatherClient.getInstance(),
             ConcreteLocalSource(requireContext().applicationContext)
         ))
-        viewModel= ViewModelProvider(this,favFactory).get(ViewModelFavorite::class.java)
+        viewModelFav= ViewModelProvider(this,favFactory).get(ViewModelFavorite::class.java)
+        alertsFactory= ViewModelFactoryAlerts(
+            Repository.getInstance(
+                WeatherClient.getInstance(),
+                ConcreteLocalSource(requireContext().applicationContext)
+            ))
+        viewModelAlerts= ViewModelProvider(this,alertsFactory).get(ViewModelAlerts::class.java)
+
         geocoder= Geocoder(requireContext().applicationContext)
         //shared= PreferenceManager.getDefaultSharedPreferences(requireContext().applicationContext)
         binding.mapView.getMapboxMap().loadStyleUri(Style.MAPBOX_STREETS)
@@ -87,22 +99,30 @@ class MapFragment : Fragment() {
         }
 
         binding.setLocationBtn.setOnClickListener {
-           /* if(viewModel.getDes()=="home") {
+            if(viewModelFav.getDes()=="home"&&viewModelAlerts.getDes()=="home") {
                 val editor=shared.edit()
                 editor.putString("lat",myPoint.latitude().toString())
                 editor.putString("lon",myPoint.longitude().toString())
                 editor.commit()
                 Navigation.findNavController(it).navigate(R.id.homeFragment)
             }
-            else if(viewModel.getDes()=="fav"){
-            */    address = geocoder.getFromLocation(myPoint.latitude(),myPoint.longitude(), 10) as MutableList<Address>
+            else if(viewModelFav.getDes()=="fav"){
+                address = geocoder.getFromLocation(myPoint.latitude(),myPoint.longitude(), 10) as MutableList<Address>
                 des = "${address[0].adminArea}\n${address[0].countryName}"
-                viewModel.addFav(FavoritesDB(des,myPoint.latitude(),myPoint.longitude()))
+                viewModelFav.addFav(FavoritesDB(des,myPoint.latitude(),myPoint.longitude()))
+                viewModelFav.setDes("home")
                 Navigation.findNavController(it).navigate(R.id.favoriteFragment)
-           /* }
+            }
+            else if(viewModelAlerts.getDes()=="alerts"){
+                address = geocoder.getFromLocation(myPoint.latitude(),myPoint.longitude(), 10) as MutableList<Address>
+                des = "${address[0].adminArea}\n${address[0].countryName}"
+                viewModelAlerts.insertAlert(AlertsDB(0,des,viewModelAlerts.getDateTime(),viewModelAlerts.getType()))
+                viewModelAlerts.setDes("home")
+                Navigation.findNavController(it).navigate(R.id.alertFragment)
+            }
             else{
                 Toast.makeText(requireContext(),"nothing",Toast.LENGTH_SHORT).show()
-            }*/
+            }
         }
     }
 
@@ -142,8 +162,5 @@ class MapFragment : Fragment() {
             drawable.draw(canvas)
             bitmap
         }
-    }
-    fun setData(destination: String){
-        this.destination =destination
     }
 }

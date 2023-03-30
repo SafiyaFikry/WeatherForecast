@@ -5,7 +5,9 @@ import android.location.Address
 import android.location.Geocoder
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
+import eg.gov.iti.jets.weatherapp.R
 import eg.gov.iti.jets.weatherapp.databinding.FavoriteItemBinding
 import eg.gov.iti.jets.weatherapp.model.FavoritesDB
 import eg.gov.iti.jets.weatherapp.model.Root
@@ -22,9 +24,9 @@ class FavoriteAdapter (private var myFavoritesDB:List<FavoritesDB>, val onClick:
         holder.binding.favLocationDeleteBtnImageButton.setOnClickListener {
             onClick(myFavoritesDB[position])
         }
-//        holder.binding.favItemLayout.setOnClickListener {
-//
-//        }
+        holder.binding.favItemLayout.setOnClickListener {
+            Navigation.findNavController(it).navigate(R.id.homeFragment)
+        }
     }
     override fun getItemCount(): Int {
         return myFavoritesDB.size

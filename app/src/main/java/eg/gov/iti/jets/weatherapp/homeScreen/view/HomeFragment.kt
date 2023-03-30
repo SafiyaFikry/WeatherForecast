@@ -1,14 +1,12 @@
 package eg.gov.iti.jets.weatherapp.homeScreen.view
 
 import android.content.Context
-import android.content.Intent
 import android.location.Address
 import android.location.Geocoder
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
 import android.os.Bundle
-import android.provider.Settings
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -20,7 +18,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
-import eg.gov.iti.jets.weatherapp.Communicator
 import eg.gov.iti.jets.weatherapp.R
 import eg.gov.iti.jets.weatherapp.database.ConcreteLocalSource
 import eg.gov.iti.jets.weatherapp.databinding.FragmentHomeBinding
@@ -46,15 +43,9 @@ class HomeFragment : Fragment() {
     lateinit var address:MutableList<Address>
     lateinit var geocoder: Geocoder
     lateinit var des:String
-    private lateinit var communicator: Communicator
    // lateinit var shared:SharedPreferences
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-    }
-    @Deprecated("Deprecated in Java")
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        communicator = activity as (Communicator)
     }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -69,7 +60,6 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.addAnotherLocationBtn.setOnClickListener {
-            communicator.set("home")
             Navigation.findNavController(it).navigate(R.id.mapFragment)
         }
         geocoder= Geocoder(requireContext().applicationContext)
@@ -101,6 +91,9 @@ class HomeFragment : Fragment() {
                             setLoadingStatus()
                         }
                         is ApiState.Success -> {
+                            if(root.data.alerts==null){
+                                root.data.alerts= emptyList()
+                            }
                             viewModelHome.insertWeather(root.data,lang)
                             setSuccessStatus(location,temperature,windSpeed,root.data)
                         }

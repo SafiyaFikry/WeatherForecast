@@ -1,6 +1,7 @@
 package eg.gov.iti.jets.weatherapp.database
 
 import android.content.Context
+import eg.gov.iti.jets.weatherapp.model.AlertsDB
 import eg.gov.iti.jets.weatherapp.model.FavoritesDB
 import eg.gov.iti.jets.weatherapp.model.Root
 import kotlinx.coroutines.flow.Flow
@@ -32,6 +33,18 @@ class ConcreteLocalSource(context:Context):LocalSource {
 
     override fun getAllStoredFavoritesDB(): Flow<List<FavoritesDB>> {
         return dao.getStoredFavoritesDB()
+    }
+
+    override fun getStoredAlertsDB(): Flow<List<AlertsDB>> {
+        return dao.getStoredAlertsDB()
+    }
+
+    override suspend fun insertAlertsDB(alertsDB: AlertsDB) {
+        dao.insertAlertsDB(alertsDB)
+    }
+
+    override suspend fun deleteAlertsDB(alertsDB: AlertsDB){
+        dao.deleteAlertsDB(alertsDB)
     }
 
 

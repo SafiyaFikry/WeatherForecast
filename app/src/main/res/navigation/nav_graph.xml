@@ -17,7 +17,7 @@
         tools:layout="@layout/fragment_favorite" />
     <fragment
         android:id="@+id/alertFragment"
-        android:name="eg.gov.iti.jets.weatherapp.alertScreen.AlertFragment"
+        android:name="eg.gov.iti.jets.weatherapp.alertScreen.view.AlertFragment"
         android:label="@string/alert"
         tools:layout="@layout/fragment_alert" />
     <fragment

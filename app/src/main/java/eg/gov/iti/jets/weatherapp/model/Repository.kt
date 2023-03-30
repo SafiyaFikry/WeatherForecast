@@ -46,5 +46,17 @@ class Repository private constructor(var remoteSource: RemoteSource,var localSou
         localSource.deleteFavoritesDB(favoritesDB)
     }
 
+    override fun getAllStoredAlertsDB(): Flow<List<AlertsDB>> {
+        return localSource.getStoredAlertsDB()
+    }
+
+    override suspend fun insertAlertsDB(alertsDB: AlertsDB) {
+        localSource.insertAlertsDB(alertsDB)
+    }
+
+    override suspend fun deleteAlertsDB(alertsDB: AlertsDB) {
+        localSource.deleteAlertsDB(alertsDB)
+    }
+
 
 }

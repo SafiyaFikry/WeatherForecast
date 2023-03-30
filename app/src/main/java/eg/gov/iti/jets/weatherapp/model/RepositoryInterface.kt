@@ -11,4 +11,8 @@ interface RepositoryInterface {
     fun  getAllStoredFavoritesDB(): Flow<List<FavoritesDB>>
     suspend fun  insertFavoritesDB(favoritesDB: FavoritesDB)
     suspend fun  deleteFavoritesDB(favoritesDB: FavoritesDB)
+
+    fun getAllStoredAlertsDB(): Flow<List<AlertsDB>>
+    suspend fun insertAlertsDB(alertsDB: AlertsDB)
+    suspend fun deleteAlertsDB(alertsDB: AlertsDB)
 }

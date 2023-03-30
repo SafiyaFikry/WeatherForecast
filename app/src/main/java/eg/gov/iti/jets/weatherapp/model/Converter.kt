@@ -36,4 +36,12 @@ class Converter {
     fun fromStringToListWeather(string: String):List<Weather>{
         return Gson().fromJson(string,Array<Weather>::class.java).toList()
     }
+    @TypeConverter
+    fun fromListAlertsToString(list: List<Alerts>):String{
+        return Gson().toJson(list)
+    }
+    @TypeConverter
+    fun fromStringToListAlerts(string: String):List<Alerts>{
+        return Gson().fromJson(string,Array<Alerts>::class.java).toList()
+    }
 }
