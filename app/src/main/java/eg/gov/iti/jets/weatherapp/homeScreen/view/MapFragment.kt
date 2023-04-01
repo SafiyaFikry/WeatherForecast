@@ -17,6 +17,7 @@ import android.widget.Toast
 import androidx.annotation.DrawableRes
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import androidx.preference.PreferenceManager
 import com.mapbox.geojson.Point
@@ -36,11 +37,16 @@ import eg.gov.iti.jets.weatherapp.databinding.FragmentMapBinding
 import eg.gov.iti.jets.weatherapp.favoriteScreen.view.FavoriteAdapter
 import eg.gov.iti.jets.weatherapp.favoriteScreen.viewModel.ViewModelFactoryFavorites
 import eg.gov.iti.jets.weatherapp.favoriteScreen.viewModel.ViewModelFavorite
+import eg.gov.iti.jets.weatherapp.homeScreen.viewModel.ViewModelFactoryHome
+import eg.gov.iti.jets.weatherapp.homeScreen.viewModel.ViewModelHome
 import eg.gov.iti.jets.weatherapp.model.AlertsDB
 import eg.gov.iti.jets.weatherapp.model.FavoritesDB
 import eg.gov.iti.jets.weatherapp.model.Repository
+import eg.gov.iti.jets.weatherapp.network.ApiState
 import eg.gov.iti.jets.weatherapp.network.WeatherClient
 import eg.gov.iti.jets.weatherapp.splashScreen.shared
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 class MapFragment : Fragment() {
 
@@ -51,6 +57,8 @@ class MapFragment : Fragment() {
     lateinit var viewModelFav:ViewModelFavorite
     lateinit var alertsFactory: ViewModelFactoryAlerts
     lateinit var viewModelAlerts:ViewModelAlerts
+   /* lateinit var homeFactory: ViewModelFactoryHome
+    lateinit var viewModelHome:ViewModelHome*/
     lateinit var address:MutableList<Address>
     lateinit var geocoder: Geocoder
     lateinit var des:String
@@ -84,6 +92,13 @@ class MapFragment : Fragment() {
             ))
         viewModelAlerts= ViewModelProvider(this,alertsFactory).get(ViewModelAlerts::class.java)
 
+        /*homeFactory= ViewModelFactoryHome(
+            Repository.getInstance(
+                WeatherClient.getInstance(),
+                ConcreteLocalSource(requireContext().applicationContext)
+            ))
+        viewModelHome= ViewModelProvider(this,homeFactory).get(ViewModelHome::class.java)
+*/
         geocoder= Geocoder(requireContext().applicationContext)
         //shared= PreferenceManager.getDefaultSharedPreferences(requireContext().applicationContext)
         binding.mapView.getMapboxMap().loadStyleUri(Style.MAPBOX_STREETS)
@@ -114,11 +129,44 @@ class MapFragment : Fragment() {
                 Navigation.findNavController(it).navigate(R.id.favoriteFragment)
             }
             else if(viewModelAlerts.getDes()=="alerts"){
+                println("2")
                 address = geocoder.getFromLocation(myPoint.latitude(),myPoint.longitude(), 10) as MutableList<Address>
                 des = "${address[0].adminArea}\n${address[0].countryName}"
                 viewModelAlerts.insertAlert(AlertsDB(countryName = des, dateTime = viewModelAlerts.getDateTime(), type = viewModelAlerts.getType()))
+                
                 viewModelAlerts.setDes("home")
-                Navigation.findNavController(it).navigate(R.id.alertFragment)
+                ViewModelHome.lat = myPoint.latitude()
+                ViewModelHome.lon = myPoint.longitude()
+                ViewModelHome.city = des
+                ViewModelAlerts.isMap = true
+                println("+++++++++++++++++++++++++++++++++++++city: " + ViewModelHome.city)
+                println("+++++++++++++++++++++++++++++++++++++lat: " + ViewModelHome.lat)
+                println("+++++++++++++++++++++++++++++++++++++lon: " + ViewModelHome.lon)
+
+
+               /* viewModelHome.getWeatherDetails(myPoint.latitude(),myPoint.longitude(),"en")
+                lifecycleScope.launch {
+                    viewModelHome.root.collectLatest { root ->
+                        when (root) {
+                            is ApiState.Loading -> {}
+                            is ApiState.Success -> {
+                                println("@@@@@@@@@@@@@@@@@@@@@@@@@@@alert"+root.data.alerts)
+                                if(root.data.alerts==null||root.data.alerts.isEmpty()){
+                                    ViewModelHome.nameal="empty"
+                                    ViewModelHome.city=des
+                                }
+                                else{
+                                    ViewModelHome.nameal=root.data.alerts[0].description
+                                    ViewModelHome.city=des
+                                }
+                            }
+                            else -> {}
+                        }
+                    }
+                }*/
+                //Navigation.findNavController(it).navigate(R.id.alertFragment)
+                Navigation.findNavController(it).popBackStack()
+
             }
             else{
                 Toast.makeText(requireContext(),"nothing",Toast.LENGTH_SHORT).show()

@@ -20,6 +20,11 @@ class ViewModelHome (private val repo: RepositoryInterface): ViewModel() {
     private  var _retrievedRoot: MutableLiveData<Root> = MutableLiveData<Root>()
     val retrievedRoot : LiveData<Root> = _retrievedRoot
 
+    companion object{
+        var lat:Double=0.0
+        var lon:Double=0.0
+        var city:String=""
+    }
     init {
         getStoredWeather()
     }

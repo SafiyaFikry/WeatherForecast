@@ -17,7 +17,6 @@ class NotificationHelper(base: Context?) : ContextWrapper(base) {
             createChannel()
         }
     }
-
     @TargetApi(Build.VERSION_CODES.O)
     private fun createChannel() {
         val channel = NotificationChannel(
@@ -27,7 +26,6 @@ class NotificationHelper(base: Context?) : ContextWrapper(base) {
         )
         manager!!.createNotificationChannel(channel)
     }
-
     val manager: NotificationManager?
         get() {
             if (mManager == null) {
@@ -42,9 +40,8 @@ class NotificationHelper(base: Context?) : ContextWrapper(base) {
             NotificationHelper.Companion.channelID
         )
             .setContentTitle("Alarm!")
-            .setContentText("Your AlarmManager is working.")
+            .setContentText("Everything is okay in this place.")
             .setSmallIcon(R.drawable.ic_lock_idle_alarm)
-
     companion object {
         const val channelID = "channelID"
         const val channelName = "Channel Name"

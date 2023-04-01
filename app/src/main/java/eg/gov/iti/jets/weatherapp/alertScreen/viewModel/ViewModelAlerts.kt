@@ -17,6 +17,9 @@ class ViewModelAlerts(private val repo: RepositoryInterface): ViewModel() {
         var destination: String = "home"
         var type: String = "alert"
         var dateTime: String = ""
+        var lat:Double=0.0
+        var lon:Double=0.0
+        var isMap=false
     }
     fun setDes(des:String){
         destination=des
