@@ -58,9 +58,16 @@ class MainActivity : AppCompatActivity() {
                 R.id.favoriteFragment-> "Favorites"
                 R.id.settingsFragment->"Settings"
                 R.id.mapFragment->"Map"
+                R.id.favDetailsFragment->"Favorites"
                 else->"Weather Forecast"
             }
         }
+
+       /* binding.navigationView.menu.getItem(1).setOnMenuItemClickListener {
+            navController.navigate(R.id.favoriteFragment)
+            drawerLayout.closeDrawer(GravityCompat.START)
+            true
+        }*/
         NavigationUI.setupWithNavController(navigationView,navController)
         if(shared.getString("location","GPS")=="GPS") {
             getLastLocation()

@@ -1,5 +1,7 @@
 package eg.gov.iti.jets.weatherapp.favoriteScreen.view
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -21,6 +23,7 @@ class FavoriteFragment : Fragment() {
     lateinit var viewModel:ViewModelFavorite
     lateinit var favFactory:ViewModelFactoryFavorites
     lateinit var favAdapter:FavoriteAdapter
+    lateinit var favShared:SharedPreferences
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -35,6 +38,8 @@ class FavoriteFragment : Fragment() {
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        favShared=requireContext().getSharedPreferences("favShared",Context.MODE_PRIVATE)
+        val editor=favShared.edit()
         favFactory= ViewModelFactoryFavorites(Repository.getInstance(WeatherClient.getInstance(),
             ConcreteLocalSource(requireContext().applicationContext)
         ))
@@ -48,8 +53,10 @@ class FavoriteFragment : Fragment() {
                     viewModel.deleteFav(it)
                     favAdapter.notifyDataSetChanged()
                 },{
-
-
+                    editor.putString("lat",it.lat.toString())
+                    editor.putString("lon",it.lon.toString())
+                    editor.commit()
+                    Navigation.findNavController(requireView()).navigate(R.id.favDetailsFragment)
                 })
                 binding.favoriteRecycleView.adapter=favAdapter
                 favAdapter.notifyDataSetChanged()

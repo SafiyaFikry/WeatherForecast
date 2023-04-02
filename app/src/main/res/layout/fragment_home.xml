@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
- <ScrollView
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        tools:context=".homeScreen.view.HomeFragment"
-        android:id="@+id/scrollView2"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/carolina">
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".homeScreen.view.HomeFragment"
+    android:id="@+id/scrollView2"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/carolina">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layout"
@@ -103,7 +103,7 @@
                 android:layout_height="300dp">
 
                 <TextView
-                    android:id="@+id/fplace_textView"
+                    android:id="@+id/place_textView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
@@ -116,7 +116,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/fdateTime_textView"
+                    android:id="@+id/dateTime_textView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
@@ -129,7 +129,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <ImageView
-                    android:id="@+id/fplaceWeather_imageView"
+                    android:id="@+id/placeWeather_imageView"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:layout_marginStart="90dp"
@@ -139,7 +139,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/fweatherTemp_textView"
+                    android:id="@+id/weatherTemp_textView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
@@ -149,11 +149,11 @@
                     android:textColor="@color/white"
                     android:textSize="30dp"
                     android:textStyle="bold"
-                    app:layout_constraintStart_toEndOf="@+id/fplaceWeather_imageView"
-                    app:layout_constraintTop_toTopOf="@+id/fplaceWeather_imageView" />
+                    app:layout_constraintStart_toEndOf="@+id/placeWeather_imageView"
+                    app:layout_constraintTop_toTopOf="@+id/placeWeather_imageView" />
 
                 <TextView
-                    android:id="@+id/fweatherStatus_textView"
+                    android:id="@+id/weatherStatus_textView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
@@ -162,10 +162,10 @@
                     android:text=""
                     android:textColor="@color/white"
                     android:textStyle="bold"
-                    app:layout_constraintEnd_toEndOf="@+id/fweatherTemp_textView"
+                    app:layout_constraintEnd_toEndOf="@+id/weatherTemp_textView"
                     app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintStart_toStartOf="@+id/fweatherTemp_textView"
-                    app:layout_constraintTop_toBottomOf="@+id/fweatherTemp_textView" />
+                    app:layout_constraintStart_toStartOf="@+id/weatherTemp_textView"
+                    app:layout_constraintTop_toBottomOf="@+id/weatherTemp_textView" />
 
                 <ImageView
                     android:id="@+id/imageView2"
@@ -174,11 +174,11 @@
                     android:layout_marginStart="20dp"
                     android:layout_marginTop="10dp"
                     android:src="@drawable/baseline_speed_24"
-                    app:layout_constraintStart_toStartOf="@+id/fplace_textView"
-                    app:layout_constraintTop_toBottomOf="@+id/fplaceWeather_imageView" />
+                    app:layout_constraintStart_toStartOf="@+id/place_textView"
+                    app:layout_constraintTop_toBottomOf="@+id/placeWeather_imageView" />
 
                 <TextView
-                    android:id="@+id/fpressure_textView"
+                    android:id="@+id/pressure_textView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
@@ -214,7 +214,7 @@
                     app:layout_constraintStart_toEndOf="@+id/imageView2" />
 
                 <TextView
-                    android:id="@+id/fhumidity_textView"
+                    android:id="@+id/humidity_textView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
@@ -222,7 +222,7 @@
                     android:text=""
                     android:textColor="@color/white"
                     android:textStyle="bold"
-                    app:layout_constraintBottom_toBottomOf="@+id/fpressure_textView"
+                    app:layout_constraintBottom_toBottomOf="@+id/pressure_textView"
                     app:layout_constraintStart_toEndOf="@+id/imageView3" />
 
                 <TextView
@@ -256,7 +256,7 @@
                     android:text=""
                     android:textColor="@color/white"
                     android:textStyle="bold"
-                    app:layout_constraintBottom_toBottomOf="@+id/fhumidity_textView"
+                    app:layout_constraintBottom_toBottomOf="@+id/humidity_textView"
                     app:layout_constraintStart_toEndOf="@+id/imageView4" />
 
                 <TextView
@@ -377,4 +377,4 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>
     </androidx.constraintlayout.widget.ConstraintLayout>
-    </ScrollView>
+</ScrollView>
