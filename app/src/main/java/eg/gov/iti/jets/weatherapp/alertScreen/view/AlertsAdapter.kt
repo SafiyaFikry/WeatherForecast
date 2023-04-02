@@ -17,7 +17,8 @@ class AlertsAdapter (private var myAlertsDB:List<AlertsDB>, val onClick:(AlertsD
     }
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.binding.alertPlaceTextView.text=myAlertsDB[position].countryName
-        holder.binding.dateTimeTextView.text=myAlertsDB[position].dateTime
+        holder.binding.startdateTimeTextView.text=myAlertsDB[position].startDateTime
+        holder.binding.endDateTimeTextView.text=myAlertsDB[position].endDateTime
         holder.binding.alertDeleteBtnImageButton.setOnClickListener {
             onClick(myAlertsDB[position])
         }

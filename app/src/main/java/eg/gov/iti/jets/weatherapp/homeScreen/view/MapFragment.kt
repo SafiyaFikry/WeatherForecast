@@ -128,7 +128,7 @@ class MapFragment : Fragment() {
                 viewModelFav.setDes("home")
                 Navigation.findNavController(it).navigate(R.id.favoriteFragment)
             }
-            else if(viewModelAlerts.getDes()=="alerts"){
+           /* else if(viewModelAlerts.getDes()=="alerts"){
                 println("2")
                 address = geocoder.getFromLocation(myPoint.latitude(),myPoint.longitude(), 10) as MutableList<Address>
                 des = "${address[0].adminArea}\n${address[0].countryName}"
@@ -138,13 +138,12 @@ class MapFragment : Fragment() {
                 ViewModelHome.lat = myPoint.latitude()
                 ViewModelHome.lon = myPoint.longitude()
                 ViewModelHome.city = des
-                ViewModelAlerts.isMap = true
                 println("+++++++++++++++++++++++++++++++++++++city: " + ViewModelHome.city)
                 println("+++++++++++++++++++++++++++++++++++++lat: " + ViewModelHome.lat)
                 println("+++++++++++++++++++++++++++++++++++++lon: " + ViewModelHome.lon)
 
 
-               /* viewModelHome.getWeatherDetails(myPoint.latitude(),myPoint.longitude(),"en")
+               *//* viewModelHome.getWeatherDetails(myPoint.latitude(),myPoint.longitude(),"en")
                 lifecycleScope.launch {
                     viewModelHome.root.collectLatest { root ->
                         when (root) {
@@ -163,11 +162,11 @@ class MapFragment : Fragment() {
                             else -> {}
                         }
                     }
-                }*/
+                }*//*
                 //Navigation.findNavController(it).navigate(R.id.alertFragment)
                 Navigation.findNavController(it).popBackStack()
 
-            }
+            }*/
             else{
                 Toast.makeText(requireContext(),"nothing",Toast.LENGTH_SHORT).show()
             }

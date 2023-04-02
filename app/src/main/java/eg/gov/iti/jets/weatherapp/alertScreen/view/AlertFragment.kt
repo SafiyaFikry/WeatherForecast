@@ -6,16 +6,16 @@ import android.app.PendingIntent
 import android.app.TimePickerDialog
 import android.content.Context
 import android.content.Intent
+import android.location.Address
+import android.location.Geocoder
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.Toast
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
-import androidx.navigation.Navigation
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import eg.gov.iti.jets.weatherapp.R
 import eg.gov.iti.jets.weatherapp.alertScreen.viewModel.ViewModelAlerts
@@ -24,13 +24,12 @@ import eg.gov.iti.jets.weatherapp.database.ConcreteLocalSource
 import eg.gov.iti.jets.weatherapp.databinding.FragmentAlertBinding
 import eg.gov.iti.jets.weatherapp.homeScreen.viewModel.ViewModelFactoryHome
 import eg.gov.iti.jets.weatherapp.homeScreen.viewModel.ViewModelHome
+import eg.gov.iti.jets.weatherapp.model.AlertsDB
 import eg.gov.iti.jets.weatherapp.model.Repository
-import eg.gov.iti.jets.weatherapp.network.ApiState
 import eg.gov.iti.jets.weatherapp.network.WeatherClient
 import eg.gov.iti.jets.weatherapp.splashScreen.shared
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
-import java.util.Calendar
+import java.text.SimpleDateFormat
+import java.util.*
 
 class AlertFragment : Fragment() {
     lateinit var binding:FragmentAlertBinding
@@ -39,8 +38,14 @@ class AlertFragment : Fragment() {
     lateinit var alertsAdapter: AlertsAdapter
     lateinit var homeFactory: ViewModelFactoryHome
     lateinit var homeViewModel: ViewModelHome
-    var dateTime="Date: "
+    var timestamp=0
+    lateinit var dateTime:String
+    var startDate=0L
+    var endDate=0L
     val c =Calendar.getInstance()
+    lateinit var address:MutableList<Address>
+    lateinit var geocoder: Geocoder
+    lateinit var des:String
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -55,7 +60,7 @@ class AlertFragment : Fragment() {
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        geocoder= Geocoder(requireContext().applicationContext)
         alertsFactory= ViewModelFactoryAlerts(
             Repository.getInstance(
                 WeatherClient.getInstance(),
@@ -96,10 +101,10 @@ class AlertFragment : Fragment() {
         }
 
     }
-    fun openDialog():String{
+    /*fun openDialog(){
 
         DatePickerDialog(requireContext(), { view, year, month, dayOfMonth ->
-
+            dateTime="Date: "
             dateTime+=dayOfMonth.toString()+"/"+month.toString()+"/"+year.toString()+"\n"
 
             TimePickerDialog(requireContext(),{ view, hourOfDay, minute ->
@@ -113,56 +118,121 @@ class AlertFragment : Fragment() {
                 c.set(Calendar.HOUR_OF_DAY,hourOfDay)
                 c.set(Calendar.MINUTE,minute)
                 c.set(Calendar.SECOND,0)
-                println("1")
-                Navigation.findNavController(requireView()).navigate(R.id.mapFragment)
-                println("3")
-                startAlarm(c/*,ViewModelHome.nameal*/)
-                //ViewModelHome.nameal=""
-                alertsViewModel.setDes("alerts")
-                alertsViewModel.setDateTime(dateTime)
+                timestamp=c.timeInMillis.toInt()
+                println("#######$dateTime ######### $timestamp")
+                val editor=shared.edit()
+                editor.putString("dateTime",dateTime)
+                editor.putInt("timestamp",timestamp)
+                editor.commit()
 
             },Calendar.getInstance().get(Calendar.HOUR),Calendar.getInstance().get(Calendar.MINUTE),false).show()
 
        },Calendar.getInstance().get(Calendar.YEAR),Calendar.getInstance().get(Calendar.MONTH),Calendar.getInstance().get(Calendar.DAY_OF_MONTH)).show()
 
-        return dateTime
-    }
+    }*/
 
+    private fun setDate(callback: (Long) -> Unit) {
+        Calendar.getInstance().apply {
+            this.set(Calendar.SECOND, 0)
+            this.set(Calendar.MILLISECOND, 0)
+            val datePickerDialog = DatePickerDialog(
+                requireContext(),
+                0,
+                { _, year, month, day ->
+                    this.set(Calendar.YEAR, year)
+                    this.set(Calendar.MONTH, month)
+                    this.set(Calendar.DAY_OF_MONTH, day)
+                    TimePickerDialog(
+                        requireContext(),
+                        0,
+                        { _, hour, minute ->
+                            this.set(Calendar.HOUR_OF_DAY, hour)
+                            this.set(Calendar.MINUTE, minute)
+                            callback(this.timeInMillis)
+                        },
+                        this.get(Calendar.HOUR_OF_DAY),
+                        this.get(Calendar.MINUTE),
+                        false
+                    ).show()
+                },
+
+                this.get(Calendar.YEAR),
+                this.get(Calendar.MONTH),
+                this.get(Calendar.DAY_OF_MONTH)
+
+            )
+            datePickerDialog.datePicker.minDate = Calendar.getInstance().timeInMillis
+            datePickerDialog.show()
+        }
+    }
     fun showRadioConfirmationDialog() {
         var selectedOptionIndex= 0
         val option = arrayOf("Alert", "Notification")
         var selectedOption = option[selectedOptionIndex]
-        MaterialAlertDialogBuilder(requireContext())
-            .setTitle("Type of Alert?")
-            .setSingleChoiceItems(option, selectedOptionIndex) { dialog_, which ->
-                selectedOptionIndex = which
-                selectedOption = option[which]
+        val inflater = requireActivity().layoutInflater
+        val myView=inflater.inflate(R.layout.alert_dialog,null)
+        val builder=MaterialAlertDialogBuilder(requireContext())
+        builder.setTitle("Type of Alert?")
+            .setView(myView)
+        val start_ed=myView.findViewById<Button>(R.id.startDate_Btn)
+        start_ed.setOnClickListener {
+            setDate{startDate=it
+                start_ed.text= SimpleDateFormat("dd/MM/YYYY hh:mm a").format(Date(startDate))
             }
-            .setPositiveButton("Ok") { dialog, which ->
-                if(selectedOption=="Alert"){
-                    alertsViewModel.setType("alert")
+        }
+        val end_ed=myView.findViewById<Button>(R.id.endDate_Btn)
+        end_ed.setOnClickListener {
+            setDate{endDate=it
+                end_ed.text=SimpleDateFormat("dd/MM/YYYY hh:mm a").format(Date(endDate))}
+
+        }
+        builder.setSingleChoiceItems(option, selectedOptionIndex) { dialog_, which ->
+            selectedOptionIndex = which
+            selectedOption = option[which]
+        }
+        .setPositiveButton("Ok") { dialog, which ->
+            val lat=shared.getString("lat","33.44")
+            val lon=shared.getString("lon","-94.04")
+            address = geocoder.getFromLocation(lat!!.toDouble(),lon!!.toDouble(), 10) as MutableList<Address>
+            des = "${address[0].adminArea} - ${address[0].countryName}"
+            if(selectedOption=="Alert"){
+                alertsViewModel.insertAlert(AlertsDB(countryName = des, startDateTime =SimpleDateFormat("dd/MM/YYYY hh:mm a").format(Date(startDate)) , endDateTime = SimpleDateFormat("dd/MM/YYYY hh:mm").format(Date(endDate)), type = "alert"))
+                homeViewModel.retrievedRoot.observe(viewLifecycleOwner){ root->
+                    if(root.alerts==null||root.alerts.isEmpty()){
+                        startAlarm(startDate,des,"empty")
+                    }
+                    else{
+                        if ((startDate>=root.alerts[0].start&&startDate<root.alerts[0].end)&&(endDate<=root.alerts[0].end&&endDate>root.alerts[0].start)){
+                            startAlarm(startDate,des,root.alerts[0].event)
+                        }
+                    }
                 }
-                else{
-                    alertsViewModel.setType("notification")
-                }
-                openDialog()
             }
-            .create().show()
+            else{
+                alertsViewModel.insertAlert(AlertsDB(countryName = des, startDateTime = SimpleDateFormat("dd/MM/YYYY hh:mm a").format(Date(startDate)), endDateTime = SimpleDateFormat("dd/MM/YYYY hh:mm").format(Date(endDate)), type = "notification"))
+                homeViewModel.retrievedRoot.observe(viewLifecycleOwner){ root->
+                    if(root.alerts==null||root.alerts.isEmpty()){
+                        startAlarm(startDate,des,"empty")
+                    }
+                    else{
+                        if ((startDate>=root.alerts[0].start&&startDate<root.alerts[0].end)&&(endDate<=root.alerts[0].end&&endDate>root.alerts[0].start)){
+                            startAlarm(startDate,des,root.alerts[0].event)
+                        }
+                    }
+                }
+            }
+        }
+
+        .create().show()
     }
-    fun startAlarm(c:Calendar/*,alertName:String*/){
+    fun startAlarm(c:Long,city:String,alertName:String){
         var alarmManger = requireContext().getSystemService(Context.ALARM_SERVICE) as AlarmManager
         val intent= Intent(requireContext(),AlertReceiver::class.java)
-        intent.putExtra("lat",ViewModelHome.lat.toString())
-        intent.putExtra("lon",ViewModelHome.lon.toString())
-        intent.putExtra("city",ViewModelHome.city)
-        println("#####################################city: "+ViewModelHome.city)
-        println("#####################################lat: "+ViewModelHome.lat)
-        println("#####################################lon: "+ViewModelHome.lon)
+        intent.putExtra("city",city)
+        intent.putExtra("alertName",alertName)
         var pendingIntent:PendingIntent= PendingIntent.getBroadcast(requireContext(),1,intent,0)
-        alarmManger.setExact(AlarmManager.RTC_WAKEUP,c.timeInMillis,pendingIntent)
-        ViewModelHome.lat=0.0
-        ViewModelHome.lon=0.0
-        ViewModelHome.city=""
+        alarmManger.setExact(AlarmManager.RTC_WAKEUP,c,pendingIntent)
+
     }
     fun cancelAlarm(){
         var alarmManger = requireContext().getSystemService(Context.ALARM_SERVICE) as AlarmManager

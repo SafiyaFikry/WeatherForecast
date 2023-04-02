@@ -10,7 +10,7 @@ import eg.gov.iti.jets.weatherapp.model.Converter
 import eg.gov.iti.jets.weatherapp.model.FavoritesDB
 import eg.gov.iti.jets.weatherapp.model.Root
 
-@Database(entities = arrayOf(Root::class,FavoritesDB::class, AlertsDB::class), version = 7)
+@Database(entities = arrayOf(Root::class,FavoritesDB::class, AlertsDB::class), version = 8)
 @TypeConverters(Converter::class)
 abstract class WeatherDatabase:RoomDatabase() {
     abstract fun getWeatherDao():WeatherDao

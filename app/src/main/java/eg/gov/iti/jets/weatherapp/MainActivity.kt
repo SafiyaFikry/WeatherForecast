@@ -57,6 +57,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.alertFragment-> "Alerts"
                 R.id.favoriteFragment-> "Favorites"
                 R.id.settingsFragment->"Settings"
+                R.id.mapFragment->"Map"
                 else->"Weather Forecast"
             }
         }

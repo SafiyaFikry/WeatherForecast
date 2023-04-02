@@ -44,10 +44,13 @@ class FavoriteFragment : Fragment() {
 
                 binding.imageView.visibility=View.GONE
                 binding.textView.visibility=View.GONE
-                favAdapter= FavoriteAdapter(weather){
+                favAdapter= FavoriteAdapter(weather,{
                     viewModel.deleteFav(it)
                     favAdapter.notifyDataSetChanged()
-                }
+                },{
+
+
+                })
                 binding.favoriteRecycleView.adapter=favAdapter
                 favAdapter.notifyDataSetChanged()
 

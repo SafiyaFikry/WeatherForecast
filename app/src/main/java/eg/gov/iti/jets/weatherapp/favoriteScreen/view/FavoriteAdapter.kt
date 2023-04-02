@@ -12,7 +12,7 @@ import eg.gov.iti.jets.weatherapp.databinding.FavoriteItemBinding
 import eg.gov.iti.jets.weatherapp.model.FavoritesDB
 import eg.gov.iti.jets.weatherapp.model.Root
 
-class FavoriteAdapter (private var myFavoritesDB:List<FavoritesDB>, val onClick:(FavoritesDB)->Unit) : RecyclerView.Adapter<FavoriteAdapter.ViewHolder>(){
+class FavoriteAdapter (private var myFavoritesDB:List<FavoritesDB>, val onClick:(FavoritesDB)->Unit,val nav:(FavoritesDB)->Unit) : RecyclerView.Adapter<FavoriteAdapter.ViewHolder>(){
     lateinit var binding: FavoriteItemBinding
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater: LayoutInflater = parent.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
@@ -25,7 +25,7 @@ class FavoriteAdapter (private var myFavoritesDB:List<FavoritesDB>, val onClick:
             onClick(myFavoritesDB[position])
         }
         holder.binding.favItemLayout.setOnClickListener {
-            Navigation.findNavController(it).navigate(R.id.homeFragment)
+            nav(myFavoritesDB[position])
         }
     }
     override fun getItemCount(): Int {

@@ -15,11 +15,7 @@ class ViewModelAlerts(private val repo: RepositoryInterface): ViewModel() {
     val alertsDB : LiveData<List<AlertsDB>> = _alertsDB
     companion object {
         var destination: String = "home"
-        var type: String = "alert"
-        var dateTime: String = ""
-        var lat:Double=0.0
-        var lon:Double=0.0
-        var isMap=false
+      //  var dateTime: String = ""
     }
     fun setDes(des:String){
         destination=des
@@ -27,18 +23,12 @@ class ViewModelAlerts(private val repo: RepositoryInterface): ViewModel() {
     fun getDes():String{
         return destination
     }
-    fun setType(mytype:String){
-        type=mytype
-    }
-    fun getType():String{
-        return type
-    }
-    fun setDateTime(dt:String){
-        dateTime=dt
-    }
-    fun getDateTime():String{
-        return dateTime
-    }
+//    fun setDateTime(dt:String){
+//        dateTime=dt
+//    }
+//    fun getDateTime():String{
+//        return dateTime
+//    }
     init {
         getLocalAlerts()
     }
