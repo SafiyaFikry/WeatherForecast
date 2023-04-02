@@ -1,4 +1,4 @@
-package eg.gov.iti.jets.weatherapp.favDetails
+package eg.gov.iti.jets.weatherapp.favDetails.view
 import android.content.Context
 import android.content.SharedPreferences
 import android.location.Address
@@ -21,7 +21,6 @@ import com.bumptech.glide.request.RequestOptions
 import eg.gov.iti.jets.weatherapp.R
 import eg.gov.iti.jets.weatherapp.database.ConcreteLocalSource
 import eg.gov.iti.jets.weatherapp.databinding.FragmentFavDetailsBinding
-import eg.gov.iti.jets.weatherapp.databinding.FragmentHomeBinding
 import eg.gov.iti.jets.weatherapp.homeScreen.view.DailyForecastAdapter
 import eg.gov.iti.jets.weatherapp.homeScreen.view.HourlyForecastAdapter
 import eg.gov.iti.jets.weatherapp.homeScreen.viewModel.ViewModelFactoryHome

@@ -32,6 +32,6 @@
         tools:layout="@layout/fragment_map" />
     <fragment
         android:id="@+id/favDetailsFragment"
-        android:name="eg.gov.iti.jets.weatherapp.favDetails.FavDetailsFragment"
+        android:name="eg.gov.iti.jets.weatherapp.favDetails.view.FavDetailsFragment"
         android:label="FavDetailsFragment" />
 </navigation>
