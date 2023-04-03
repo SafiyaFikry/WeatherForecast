@@ -64,5 +64,5 @@
     <string name="dismiss">Dismiss</string>
     <string name="lets_go" >Let\'s Go!</string>
     <string name="welcome">Welcome to Weather Forecast</string>
-    <string name="permissions">1- You have to choose between get location by \"Map\" or \"GPS\".\\nDon't worry you can change this later from settings.\\n2- You can add places to favorites.\\n</string>
+    <string name="permissions">1- You have to choose between get location by \"Map\" or \"GPS\".\n   ( Don\'t worry you can change this later from settings. )\n2- You can add places to favorites.\n3- You can add Alert/notification to the chosen place.\n</string>
 </resources>

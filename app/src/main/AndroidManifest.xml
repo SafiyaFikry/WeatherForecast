@@ -21,7 +21,7 @@
         android:theme="@style/Theme.WeatherApp"
         tools:targetApi="31">
         <activity
-            android:name=".WelcomeAndPermission"
+            android:name=".welcomeAndPermission.WelcomeAndPermission"
             android:exported="false" />
         <activity
             android:name=".splashScreen.SplashScreen"

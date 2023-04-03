@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.location.*
 import eg.gov.iti.jets.weatherapp.MainActivity
 import eg.gov.iti.jets.weatherapp.databinding.ActivitySplashScreenBinding
+import eg.gov.iti.jets.weatherapp.welcomeAndPermission.WelcomeAndPermission
 
 lateinit var shared: SharedPreferences
 class SplashScreen : AppCompatActivity() {
@@ -24,7 +25,7 @@ class SplashScreen : AppCompatActivity() {
         if (shared.contains("temperature")==false) {
             val editor = shared.edit()
             editor.putString("temperature", "Celsius")
-            editor.putString("location", "GPS")
+            editor.putString("location", "None")
             editor.putString("language", "English")
             editor.putString("windSpeed", "m/s")
             editor.putBoolean("notifications",false)
@@ -34,8 +35,14 @@ class SplashScreen : AppCompatActivity() {
         }
         Handler().postDelayed(object : Runnable {
             override fun run() {
-                val intent=Intent(this@SplashScreen, MainActivity::class.java)
-                startActivity(intent)
+                if (shared.getString("location", "GPS") == "None"){
+                    val intent = Intent(this@SplashScreen, WelcomeAndPermission::class.java)
+                    startActivity(intent)
+                }
+                else{
+                    val intent = Intent(this@SplashScreen, MainActivity::class.java)
+                    startActivity(intent)
+                }
             }
         }, 4000)
 

@@ -71,11 +71,12 @@ class MainActivity : AppCompatActivity() {
         }*/
         NavigationUI.setupWithNavController(navigationView,navController)
 
-        if(shared.getString("location","GPS")=="GPS") {
-          //  getLastLocation()
+        if(shared.getString("location","GPS")=="Map") {
+            navController.navigate(R.id.mapFragment)
         }
     }
 
+/*
     override fun onResume() {
         super.onResume()
         if(shared.getString("location","GPS")=="GPS") {
@@ -89,6 +90,7 @@ class MainActivity : AppCompatActivity() {
           //  getLastLocation()
         }
     }
+*/
 
  /*   @SuppressLint("MissingPermission")
     private fun getLastLocation(){
