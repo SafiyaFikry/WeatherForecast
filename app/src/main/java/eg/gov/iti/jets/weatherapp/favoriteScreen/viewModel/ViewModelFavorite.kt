@@ -16,12 +16,12 @@ class ViewModelFavorite(private val repo: RepositoryInterface): ViewModel() {
     companion object {
         var destination: String = "home"
     }
-    fun setDes(des:String){
+   /* fun setDes(des:String){
         destination=des
     }
     fun getDes():String{
         return destination
-    }
+    }*/
     init {
         getLocalFav()
     }

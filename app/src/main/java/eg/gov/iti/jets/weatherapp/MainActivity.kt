@@ -29,9 +29,10 @@ import eg.gov.iti.jets.weatherapp.splashScreen.shared
 import eg.gov.iti.jets.weatherapp.R
 import eg.gov.iti.jets.weatherapp.homeScreen.view.MapFragment
 
-const val PERMISSION_ID=55
-lateinit var mFusedLocationClient: FusedLocationProviderClient
+/*const val PERMISSION_ID=55
+lateinit var mFusedLocationClient: FusedLocationProviderClient*/
 class MainActivity : AppCompatActivity() {
+
     lateinit var binding: ActivityMainBinding
     lateinit var drawerLayout: DrawerLayout
     lateinit var navigationView: NavigationView
@@ -41,8 +42,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding= ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        mFusedLocationClient= LocationServices.getFusedLocationProviderClient(this)
-        drawerLayout=binding.drawerLayout
+       /* mFusedLocationClient= LocationServices.getFusedLocationProviderClient(this)
+        */drawerLayout=binding.drawerLayout
         navigationView=binding.navigationView
 
         actionBar=supportActionBar as ActionBar
@@ -69,26 +70,27 @@ class MainActivity : AppCompatActivity() {
             true
         }*/
         NavigationUI.setupWithNavController(navigationView,navController)
+
         if(shared.getString("location","GPS")=="GPS") {
-            getLastLocation()
+          //  getLastLocation()
         }
     }
 
     override fun onResume() {
         super.onResume()
         if(shared.getString("location","GPS")=="GPS") {
-            getLastLocation()
+           // getLastLocation()
         }
     }
 
     override fun onStart() {
         super.onStart()
         if(shared.getString("location","GPS")=="GPS") {
-            getLastLocation()
+          //  getLastLocation()
         }
     }
 
-    @SuppressLint("MissingPermission")
+ /*   @SuppressLint("MissingPermission")
     private fun getLastLocation(){
         if(checkPermissions()){
             if(isLocationEnabled()){
@@ -141,7 +143,7 @@ class MainActivity : AppCompatActivity() {
             editor.commit()
 
         }
-    }
+    }*/
     //////////////////////////////////////////////////////////////////////////////////////////////
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

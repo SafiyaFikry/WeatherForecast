@@ -13,22 +13,6 @@ import kotlinx.coroutines.launch
 class ViewModelAlerts(private val repo: RepositoryInterface): ViewModel() {
     private  var _alertsDB: MutableLiveData<List<AlertsDB>> = MutableLiveData<List<AlertsDB>>()
     val alertsDB : LiveData<List<AlertsDB>> = _alertsDB
-    companion object {
-        var destination: String = "home"
-      //  var dateTime: String = ""
-    }
-    fun setDes(des:String){
-        destination=des
-    }
-    fun getDes():String{
-        return destination
-    }
-//    fun setDateTime(dt:String){
-//        dateTime=dt
-//    }
-//    fun getDateTime():String{
-//        return dateTime
-//    }
     init {
         getLocalAlerts()
     }

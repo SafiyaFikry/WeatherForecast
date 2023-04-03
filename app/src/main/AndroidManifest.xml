@@ -20,11 +20,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.WeatherApp"
         tools:targetApi="31">
-        <service
-            android:name=".WeatherAlertService"
-            android:enabled="true"
-            android:exported="true"></service>
-
+        <activity
+            android:name=".WelcomeAndPermission"
+            android:exported="false" />
         <activity
             android:name=".splashScreen.SplashScreen"
             android:exported="true">
@@ -36,9 +34,9 @@
         </activity>
         <activity
             android:name=".MainActivity"
-            android:exported="false"></activity>
+            android:exported="false" />
 
-        <receiver android:name=".alertScreen.view.AlertReceiver" />
+        <receiver android:name=".alertScreen.view.AlertReceiver"></receiver>
     </application>
 
 </manifest>

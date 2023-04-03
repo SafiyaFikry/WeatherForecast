@@ -1,23 +1,33 @@
 package eg.gov.iti.jets.weatherapp.homeScreen.view
 
+import android.Manifest
+import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
+import android.content.pm.PackageManager
 import android.location.Address
 import android.location.Geocoder
+import android.location.Location
+import android.location.LocationManager
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
 import android.os.Bundle
+import android.os.Looper
+import android.provider.Settings
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.core.app.ActivityCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.google.android.gms.location.*
 import eg.gov.iti.jets.weatherapp.R
 import eg.gov.iti.jets.weatherapp.database.ConcreteLocalSource
 import eg.gov.iti.jets.weatherapp.databinding.FragmentHomeBinding
@@ -33,6 +43,8 @@ import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.math.roundToInt
+const val PERMISSION_ID=55
+lateinit var mFusedLocationClient: FusedLocationProviderClient
 class HomeFragment : Fragment() {
 
     lateinit var viewModelHome: ViewModelHome
@@ -59,28 +71,34 @@ class HomeFragment : Fragment() {
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        mFusedLocationClient= LocationServices.getFusedLocationProviderClient(requireContext())
         binding.addAnotherLocationBtn.setOnClickListener {
             Navigation.findNavController(it).navigate(R.id.mapFragment)
         }
         geocoder= Geocoder(requireContext().applicationContext)
-       // shared= PreferenceManager.getDefaultSharedPreferences(requireContext())
+
         val location= shared.getString("location","GPS")
         val language= shared.getString("language","English")
         val temperature= shared.getString("temperature","Celsius")
         val windSpeed= shared.getString("windSpeed","m/s")
 
+        if (location=="GPS"){
+            getLastLocation()
+        }
+
+        viewModelFactoryHome = ViewModelFactoryHome(Repository.getInstance(WeatherClient.getInstance(),
+            ConcreteLocalSource(requireContext().applicationContext)
+        ))
+        viewModelHome = ViewModelProvider(this, viewModelFactoryHome).get(ViewModelHome::class.java)
+
         val lat=shared.getString("lat","33.44")
         val lon=shared.getString("lon","-94.04")
-
         val lang=if (language=="English"){
             "en"
         }else{
             "ar"
         }
-        viewModelFactoryHome = ViewModelFactoryHome(Repository.getInstance(WeatherClient.getInstance(),
-            ConcreteLocalSource(requireContext().applicationContext)
-        ))
-        viewModelHome = ViewModelProvider(this, viewModelFactoryHome).get(ViewModelHome::class.java)
+
         if(checkForInternet(requireContext().applicationContext)) {
             viewModelHome.getWeatherDetails(lat!!.toDouble(),lon!!.toDouble(),lang)
 
@@ -230,6 +248,61 @@ class HomeFragment : Fragment() {
             activeNetwork.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> true
             activeNetwork.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> true
             else -> false
+        }
+    }
+
+    @SuppressLint("MissingPermission")
+    private fun getLastLocation(){
+        if(checkPermissions()){
+            if(isLocationEnabled()){
+                requestNewLocationData()
+            }
+            else{
+                Toast.makeText(requireContext(),"Turn on location", Toast.LENGTH_SHORT).show()
+                val intent= Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
+                startActivity(intent)
+            }
+        }
+        else{
+            requestPermissions()
+        }
+    }
+    private fun checkPermissions():Boolean{
+        return ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION
+        )== PackageManager.PERMISSION_GRANTED ||
+                ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION
+                )== PackageManager.PERMISSION_GRANTED
+    }
+    private  fun requestPermissions(){
+        ActivityCompat.requestPermissions(requireActivity(),
+            arrayOf(
+                Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION
+            ),
+            PERMISSION_ID
+        )
+    }
+    private fun isLocationEnabled():Boolean{
+        val locationManager: LocationManager = requireActivity().getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        return  locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)||locationManager.isProviderEnabled(
+            LocationManager.NETWORK_PROVIDER)
+    }
+    @SuppressLint("MissingPermission")
+    private fun requestNewLocationData() {
+        val mLocationRequest= LocationRequest()
+        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
+        mLocationRequest.setInterval(0)
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
+        mFusedLocationClient.requestLocationUpdates(mLocationRequest,mLoactionCallback, Looper.myLooper())
+
+    }
+    private  val mLoactionCallback: LocationCallback =object : LocationCallback(){
+        override fun onLocationResult(locationResult: LocationResult) {
+            val mLastLocation: Location =locationResult.lastLocation
+            val editor= shared.edit()
+            editor.putString("lat",mLastLocation.latitude.toString())
+            editor.putString("lon",mLastLocation.longitude.toString())
+            editor.commit()
+
         }
     }
 }

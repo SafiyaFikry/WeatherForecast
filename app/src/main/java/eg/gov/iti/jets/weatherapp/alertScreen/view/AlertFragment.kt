@@ -45,11 +45,8 @@ class AlertFragment : Fragment() {
     lateinit var alertsAdapter: AlertsAdapter
     lateinit var homeFactory: ViewModelFactoryHome
     lateinit var homeViewModel: ViewModelHome
-    var timestamp = 0
-    lateinit var dateTime: String
     var startDate = 0L
     var endDate = 0L
-    val c = Calendar.getInstance()
     lateinit var address: MutableList<Address>
     lateinit var geocoder: Geocoder
     lateinit var des: String
@@ -225,11 +222,13 @@ class AlertFragment : Fragment() {
                             )
                         )
                         //startAlarm(startDate, "alert",alertsViewModel.alertsDB.value!!.size+1)
-                        startAlarm(
-                            startDate,
-                            "alert",
+                        val id=if (alertsViewModel.alertsDB.value==null){
+                            0
+                        }
+                        else{
                             alertsViewModel.alertsDB.value!![alertsViewModel.alertsDB.value!!.size-1].id+1
-                        )
+                        }
+                        startAlarm(startDate, "alert", id)
                     } else {
                         alertsViewModel.insertAlert(
                             AlertsDB(
@@ -246,10 +245,16 @@ class AlertFragment : Fragment() {
                             )
                         )
                         //startAlarm(startDate, "notification",alertsViewModel.alertsDB.value!!.size+1)
+                        val id=if (alertsViewModel.alertsDB.value==null){
+                            1
+                        }
+                        else{
+                            alertsViewModel.alertsDB.value!![alertsViewModel.alertsDB.value!!.size-1].id+1
+                        }
                         startAlarm(
                             startDate,
                             "notification",
-                            alertsViewModel.alertsDB.value!![alertsViewModel.alertsDB.value!!.size - 1].id+1
+                            id
                         )
                     }
                 }

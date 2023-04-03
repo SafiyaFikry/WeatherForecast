@@ -102,7 +102,7 @@ class AlertReceiver:BroadcastReceiver()  {
             WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
             PixelFormat.TRANSLUCENT
         )
-        layoutParams.gravity = Gravity.TOP
+        layoutParams.gravity = Gravity.CENTER
         val windowManager = context.getSystemService(WINDOW_SERVICE) as WindowManager
         windowManager.let {
             it.addView(view, layoutParams)

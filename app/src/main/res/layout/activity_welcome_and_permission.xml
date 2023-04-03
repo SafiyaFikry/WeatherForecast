@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/carolina"
+    tools:context=".welcomeAndPermission.WelcomeAndPermission">
+
+    <TextView
+        android:id="@+id/rule_TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:fontFamily="casual"
+        android:text="@string/permissions"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="@+id/Welcome_TextView"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="@+id/Welcome_TextView"
+        app:layout_constraintTop_toBottomOf="@+id/Welcome_TextView" />
+
+    <Button
+        android:id="@+id/LetsGo_Btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="@string/lets_go"
+        android:backgroundTint="@color/steel"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:fontFamily="casual"
+        app:layout_constraintEnd_toEndOf="@+id/rule_TextView"
+        app:layout_constraintStart_toStartOf="@+id/rule_TextView"
+        app:layout_constraintTop_toBottomOf="@+id/rule_TextView" />
+
+    <TextView
+        android:id="@+id/Welcome_TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
+        android:fontFamily="casual"
+        android:text="@string/welcome"
+        android:textColor="@color/white"
+        android:textSize="25dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

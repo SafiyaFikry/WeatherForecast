@@ -67,7 +67,8 @@ class FavoriteFragment : Fragment() {
             }
         }
         binding.favoriteFloatingActionButton.setOnClickListener{
-            viewModel.setDes("fav")
+            //viewModel.setDes("fav")
+            ViewModelFavorite.destination="fav"
             Navigation.findNavController(it).navigate(R.id.mapFragment)
         }
     }
