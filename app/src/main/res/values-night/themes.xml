@@ -2,7 +2,7 @@
     <!-- Base application theme. -->
     <style name="Theme.WeatherApp" parent="Theme.MaterialComponents.Light.DarkActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/steel</item>
+        <item name="colorPrimary">@color/carolina</item>
         <item name="colorPrimaryVariant">@color/steel</item>
         <item name="colorOnPrimary">@color/steel</item>
         <!-- Secondary brand color. -->

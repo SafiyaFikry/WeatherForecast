@@ -195,43 +195,29 @@ class AlertFragment : Fragment() {
             val lon=shared.getString("lon","-94.04")
             address = geocoder.getFromLocation(lat!!.toDouble(),lon!!.toDouble(), 10) as MutableList<Address>
             des = "${address[0].adminArea} - ${address[0].countryName}"
-            if(selectedOption=="Alert"){
-                alertsViewModel.insertAlert(AlertsDB(countryName = des, startDateTime =SimpleDateFormat("dd/MM/YYYY hh:mm a").format(Date(startDate)) , endDateTime = SimpleDateFormat("dd/MM/YYYY hh:mm").format(Date(endDate)), type = "alert"))
-                homeViewModel.retrievedRoot.observe(viewLifecycleOwner){ root->
-                    if(root.alerts==null||root.alerts.isEmpty()){
-                        startAlarm(startDate,des,"empty")
-                    }
-                    else{
-                        if ((startDate>=root.alerts[0].start&&startDate<root.alerts[0].end)&&(endDate<=root.alerts[0].end&&endDate>root.alerts[0].start)){
-                            startAlarm(startDate,des,root.alerts[0].event)
-                        }
-                    }
-                }
+            if(start_ed.text=="From"||end_ed.text=="To"){
+                Toast.makeText(requireContext(),"you forgot to enter (From) and (To) Date and Time !!",Toast.LENGTH_LONG).show()
             }
             else{
-                alertsViewModel.insertAlert(AlertsDB(countryName = des, startDateTime = SimpleDateFormat("dd/MM/YYYY hh:mm a").format(Date(startDate)), endDateTime = SimpleDateFormat("dd/MM/YYYY hh:mm").format(Date(endDate)), type = "notification"))
-                homeViewModel.retrievedRoot.observe(viewLifecycleOwner){ root->
-                    if(root.alerts==null||root.alerts.isEmpty()){
-                        startAlarm(startDate,des,"empty")
-                    }
-                    else{
-                        if ((startDate>=root.alerts[0].start&&startDate<root.alerts[0].end)&&(endDate<=root.alerts[0].end&&endDate>root.alerts[0].start)){
-                            startAlarm(startDate,des,root.alerts[0].event)
-                        }
-                    }
+                if(selectedOption=="Alert"){
+                    alertsViewModel.insertAlert(AlertsDB(countryName = des, startDateTime =SimpleDateFormat("dd/MM/YYYY hh:mm a").format(Date(startDate)) , endDateTime = SimpleDateFormat("dd/MM/YYYY hh:mm a").format(Date(endDate)), type = "alert"))
+                   startAlarm(startDate,"alert")
+                }
+                else{
+                    alertsViewModel.insertAlert(AlertsDB(countryName = des, startDateTime = SimpleDateFormat("dd/MM/YYYY hh:mm a").format(Date(startDate)), endDateTime = SimpleDateFormat("dd/MM/YYYY hh:mm a").format(Date(endDate)), type = "notification"))
+                    startAlarm(startDate,"notification")
                 }
             }
         }
 
         .create().show()
     }
-    fun startAlarm(c:Long,city:String,alertName:String){
+    fun startAlarm(time:Long,type:String){
         var alarmManger = requireContext().getSystemService(Context.ALARM_SERVICE) as AlarmManager
         val intent= Intent(requireContext(),AlertReceiver::class.java)
-        intent.putExtra("city",city)
-        intent.putExtra("alertName",alertName)
+        intent.putExtra("type",type)
         var pendingIntent:PendingIntent= PendingIntent.getBroadcast(requireContext(),1,intent,0)
-        alarmManger.setExact(AlarmManager.RTC_WAKEUP,c,pendingIntent)
+        alarmManger.setExact(AlarmManager.RTC_WAKEUP,time,pendingIntent)
 
     }
     fun cancelAlarm(){
