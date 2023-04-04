@@ -9,25 +9,25 @@
             android:id="@+id/homeFragment"
             android:enabled="true"
             android:icon="@drawable/home"
-            android:title="Home" />
+            android:title="@string/home" />
 
         <item
             android:id="@+id/favoriteFragment"
             android:enabled="true"
             android:icon="@drawable/favorite"
-            android:title="Favorites"/>
+            android:title="@string/favorite"/>
 
         <item
             android:id="@+id/alertFragment"
             android:enabled="true"
             android:icon="@drawable/baseline_notifications_24"
-            android:title="Alerts"/>
+            android:title="@string/alert"/>
 
         <item
             android:id="@+id/settingsFragment"
             android:enabled="true"
             android:icon="@drawable/settings"
-            android:title="Settings"/>
+            android:title="@string/settings"/>
 
     </group>
 </menu>

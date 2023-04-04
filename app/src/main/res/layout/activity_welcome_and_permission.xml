@@ -49,4 +49,18 @@
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/next_Btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/steel"
+        android:fontFamily="casual"
+        android:text="@string/next"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="@+id/LetsGo_Btn"
+        app:layout_constraintStart_toStartOf="@+id/LetsGo_Btn"
+        app:layout_constraintTop_toBottomOf="@+id/LetsGo_Btn" />
 </androidx.constraintlayout.widget.ConstraintLayout>

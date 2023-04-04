@@ -28,9 +28,10 @@ import eg.gov.iti.jets.weatherapp.databinding.ActivityMainBinding
 import eg.gov.iti.jets.weatherapp.splashScreen.shared
 import eg.gov.iti.jets.weatherapp.R
 import eg.gov.iti.jets.weatherapp.homeScreen.view.MapFragment
+import java.util.*
 
-/*const val PERMISSION_ID=55
-lateinit var mFusedLocationClient: FusedLocationProviderClient*/
+const val PERMISSION_ID=55
+lateinit var mFusedLocationClient: FusedLocationProviderClient
 class MainActivity : AppCompatActivity() {
 
     lateinit var binding: ActivityMainBinding
@@ -42,8 +43,9 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding= ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-       /* mFusedLocationClient= LocationServices.getFusedLocationProviderClient(this)
-        */drawerLayout=binding.drawerLayout
+
+        mFusedLocationClient= LocationServices.getFusedLocationProviderClient(this)
+        drawerLayout=binding.drawerLayout
         navigationView=binding.navigationView
 
         actionBar=supportActionBar as ActionBar
@@ -54,16 +56,21 @@ class MainActivity : AppCompatActivity() {
         navController=Navigation.findNavController(this,R.id.nav_host_fragment)
         navController.addOnDestinationChangedListener{ controller, destination, arguments ->
             title = when (destination.id) {
-                R.id.homeFragment -> "Home"
-                R.id.alertFragment-> "Alerts"
-                R.id.favoriteFragment-> "Favorites"
-                R.id.settingsFragment->"Settings"
-                R.id.mapFragment->"Map"
-                R.id.favDetailsFragment->"Favorites"
-                else->"Weather Forecast"
+              //  if(shared.getString("language","English")==)
+                R.id.homeFragment ->{getLastLocation();getResources().getString(R.string.home);}
+                R.id.alertFragment-> getResources().getString(R.string.alert);
+                R.id.favoriteFragment-> getResources().getString(R.string.favorite);
+                R.id.settingsFragment->getResources().getString(R.string.settings);
+                R.id.mapFragment->getResources().getString(R.string.Map);
+                R.id.favDetailsFragment->getResources().getString(R.string.favorite);
+                else->getResources().getString(R.string.app_name);
             }
         }
-
+       /* if (shared.getString("language","English")=="English") {
+            setLanguage(this, "en")
+        }else{
+            setLanguage(this,"ar")
+        }*/
        /* binding.navigationView.menu.getItem(1).setOnMenuItemClickListener {
             navController.navigate(R.id.favoriteFragment)
             drawerLayout.closeDrawer(GravityCompat.START)
@@ -74,25 +81,28 @@ class MainActivity : AppCompatActivity() {
         if(shared.getString("location","GPS")=="Map") {
             navController.navigate(R.id.mapFragment)
         }
+        else if(shared.getString("location","GPS")=="GPS") {
+            getLastLocation()
+        }
     }
 
-/*
+
     override fun onResume() {
         super.onResume()
         if(shared.getString("location","GPS")=="GPS") {
-           // getLastLocation()
+            getLastLocation()
         }
     }
 
     override fun onStart() {
         super.onStart()
         if(shared.getString("location","GPS")=="GPS") {
-          //  getLastLocation()
+            getLastLocation()
         }
     }
-*/
 
- /*   @SuppressLint("MissingPermission")
+
+    @SuppressLint("MissingPermission")
     private fun getLastLocation(){
         if(checkPermissions()){
             if(isLocationEnabled()){
@@ -145,7 +155,7 @@ class MainActivity : AppCompatActivity() {
             editor.commit()
 
         }
-    }*/
+    }
     //////////////////////////////////////////////////////////////////////////////////////////////
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -183,8 +193,16 @@ class MainActivity : AppCompatActivity() {
               }
           }
           .create().show()
-  }
-*/
+  }*/
+    fun setLanguage(context: Context, lang:String)
+    {
+        val locale = Locale(lang)
+        Locale.setDefault(locale)
+        val resource = context.resources
+        val config = resource.configuration
+        config.setLocale(locale)
+        resource.updateConfiguration(config, resource.displayMetrics)
+    }
 }
 
 

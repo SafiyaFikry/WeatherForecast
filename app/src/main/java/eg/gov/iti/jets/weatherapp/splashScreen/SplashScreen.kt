@@ -29,8 +29,8 @@ class SplashScreen : AppCompatActivity() {
             editor.putString("language", "English")
             editor.putString("windSpeed", "m/s")
             editor.putBoolean("notifications",false)
-            editor.putString("lon", "33.44")
-            editor.putString("lat", "-94.04")
+            editor.putString("lat", "33.44")
+            editor.putString("lon", "-94.04")
             editor.commit()
         }
         Handler().postDelayed(object : Runnable {

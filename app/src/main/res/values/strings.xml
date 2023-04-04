@@ -37,7 +37,7 @@
     <string name="no_alerts_yet">No Alerts Yet</string>
 
     <string-array name="language">
-        <item>Arabic</item>
+        <item>"Arabic"</item>
         <item>English</item>
     </string-array>
     <string-array name="location">
@@ -65,4 +65,12 @@
     <string name="lets_go" >Let\'s Go!</string>
     <string name="welcome">Welcome to Weather Forecast</string>
     <string name="permissions">1- You have to choose between get location by \"Map\" or \"GPS\".\n   ( Don\'t worry you can change this later from settings. )\n2- You can add places to favorites.\n3- You can add Alert/notification to the chosen place.\n</string>
+    <string name="next">Next</string>
+    <string name="location">Location</string>
+    <string name="language">Language</string>
+    <string name="notifications">Notifications</string>
+    <string name="Temperature_Unit">Temperature Unit</string>
+    <string name="wind_speed">Wind Speed Unit</string>
+    <string name="unit">Units</string>
+    <string name="prefernces">Preferences</string>
 </resources>

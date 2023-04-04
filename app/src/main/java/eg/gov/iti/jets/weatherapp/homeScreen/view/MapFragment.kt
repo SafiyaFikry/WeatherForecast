@@ -52,11 +52,8 @@ class MapFragment : Fragment() {
 
     lateinit var binding:FragmentMapBinding
     lateinit var myPoint:Point
-    lateinit var destination: String
     lateinit var favFactory: ViewModelFactoryFavorites
     lateinit var viewModelFav:ViewModelFavorite
-    lateinit var alertsFactory: ViewModelFactoryAlerts
-    lateinit var viewModelAlerts:ViewModelAlerts
     lateinit var address:MutableList<Address>
     lateinit var geocoder: Geocoder
     lateinit var des:String
@@ -76,27 +73,21 @@ class MapFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        destination=""
+
         favFactory= ViewModelFactoryFavorites(
             Repository.getInstance(
                 WeatherClient.getInstance(),
             ConcreteLocalSource(requireContext().applicationContext)
         ))
         viewModelFav= ViewModelProvider(this,favFactory).get(ViewModelFavorite::class.java)
-        alertsFactory= ViewModelFactoryAlerts(
-            Repository.getInstance(
-                WeatherClient.getInstance(),
-                ConcreteLocalSource(requireContext().applicationContext)
-            ))
-        viewModelAlerts= ViewModelProvider(this,alertsFactory).get(ViewModelAlerts::class.java)
 
         geocoder= Geocoder(requireContext().applicationContext)
         //shared= PreferenceManager.getDefaultSharedPreferences(requireContext().applicationContext)
         binding.mapView.getMapboxMap().loadStyleUri(Style.MAPBOX_STREETS)
-       /* val camera=CameraOptions.Builder()
+      /*  val camera=CameraOptions.Builder()
             .center(Point.fromLngLat(shared.getString("lat","33.44")!!.toDouble(),shared.getString("lon","-94.04")!!.toDouble())).zoom(6.5).build()
-        binding.mapView.getMapboxMap().setCamera(camera)*/
-        binding.mapView.getMapboxMap().addOnMapLongClickListener { point ->
+        binding.mapView.getMapboxMap().setCamera(camera)
+      */  binding.mapView.getMapboxMap().addOnMapLongClickListener { point ->
             binding.mapView.annotations.cleanup()
             binding.setLocationBtn.visibility = View.VISIBLE
             addAnnotationToMap(point)
@@ -123,6 +114,7 @@ class MapFragment : Fragment() {
                 Toast.makeText(requireContext(),"nothing",Toast.LENGTH_SHORT).show()
             }*/
             if(ViewModelFavorite.destination=="home") {
+                println("entered+++++++++++++++++++++++")
                 val editor=shared.edit()
                 editor.putString("lat",myPoint.latitude().toString())
                 editor.putString("lon",myPoint.longitude().toString())

@@ -1,5 +1,7 @@
 package eg.gov.iti.jets.weatherapp.settingsScreen
 
+import android.annotation.SuppressLint
+import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.text.TextUtils
@@ -20,6 +22,7 @@ import com.google.android.gms.location.LocationServices
 import eg.gov.iti.jets.weatherapp.R
 import eg.gov.iti.jets.weatherapp.databinding.FragmentSettingsBinding
 import eg.gov.iti.jets.weatherapp.homeScreen.view.MapFragment
+import java.util.*
 
 class SettingsFragment : Fragment() {
     lateinit var binding:FragmentSettingsBinding
@@ -39,7 +42,7 @@ class SettingsFragment : Fragment() {
     class MySettingsFragment : PreferenceFragmentCompat() {
         override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
             setPreferencesFromResource(R.xml.pref_settings, rootKey)
-            val mapPreference=findPreference<ListPreference>("location")
+           val mapPreference=findPreference<ListPreference>("location")
                 mapPreference?.setOnPreferenceChangeListener(Preference.OnPreferenceChangeListener{preference,newValue->
                     val radio=newValue.toString()
                     if (radio=="Map"){
@@ -47,7 +50,37 @@ class SettingsFragment : Fragment() {
                     }
                     true
                 })
+            val langPreference=findPreference<ListPreference>("language")
+            langPreference?.setOnPreferenceChangeListener(Preference.OnPreferenceChangeListener{preference,newValue->
+                val radio=newValue.toString()
+                if (radio=="English"){
+                    SettingsFragment().setLanguage(requireContext(),"en")
+                    activity?.recreate()
+                }
+                else if(radio=="Arabic"){
+                    SettingsFragment().setLanguage(requireContext(),"ar")
+                    activity?.recreate()
+                }
+                else if(radio=="العربيه"){
+                    SettingsFragment().setLanguage(requireContext(),"ar")
+                    activity?.recreate()
+                }
+                else if(radio=="الانجليزيه"){
+                    SettingsFragment().setLanguage(requireContext(),"en")
+                    activity?.recreate()
+                }
+                true
+            })
         }
+    }
+    fun setLanguage(context: Context, lang:String)
+    {
+        val locale = Locale(lang)
+        Locale.setDefault(locale)
+        val resource = context.resources
+        val config = resource.configuration
+        config.setLocale(locale)
+        resource.updateConfiguration(config, resource.displayMetrics)
     }
 }
 

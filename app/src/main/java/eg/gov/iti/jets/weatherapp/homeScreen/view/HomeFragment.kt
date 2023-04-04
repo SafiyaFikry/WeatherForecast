@@ -68,10 +68,10 @@ class HomeFragment : Fragment() {
         return binding.root
     }
 
-    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         mFusedLocationClient= LocationServices.getFusedLocationProviderClient(requireContext())
+
         binding.addAnotherLocationBtn.setOnClickListener {
             Navigation.findNavController(it).navigate(R.id.mapFragment)
         }
@@ -82,9 +82,9 @@ class HomeFragment : Fragment() {
         val temperature= shared.getString("temperature","Celsius")
         val windSpeed= shared.getString("windSpeed","m/s")
 
-        if (location=="GPS"){
-            getLastLocation()
-        }
+       /* if (location=="GPS"){
+            requestNewLocationData()
+        }*/
 
         viewModelFactoryHome = ViewModelFactoryHome(Repository.getInstance(WeatherClient.getInstance(),
             ConcreteLocalSource(requireContext().applicationContext)
@@ -93,13 +93,19 @@ class HomeFragment : Fragment() {
 
         val lat=shared.getString("lat","33.44")
         val lon=shared.getString("lon","-94.04")
+
         val lang=if (language=="English"){
+           // setLanguage(requireContext(),"en")
             "en"
+
         }else{
+           // setLanguage(requireContext(),"ar")
             "ar"
         }
 
         if(checkForInternet(requireContext().applicationContext)) {
+            println("############ lat : "+lat)
+            println("############ lon : "+lon)
             viewModelHome.getWeatherDetails(lat!!.toDouble(),lon!!.toDouble(),lang)
 
             lifecycleScope.launch {
@@ -251,7 +257,7 @@ class HomeFragment : Fragment() {
         }
     }
 
-    @SuppressLint("MissingPermission")
+ /*   @SuppressLint("MissingPermission")
     private fun getLastLocation(){
         if(checkPermissions()){
             if(isLocationEnabled()){
@@ -304,5 +310,14 @@ class HomeFragment : Fragment() {
             editor.commit()
 
         }
-    }
+    }*/
+ fun setLanguage(context: Context, lang:String)
+ {
+     val locale = Locale(lang)
+     Locale.setDefault(locale)
+     val resource = context.resources
+     val config = resource.configuration
+     config.setLocale(locale)
+     resource.updateConfiguration(config, resource.displayMetrics)
+ }
 }

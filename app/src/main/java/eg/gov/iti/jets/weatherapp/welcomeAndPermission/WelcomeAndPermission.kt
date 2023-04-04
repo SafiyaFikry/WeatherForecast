@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Looper
 import android.provider.Settings
+import android.view.View
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import com.google.android.gms.location.*
@@ -30,7 +31,14 @@ class WelcomeAndPermission : AppCompatActivity() {
          mFusedLocationClient= LocationServices.getFusedLocationProviderClient(this)
 
         binding.LetsGoBtn.setOnClickListener {
+            binding.LetsGoBtn.visibility= View.GONE
+            binding.nextBtn.visibility= View.VISIBLE
             showRadioConfirmationDialog()
+        }
+        binding.nextBtn.setOnClickListener {
+            getLastLocation()
+            val intent=Intent(this@WelcomeAndPermission, MainActivity::class.java)
+            startActivity(intent)
         }
     }
     fun showRadioConfirmationDialog() {
@@ -45,20 +53,18 @@ class WelcomeAndPermission : AppCompatActivity() {
                 selectedOption = option[which]
             }
             .setPositiveButton("Ok") { dialog, which ->
-                Toast.makeText(this, "$selectedOption Selected", Toast.LENGTH_SHORT)
-                    .show()
                 if(selectedOption=="GPS"){
                     editor.putString("location","GPS")
                     editor.commit()
-                    val intent=Intent(this@WelcomeAndPermission, MainActivity::class.java)
-                    startActivity(intent)
+                    getLastLocation()
+                    getLastLocation()
                 }
                 else{
                     editor.putString("location","Map")
                     editor.commit()
-                    val intent=Intent(this@WelcomeAndPermission, MainActivity::class.java)
-                    startActivity(intent)
                 }
+                Toast.makeText(this, "$selectedOption Selected", Toast.LENGTH_SHORT)
+                .show()
             }
             .create().show()
     }
