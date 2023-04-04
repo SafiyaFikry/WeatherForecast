@@ -65,7 +65,7 @@
     <string name="lets_go" >هيا بنا!</string>
     <string name="welcome">مرحبا فى النشره الجويه</string>
     <string name="permissions">1- عليك الاختيار بين الحصول على الموقع عن طريق \ "خريطة \" أو \ "القمر الصناعى \".\n  (لا تقلق ، يمكنك تغيير هذا لاحقًا من الإعدادات.) \ n2- يمكنك إضافة أماكن إلى المفضلة. \ n3- يمكنك إضافة تنبيه / إعلام إلى المكان المختار. \ n</string>
-    <string name="next">التالى</string>
+    <string name="take_permission">اعطاء الاذن</string>
     <string name="location">الموقع</string>
     <string name="language">اللغه</string>
     <string name="notifications">الاشعارات</string>

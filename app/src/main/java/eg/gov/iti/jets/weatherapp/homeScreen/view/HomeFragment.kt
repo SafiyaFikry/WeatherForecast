@@ -43,8 +43,6 @@ import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.math.roundToInt
-const val PERMISSION_ID=55
-lateinit var mFusedLocationClient: FusedLocationProviderClient
 class HomeFragment : Fragment() {
 
     lateinit var viewModelHome: ViewModelHome
@@ -55,7 +53,6 @@ class HomeFragment : Fragment() {
     lateinit var address:MutableList<Address>
     lateinit var geocoder: Geocoder
     lateinit var des:String
-   // lateinit var shared:SharedPreferences
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -70,7 +67,6 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        mFusedLocationClient= LocationServices.getFusedLocationProviderClient(requireContext())
 
         binding.addAnotherLocationBtn.setOnClickListener {
             Navigation.findNavController(it).navigate(R.id.mapFragment)
@@ -82,10 +78,6 @@ class HomeFragment : Fragment() {
         val temperature= shared.getString("temperature","Celsius")
         val windSpeed= shared.getString("windSpeed","m/s")
 
-       /* if (location=="GPS"){
-            requestNewLocationData()
-        }*/
-
         viewModelFactoryHome = ViewModelFactoryHome(Repository.getInstance(WeatherClient.getInstance(),
             ConcreteLocalSource(requireContext().applicationContext)
         ))
@@ -93,7 +85,8 @@ class HomeFragment : Fragment() {
 
         val lat=shared.getString("lat","33.44")
         val lon=shared.getString("lon","-94.04")
-
+        println("++++++++++++ lat : "+lat)
+        println("++++++++++++ lon : "+lon)
         val lang=if (language=="English"){
            // setLanguage(requireContext(),"en")
             "en"
@@ -107,7 +100,6 @@ class HomeFragment : Fragment() {
             println("############ lat : "+lat)
             println("############ lon : "+lon)
             viewModelHome.getWeatherDetails(lat!!.toDouble(),lon!!.toDouble(),lang)
-
             lifecycleScope.launch {
                 viewModelHome.root.collectLatest { root ->
                     when (root) {
@@ -129,9 +121,6 @@ class HomeFragment : Fragment() {
             }
         }
         else{
-           /* Toast.makeText(requireContext().applicationContext,"Turn on WIFI", Toast.LENGTH_SHORT).show()
-            val intent= Intent(Settings.ACTION_WIFI_SETTINGS)
-            startActivity(intent)*/
             viewModelHome.retrievedRoot.observe(viewLifecycleOwner){ root->
                 if(root!=null){
                     setSuccessStatus(location,temperature,windSpeed,root)
@@ -257,60 +246,6 @@ class HomeFragment : Fragment() {
         }
     }
 
- /*   @SuppressLint("MissingPermission")
-    private fun getLastLocation(){
-        if(checkPermissions()){
-            if(isLocationEnabled()){
-                requestNewLocationData()
-            }
-            else{
-                Toast.makeText(requireContext(),"Turn on location", Toast.LENGTH_SHORT).show()
-                val intent= Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
-                startActivity(intent)
-            }
-        }
-        else{
-            requestPermissions()
-        }
-    }
-    private fun checkPermissions():Boolean{
-        return ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION
-        )== PackageManager.PERMISSION_GRANTED ||
-                ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION
-                )== PackageManager.PERMISSION_GRANTED
-    }
-    private  fun requestPermissions(){
-        ActivityCompat.requestPermissions(requireActivity(),
-            arrayOf(
-                Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION
-            ),
-            PERMISSION_ID
-        )
-    }
-    private fun isLocationEnabled():Boolean{
-        val locationManager: LocationManager = requireActivity().getSystemService(Context.LOCATION_SERVICE) as LocationManager
-        return  locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)||locationManager.isProviderEnabled(
-            LocationManager.NETWORK_PROVIDER)
-    }
-    @SuppressLint("MissingPermission")
-    private fun requestNewLocationData() {
-        val mLocationRequest= LocationRequest()
-        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
-        mLocationRequest.setInterval(0)
-        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
-        mFusedLocationClient.requestLocationUpdates(mLocationRequest,mLoactionCallback, Looper.myLooper())
-
-    }
-    private  val mLoactionCallback: LocationCallback =object : LocationCallback(){
-        override fun onLocationResult(locationResult: LocationResult) {
-            val mLastLocation: Location =locationResult.lastLocation
-            val editor= shared.edit()
-            editor.putString("lat",mLastLocation.latitude.toString())
-            editor.putString("lon",mLastLocation.longitude.toString())
-            editor.commit()
-
-        }
-    }*/
  fun setLanguage(context: Context, lang:String)
  {
      val locale = Locale(lang)

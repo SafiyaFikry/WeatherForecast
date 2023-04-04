@@ -56,33 +56,51 @@ class MainActivity : AppCompatActivity() {
         navController=Navigation.findNavController(this,R.id.nav_host_fragment)
         navController.addOnDestinationChangedListener{ controller, destination, arguments ->
             title = when (destination.id) {
-              //  if(shared.getString("language","English")==)
-                R.id.homeFragment ->{getLastLocation();getResources().getString(R.string.home);}
-                R.id.alertFragment-> getResources().getString(R.string.alert);
-                R.id.favoriteFragment-> getResources().getString(R.string.favorite);
-                R.id.settingsFragment->getResources().getString(R.string.settings);
-                R.id.mapFragment->getResources().getString(R.string.Map);
-                R.id.favDetailsFragment->getResources().getString(R.string.favorite);
+                R.id.homeFragment ->{
+                    if(shared.getString("location","GPS")=="GPS") {
+                        println("here--------------------------------")
+                        getLastLocation()
+                    }
+                    actionBar.setDisplayHomeAsUpEnabled(true)
+                    actionBar.setDisplayShowHomeEnabled(true)
+                    getResources().getString(R.string.home);
+                }
+                R.id.alertFragment-> {
+                    actionBar.setDisplayHomeAsUpEnabled(true)
+                    actionBar.setDisplayShowHomeEnabled(true)
+                    getResources().getString(R.string.alert)
+                };
+                R.id.favoriteFragment-> {
+                    actionBar.setDisplayHomeAsUpEnabled(true)
+                    actionBar.setDisplayShowHomeEnabled(true)
+                    getResources().getString(R.string.favorite);
+                }
+                R.id.settingsFragment-> {
+                    actionBar.setDisplayHomeAsUpEnabled(true)
+                    actionBar.setDisplayShowHomeEnabled(true)
+                    getResources().getString(R.string.settings);
+                }
+                R.id.mapFragment-> {
+                    actionBar.setDisplayHomeAsUpEnabled(false)
+                    actionBar.setDisplayShowHomeEnabled(false)
+                    getResources().getString(R.string.Map)
+                }
+                R.id.favDetailsFragment-> {
+                    actionBar.setDisplayHomeAsUpEnabled(false)
+                    actionBar.setDisplayShowHomeEnabled(false)
+                    getResources().getString(R.string.favorite)
+                }
                 else->getResources().getString(R.string.app_name);
             }
         }
-       /* if (shared.getString("language","English")=="English") {
-            setLanguage(this, "en")
-        }else{
-            setLanguage(this,"ar")
-        }*/
-       /* binding.navigationView.menu.getItem(1).setOnMenuItemClickListener {
-            navController.navigate(R.id.favoriteFragment)
-            drawerLayout.closeDrawer(GravityCompat.START)
-            true
-        }*/
         NavigationUI.setupWithNavController(navigationView,navController)
 
-        if(shared.getString("location","GPS")=="Map") {
+        if(shared.getString("location","GPS")=="Map"&&intent.extras?.getString("firstTime")=="true") {
             navController.navigate(R.id.mapFragment)
         }
         else if(shared.getString("location","GPS")=="GPS") {
             getLastLocation()
+            requestNewLocationData()
         }
     }
 
@@ -156,7 +174,6 @@ class MainActivity : AppCompatActivity() {
 
         }
     }
-    //////////////////////////////////////////////////////////////////////////////////////////////
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == android.R.id.home) {
@@ -167,41 +184,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
         return   super.onOptionsItemSelected(item)
-    }
-
-    /*  fun showRadioConfirmationDialog() {
-      var selectedOptionIndex= 0
-      val option = arrayOf("GPS", "Map")
-      var selectedOption = option[selectedOptionIndex]
-      MaterialAlertDialogBuilder(this)
-          .setTitle("Get Location by ?")
-          .setSingleChoiceItems(option, selectedOptionIndex) { dialog_, which ->
-              selectedOptionIndex = which
-              selectedOption = option[which]
-          }
-          .setPositiveButton("Ok") { dialog, which ->
-              Toast.makeText(this, "$selectedOption Selected", Toast.LENGTH_SHORT)
-                  .show()
-              if(selectedOption=="GPS"){
-                  editor.putString("location","GPS")
-                  editor.commit()
-                  getLastLocation()
-              }
-              else{
-                  editor.putString("location","Map")
-                  editor.commit()
-              }
-          }
-          .create().show()
-  }*/
-    fun setLanguage(context: Context, lang:String)
-    {
-        val locale = Locale(lang)
-        Locale.setDefault(locale)
-        val resource = context.resources
-        val config = resource.configuration
-        config.setLocale(locale)
-        resource.updateConfiguration(config, resource.displayMetrics)
     }
 }
 

@@ -41,6 +41,7 @@ class SplashScreen : AppCompatActivity() {
                 }
                 else{
                     val intent = Intent(this@SplashScreen, MainActivity::class.java)
+                    intent.putExtra("firstTime","false")
                     startActivity(intent)
                 }
             }

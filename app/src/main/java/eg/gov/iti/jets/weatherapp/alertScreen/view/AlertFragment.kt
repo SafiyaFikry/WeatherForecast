@@ -5,6 +5,7 @@ import android.app.DatePickerDialog
 import android.app.PendingIntent
 import android.app.TimePickerDialog
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.location.Address
 import android.location.Geocoder
@@ -32,6 +33,7 @@ import eg.gov.iti.jets.weatherapp.databinding.FragmentAlertBinding
 import eg.gov.iti.jets.weatherapp.homeScreen.viewModel.ViewModelFactoryHome
 import eg.gov.iti.jets.weatherapp.homeScreen.viewModel.ViewModelHome
 import eg.gov.iti.jets.weatherapp.model.AlertsDB
+import eg.gov.iti.jets.weatherapp.model.FavoritesDB
 import eg.gov.iti.jets.weatherapp.model.Repository
 import eg.gov.iti.jets.weatherapp.network.WeatherClient
 import eg.gov.iti.jets.weatherapp.splashScreen.shared
@@ -87,9 +89,7 @@ class AlertFragment : Fragment() {
             binding.imageView.visibility = View.GONE
             binding.textView.visibility = View.GONE
             alertsAdapter = AlertsAdapter(alerts) {
-                cancelAlarm(it.id)
-                alertsViewModel.deleteAlert(it)
-                alertsAdapter.notifyDataSetChanged()
+               showConfirmationDialog(it)
             }
             binding.alertRecyclerView.adapter = alertsAdapter
             alertsAdapter.notifyDataSetChanged()
@@ -150,117 +150,117 @@ class AlertFragment : Fragment() {
     }
 
     fun showRadioConfirmationDialog() {
-        var selectedOptionIndex = 0
-        val option = arrayOf("Alert", "Notification")
-        var selectedOption = option[selectedOptionIndex]
-        val inflater = requireActivity().layoutInflater
-        val myView = inflater.inflate(R.layout.alert_dialog, null)
-        val builder = MaterialAlertDialogBuilder(requireContext())
-        builder.setTitle("Type of Alert?")
-            .setView(myView)
-        val start_ed = myView.findViewById<Button>(R.id.startDate_Btn)
-        start_ed.setOnClickListener {
-            setDate {
-                startDate = it
-                start_ed.text = SimpleDateFormat("dd/MM/YYYY hh:mm a").format(Date(startDate))
-            }
+        if (!Settings.canDrawOverlays(requireContext())) {
+            Toast.makeText(
+                requireContext(),
+                "The alarm may be not work as expected",
+                Toast.LENGTH_SHORT
+            ).show()
+            val intent = Intent(
+                Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
+                Uri.parse("package:" + requireContext().packageName)
+            )
+            someActivityResultLauncher.launch(intent)
         }
-        val end_ed = myView.findViewById<Button>(R.id.endDate_Btn)
-        end_ed.setOnClickListener {
-            setDate {
-                endDate = it
-                end_ed.text = SimpleDateFormat("dd/MM/YYYY hh:mm a").format(Date(endDate))
-            }
-
-        }
-        builder.setSingleChoiceItems(option, selectedOptionIndex) { dialog_, which ->
-            selectedOptionIndex = which
-            selectedOption = option[which]
-        }
-            .setPositiveButton("Ok") { dialog, which ->
-
-                if (!Settings.canDrawOverlays(requireContext())) {
-                    Toast.makeText(
-                        requireContext(),
-                        "The alarm may be not work as expected",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                    val intent = Intent(
-                        Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
-                        Uri.parse("package:" + requireContext().packageName)
-                    )
-                    someActivityResultLauncher.launch(intent)
+        else {
+            var selectedOptionIndex = 0
+            val option = arrayOf("Alert", "Notification")
+            var selectedOption = option[selectedOptionIndex]
+            val inflater = requireActivity().layoutInflater
+            val myView = inflater.inflate(R.layout.alert_dialog, null)
+            val builder = MaterialAlertDialogBuilder(requireContext())
+            builder.setTitle("Type of Alert?")
+                .setView(myView)
+            val start_ed = myView.findViewById<Button>(R.id.startDate_Btn)
+            start_ed.setOnClickListener {
+                setDate {
+                    startDate = it
+                    start_ed.text = SimpleDateFormat("dd/MM/YYYY hh:mm a").format(Date(startDate))
                 }
-                val lat = shared.getString("lat", "33.44")
-                val lon = shared.getString("lon", "-94.04")
-                address = geocoder.getFromLocation(
-                    lat!!.toDouble(),
-                    lon!!.toDouble(),
-                    10
-                ) as MutableList<Address>
-                des = "${address[0].adminArea} - ${address[0].countryName}"
-                if (start_ed.text == "From" || end_ed.text == "To") {
-                    Toast.makeText(
-                        requireContext(),
-                        "you forgot to enter (From) and (To) Date and Time !!",
-                        Toast.LENGTH_LONG
-                    ).show()
-                } else {
-                    if (selectedOption == "Alert") {
-                        alertsViewModel.insertAlert(
-                            AlertsDB(
-                                countryName = des,
-                                startDateTime = SimpleDateFormat("dd/MM/YYYY hh:mm a").format(
-                                    Date(startDate)
-                                ),
-                                endDateTime = SimpleDateFormat("dd/MM/YYYY hh:mm a").format(
-                                    Date(
-                                        endDate
-                                    )
-                                ),
-                                type = "alert"
-                            )
-                        )
-                        //startAlarm(startDate, "alert",alertsViewModel.alertsDB.value!!.size+1)
-                        val id=if (alertsViewModel.alertsDB.value==null){
-                            0
-                        }
-                        else{
-                            alertsViewModel.alertsDB.value!![alertsViewModel.alertsDB.value!!.size-1].id+1
-                        }
-                        startAlarm(startDate, "alert", id)
+            }
+            val end_ed = myView.findViewById<Button>(R.id.endDate_Btn)
+            end_ed.setOnClickListener {
+                setDate {
+                    endDate = it
+                    end_ed.text = SimpleDateFormat("dd/MM/YYYY hh:mm a").format(Date(endDate))
+                }
+
+            }
+            builder.setSingleChoiceItems(option, selectedOptionIndex) { dialog_, which ->
+                selectedOptionIndex = which
+                selectedOption = option[which]
+            }
+                .setPositiveButton("Ok") { dialog, which ->
+
+                    val lat = shared.getString("lat", "33.44")
+                    val lon = shared.getString("lon", "-94.04")
+                    address = geocoder.getFromLocation(
+                        lat!!.toDouble(),
+                        lon!!.toDouble(),
+                        10
+                    ) as MutableList<Address>
+                    des = "${address[0].adminArea} - ${address[0].countryName}"
+                    if (start_ed.text == "From" || end_ed.text == "To") {
+                        Toast.makeText(
+                            requireContext(),
+                            "you forgot to enter (From) and (To) Date and Time !!",
+                            Toast.LENGTH_LONG
+                        ).show()
                     } else {
-                        alertsViewModel.insertAlert(
-                            AlertsDB(
-                                countryName = des,
-                                startDateTime = SimpleDateFormat("dd/MM/YYYY hh:mm a").format(
-                                    Date(startDate)
-                                ),
-                                endDateTime = SimpleDateFormat("dd/MM/YYYY hh:mm a").format(
-                                    Date(
-                                        endDate
-                                    )
-                                ),
-                                type = "notification"
+                        if (selectedOption == "Alert") {
+                            alertsViewModel.insertAlert(
+                                AlertsDB(
+                                    countryName = des,
+                                    startDateTime = SimpleDateFormat("dd/MM/YYYY hh:mm a").format(
+                                        Date(startDate)
+                                    ),
+                                    endDateTime = SimpleDateFormat("dd/MM/YYYY hh:mm a").format(
+                                        Date(
+                                            endDate
+                                        )
+                                    ),
+                                    type = "alert"
+                                )
                             )
-                        )
-                        //startAlarm(startDate, "notification",alertsViewModel.alertsDB.value!!.size+1)
-                        val id=if (alertsViewModel.alertsDB.value==null){
-                            1
+                            //startAlarm(startDate, "alert",alertsViewModel.alertsDB.value!!.size+1)
+                            val id = if (alertsViewModel.alertsDB.value?.size == 0) {
+                                1
+                            } else {
+                                alertsViewModel.alertsDB.value!![alertsViewModel.alertsDB.value!!.size - 1].id + 1
+                            }
+                            startAlarm(startDate, "alert", id)
+                        } else {
+                            alertsViewModel.insertAlert(
+                                AlertsDB(
+                                    countryName = des,
+                                    startDateTime = SimpleDateFormat("dd/MM/YYYY hh:mm a").format(
+                                        Date(startDate)
+                                    ),
+                                    endDateTime = SimpleDateFormat("dd/MM/YYYY hh:mm a").format(
+                                        Date(
+                                            endDate
+                                        )
+                                    ),
+                                    type = "notification"
+                                )
+                            )
+                            //startAlarm(startDate, "notification",alertsViewModel.alertsDB.value!!.size+1)
+                            val id = if (alertsViewModel.alertsDB.value?.size == 0) {
+                                1
+                            } else {
+                                alertsViewModel.alertsDB.value!![alertsViewModel.alertsDB.value!!.size - 1].id + 1
+                            }
+                            startAlarm(
+                                startDate,
+                                "notification",
+                                id
+                            )
                         }
-                        else{
-                            alertsViewModel.alertsDB.value!![alertsViewModel.alertsDB.value!!.size-1].id+1
-                        }
-                        startAlarm(
-                            startDate,
-                            "notification",
-                            id
-                        )
                     }
                 }
-            }
 
-            .create().show()
+                .create().show()
+        }
     }
 
     private val someActivityResultLauncher =
@@ -294,5 +294,20 @@ class AlertFragment : Fragment() {
         alarmManager.cancel(pendingIntent)
     }
 
+    fun showConfirmationDialog(alertsDB: AlertsDB) {
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle("Delete Confirmation")
+            .setMessage("Are you sure that you need to delete this!")
+            .setPositiveButton("Ok") { dialog, which ->
+                cancelAlarm(alertsDB.id)
+                alertsViewModel.deleteAlert(alertsDB)
+                alertsAdapter.notifyDataSetChanged()
+                Toast.makeText(requireContext(), "Deleted successfully", Toast.LENGTH_SHORT)
+                    .show()
+            }
+            .setNegativeButton("Cancel"){ dialogInterface: DialogInterface, i: Int ->
 
+            }
+            .create().show()
+    }
 }

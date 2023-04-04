@@ -17,20 +17,17 @@ import kotlinx.coroutines.launch
 class ViewModelHome (private val repo: RepositoryInterface): ViewModel() {
     private  var _root = MutableStateFlow<ApiState>(ApiState.Loading)
     val root = _root.asStateFlow()
+
     private  var _retrievedRoot: MutableLiveData<Root> = MutableLiveData<Root>()
     val retrievedRoot : LiveData<Root> = _retrievedRoot
 
-   /* companion object{
-        var lat:Double=0.0
-        var lon:Double=0.0
-    }*/
     init {
         getStoredWeather()
     }
     fun insertWeather(root: Root,lang:String){
         viewModelScope.launch (Dispatchers.IO){
             repo.insertWeather(root)
-            getWeatherDetails(root.lat,root.lon,lang)
+            //getWeatherDetails(root.lat,root.lon,lang)
         }
     }
     fun getStoredWeather(){
@@ -51,6 +48,4 @@ class ViewModelHome (private val repo: RepositoryInterface): ViewModel() {
             }
         }
     }
-
-
 }

@@ -73,7 +73,6 @@ class MapFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         favFactory= ViewModelFactoryFavorites(
             Repository.getInstance(
                 WeatherClient.getInstance(),
@@ -96,29 +95,14 @@ class MapFragment : Fragment() {
         }
 
         binding.setLocationBtn.setOnClickListener {
-            /*if(viewModelFav.getDes()=="home") {
-                val editor=shared.edit()
-                editor.putString("lat",myPoint.latitude().toString())
-                editor.putString("lon",myPoint.longitude().toString())
-                editor.commit()
-                Navigation.findNavController(it).navigate(R.id.homeFragment)
-            }
-            else if(viewModelFav.getDes()=="fav"){
-                address = geocoder.getFromLocation(myPoint.latitude(),myPoint.longitude(), 10) as MutableList<Address>
-                des = "${address[0].adminArea}\n${address[0].countryName}"
-                viewModelFav.addFav(FavoritesDB(des,myPoint.latitude(),myPoint.longitude()))
-                viewModelFav.setDes("home")
-                Navigation.findNavController(it).navigate(R.id.favoriteFragment)
-            }
-            else{
-                Toast.makeText(requireContext(),"nothing",Toast.LENGTH_SHORT).show()
-            }*/
             if(ViewModelFavorite.destination=="home") {
                 println("entered+++++++++++++++++++++++")
                 val editor=shared.edit()
                 editor.putString("lat",myPoint.latitude().toString())
                 editor.putString("lon",myPoint.longitude().toString())
                 editor.commit()
+                println("entered+++++++++++++++++++++++"+myPoint.latitude().toString())
+                println("entered+++++++++++++++++++++++"+myPoint.longitude().toString())
                 Navigation.findNavController(it).navigate(R.id.homeFragment)
             }
             else if(ViewModelFavorite.destination=="fav"){

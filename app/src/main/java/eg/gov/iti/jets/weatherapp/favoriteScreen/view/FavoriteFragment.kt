@@ -1,21 +1,26 @@
 package eg.gov.iti.jets.weatherapp.favoriteScreen.view
 
 import android.content.Context
+import android.content.DialogInterface
 import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import eg.gov.iti.jets.weatherapp.R
 import eg.gov.iti.jets.weatherapp.database.ConcreteLocalSource
 import eg.gov.iti.jets.weatherapp.databinding.FragmentFavoriteBinding
 import eg.gov.iti.jets.weatherapp.favoriteScreen.viewModel.ViewModelFactoryFavorites
 import eg.gov.iti.jets.weatherapp.favoriteScreen.viewModel.ViewModelFavorite
+import eg.gov.iti.jets.weatherapp.model.FavoritesDB
 import eg.gov.iti.jets.weatherapp.model.Repository
 import eg.gov.iti.jets.weatherapp.network.WeatherClient
+import eg.gov.iti.jets.weatherapp.splashScreen.shared
 
 class FavoriteFragment : Fragment() {
 
@@ -50,8 +55,7 @@ class FavoriteFragment : Fragment() {
                 binding.imageView.visibility=View.GONE
                 binding.textView.visibility=View.GONE
                 favAdapter= FavoriteAdapter(weather,{
-                    viewModel.deleteFav(it)
-                    favAdapter.notifyDataSetChanged()
+                    showConfirmationDialog(it)
                 },{
                     editor.putString("lat",it.lat.toString())
                     editor.putString("lon",it.lon.toString())
@@ -71,5 +75,20 @@ class FavoriteFragment : Fragment() {
             ViewModelFavorite.destination="fav"
             Navigation.findNavController(it).navigate(R.id.mapFragment)
         }
+    }
+    fun showConfirmationDialog(favoritesDB: FavoritesDB) {
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle("Delete Confirmation")
+            .setMessage("Are you sure that you need to delete this!")
+            .setPositiveButton("Ok") { dialog, which ->
+                viewModel.deleteFav(favoritesDB)
+                favAdapter.notifyDataSetChanged()
+                Toast.makeText(requireContext(), "Deleted successfully", Toast.LENGTH_SHORT)
+                    .show()
+            }
+            .setNegativeButton("Cancel"){ dialogInterface: DialogInterface, i: Int ->
+
+            }
+            .create().show()
     }
 }

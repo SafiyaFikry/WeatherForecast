@@ -5,6 +5,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Color
 import android.location.Location
 import android.location.LocationManager
 import androidx.appcompat.app.AppCompatActivity
@@ -14,6 +15,7 @@ import android.provider.Settings
 import android.view.View
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import com.google.android.gms.location.*
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import eg.gov.iti.jets.weatherapp.MainActivity
@@ -29,16 +31,18 @@ class WelcomeAndPermission : AppCompatActivity() {
         binding= ActivityWelcomeAndPermissionBinding.inflate(layoutInflater)
         setContentView(binding.root)
          mFusedLocationClient= LocationServices.getFusedLocationProviderClient(this)
-
-        binding.LetsGoBtn.setOnClickListener {
-            binding.LetsGoBtn.visibility= View.GONE
-            binding.nextBtn.visibility= View.VISIBLE
-            showRadioConfirmationDialog()
-        }
-        binding.nextBtn.setOnClickListener {
+        binding.enablePermissionBtn.setOnClickListener {
             getLastLocation()
-            val intent=Intent(this@WelcomeAndPermission, MainActivity::class.java)
-            startActivity(intent)
+            binding.enablePermissionBtn.isEnabled=false
+            binding.enablePermissionBtn.setBackgroundColor(Color.GRAY)
+        }
+        binding.letsGoBtn.setOnClickListener {
+            if(checkPermissions()) {
+                showRadioConfirmationDialog()
+                requestNewLocationData()
+            }else{
+                Toast.makeText(this@WelcomeAndPermission,"Enable permission first!!",Toast.LENGTH_LONG).show()
+            }
         }
     }
     fun showRadioConfirmationDialog() {
@@ -56,12 +60,16 @@ class WelcomeAndPermission : AppCompatActivity() {
                 if(selectedOption=="GPS"){
                     editor.putString("location","GPS")
                     editor.commit()
-                    getLastLocation()
-                    getLastLocation()
+                    val intent=Intent(this@WelcomeAndPermission, MainActivity::class.java)
+                    intent.putExtra("firstTime","true")
+                    startActivity(intent)
                 }
                 else{
                     editor.putString("location","Map")
                     editor.commit()
+                    val intent=Intent(this@WelcomeAndPermission, MainActivity::class.java)
+                    intent.putExtra("firstTime","true")
+                    startActivity(intent)
                 }
                 Toast.makeText(this, "$selectedOption Selected", Toast.LENGTH_SHORT)
                 .show()
