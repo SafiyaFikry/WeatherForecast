@@ -1,7 +1,6 @@
 package eg.gov.iti.jets.weatherapp.homeScreen.view
 
 import android.content.Context
-import android.content.SharedPreferences
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.drawable.BitmapDrawable
@@ -17,36 +16,23 @@ import android.widget.Toast
 import androidx.annotation.DrawableRes
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
-import androidx.preference.PreferenceManager
 import com.mapbox.geojson.Point
 import com.mapbox.maps.CameraOptions
-import com.mapbox.maps.MapView
 import com.mapbox.maps.Style
 import com.mapbox.maps.plugin.annotation.annotations
-import com.mapbox.maps.plugin.annotation.generated.PointAnnotation
 import com.mapbox.maps.plugin.annotation.generated.PointAnnotationOptions
 import com.mapbox.maps.plugin.annotation.generated.createPointAnnotationManager
 import com.mapbox.maps.plugin.gestures.addOnMapLongClickListener
 import eg.gov.iti.jets.weatherapp.R
-import eg.gov.iti.jets.weatherapp.alertScreen.viewModel.ViewModelAlerts
-import eg.gov.iti.jets.weatherapp.alertScreen.viewModel.ViewModelFactoryAlerts
 import eg.gov.iti.jets.weatherapp.database.ConcreteLocalSource
 import eg.gov.iti.jets.weatherapp.databinding.FragmentMapBinding
-import eg.gov.iti.jets.weatherapp.favoriteScreen.view.FavoriteAdapter
 import eg.gov.iti.jets.weatherapp.favoriteScreen.viewModel.ViewModelFactoryFavorites
 import eg.gov.iti.jets.weatherapp.favoriteScreen.viewModel.ViewModelFavorite
-import eg.gov.iti.jets.weatherapp.homeScreen.viewModel.ViewModelFactoryHome
-import eg.gov.iti.jets.weatherapp.homeScreen.viewModel.ViewModelHome
-import eg.gov.iti.jets.weatherapp.model.AlertsDB
 import eg.gov.iti.jets.weatherapp.model.FavoritesDB
 import eg.gov.iti.jets.weatherapp.model.Repository
-import eg.gov.iti.jets.weatherapp.network.ApiState
 import eg.gov.iti.jets.weatherapp.network.WeatherClient
 import eg.gov.iti.jets.weatherapp.splashScreen.shared
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 
 class MapFragment : Fragment() {
 
@@ -57,7 +43,6 @@ class MapFragment : Fragment() {
     lateinit var address:MutableList<Address>
     lateinit var geocoder: Geocoder
     lateinit var des:String
-    //lateinit var shared: SharedPreferences
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -79,14 +64,12 @@ class MapFragment : Fragment() {
             ConcreteLocalSource(requireContext().applicationContext)
         ))
         viewModelFav= ViewModelProvider(this,favFactory).get(ViewModelFavorite::class.java)
-
         geocoder= Geocoder(requireContext().applicationContext)
-        //shared= PreferenceManager.getDefaultSharedPreferences(requireContext().applicationContext)
         binding.mapView.getMapboxMap().loadStyleUri(Style.MAPBOX_STREETS)
-      /*  val camera=CameraOptions.Builder()
+        /*val camera= CameraOptions.Builder()
             .center(Point.fromLngLat(shared.getString("lat","33.44")!!.toDouble(),shared.getString("lon","-94.04")!!.toDouble())).zoom(6.5).build()
-        binding.mapView.getMapboxMap().setCamera(camera)
-      */  binding.mapView.getMapboxMap().addOnMapLongClickListener { point ->
+        binding.mapView.getMapboxMap().setCamera(camera)*/
+        binding.mapView.getMapboxMap().addOnMapLongClickListener { point ->
             binding.mapView.annotations.cleanup()
             binding.setLocationBtn.visibility = View.VISIBLE
             addAnnotationToMap(point)

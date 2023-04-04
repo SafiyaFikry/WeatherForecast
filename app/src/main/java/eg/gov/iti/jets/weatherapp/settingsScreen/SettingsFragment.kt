@@ -48,9 +48,6 @@ class SettingsFragment : Fragment() {
                     if (radio=="Map"){
                         Navigation.findNavController(requireView()).navigate(R.id.mapFragment)
                     }
-                    else{
-
-                    }
                     true
                 })
             val langPreference=findPreference<ListPreference>("language")

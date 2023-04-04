@@ -87,12 +87,12 @@ class HomeFragment : Fragment() {
         val lon=shared.getString("lon","-94.04")
         println("++++++++++++ lat : "+lat)
         println("++++++++++++ lon : "+lon)
-        val lang=if (language=="English"){
-           // setLanguage(requireContext(),"en")
+        val lang=if (language=="English"||language=="الانجليزيه"){
+            setLanguage(requireContext(),"en")
             "en"
 
         }else{
-           // setLanguage(requireContext(),"ar")
+            setLanguage(requireContext(),"ar")
             "ar"
         }
 

@@ -49,6 +49,7 @@ class AlertFragment : Fragment() {
     lateinit var homeViewModel: ViewModelHome
     var startDate = 0L
     var endDate = 0L
+    var requestId=1
     lateinit var address: MutableList<Address>
     lateinit var geocoder: Geocoder
     lateinit var des: String
@@ -210,6 +211,7 @@ class AlertFragment : Fragment() {
                         if (selectedOption == "Alert") {
                             alertsViewModel.insertAlert(
                                 AlertsDB(
+                                    id=requestId,
                                     countryName = des,
                                     startDateTime = SimpleDateFormat("dd/MM/YYYY hh:mm a").format(
                                         Date(startDate)
@@ -223,15 +225,17 @@ class AlertFragment : Fragment() {
                                 )
                             )
                             //startAlarm(startDate, "alert",alertsViewModel.alertsDB.value!!.size+1)
-                            val id = if (alertsViewModel.alertsDB.value?.size == 0) {
+                           /* val id = if (alertsViewModel.alertsDB.value?.size == 0) {
                                 1
                             } else {
                                 alertsViewModel.alertsDB.value!![alertsViewModel.alertsDB.value!!.size - 1].id + 1
-                            }
-                            startAlarm(startDate, "alert", id)
+                            }*/
+                            startAlarm(startDate, "alert", requestId)
+                            requestId++
                         } else {
                             alertsViewModel.insertAlert(
                                 AlertsDB(
+                                    id=requestId,
                                     countryName = des,
                                     startDateTime = SimpleDateFormat("dd/MM/YYYY hh:mm a").format(
                                         Date(startDate)
@@ -245,16 +249,17 @@ class AlertFragment : Fragment() {
                                 )
                             )
                             //startAlarm(startDate, "notification",alertsViewModel.alertsDB.value!!.size+1)
-                            val id = if (alertsViewModel.alertsDB.value?.size == 0) {
+                            /*val id = if (alertsViewModel.alertsDB.value?.size == 0) {
                                 1
                             } else {
                                 alertsViewModel.alertsDB.value!![alertsViewModel.alertsDB.value!!.size - 1].id + 1
-                            }
+                            }*/
                             startAlarm(
                                 startDate,
                                 "notification",
-                                id
+                                requestId
                             )
+                            requestId++
                         }
                     }
                 }

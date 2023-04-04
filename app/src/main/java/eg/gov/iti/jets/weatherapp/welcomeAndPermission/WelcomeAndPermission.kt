@@ -124,9 +124,11 @@ class WelcomeAndPermission : AppCompatActivity() {
         override fun onLocationResult(locationResult: LocationResult) {
             val mLastLocation: Location =locationResult.lastLocation
             val editor= shared.edit()
-            editor.putString("lat",mLastLocation.latitude.toString())
-            editor.putString("lon",mLastLocation.longitude.toString())
-            editor.commit()
+            if (shared.getString("location","GPS")=="GPS") {
+                editor.putString("lat", mLastLocation.latitude.toString())
+                editor.putString("lon", mLastLocation.longitude.toString())
+                editor.commit()
+            }
         }
     }
 }
