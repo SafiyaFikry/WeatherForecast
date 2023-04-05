@@ -51,7 +51,6 @@ class AlertFragment : Fragment() {
     lateinit var alertsAdapter: AlertsAdapter
     lateinit var homeFactory: ViewModelFactoryHome
     lateinit var homeViewModel: ViewModelHome
-    //var requestId=-1
     var startDate = 0L
     var endDate = 0L
     lateinit var address: MutableList<Address>
@@ -230,12 +229,6 @@ class AlertFragment : Fragment() {
                                     type = "alert"
                                 )
                             )
-                            //startAlarm(startDate, "alert",alertsViewModel.alertsDB.value!!.size+1)
-                            /* val id = if (alertsViewModel.alertsDB.value?.size == 0) {
-                                 1
-                             } else {
-                                 alertsViewModel.alertsDB.value!![alertsViewModel.alertsDB.value!!.size - 1].id + 1
-                             }*/
                             val lat= shared.getString("lat","33.44")
                             val lon= shared.getString("lon","-94.04")
                             startAlarm(startDate, "alert", requestId,lat,lon)
@@ -259,12 +252,7 @@ class AlertFragment : Fragment() {
                                     type = "notification"
                                 )
                             )
-                            //startAlarm(startDate, "notification",alertsViewModel.alertsDB.value!!.size+1)
-                            /*val id = if (alertsViewModel.alertsDB.value?.size == 0) {
-                                1
-                            } else {
-                                alertsViewModel.alertsDB.value!![alertsViewModel.alertsDB.value!!.size - 1].id + 1
-                            }*/
+
                             val lat= shared.getString("lat","33.44")
                             val lon= shared.getString("lon","-94.04")
                             startAlarm(startDate, "notification", requestId,lat,lon)
