@@ -98,7 +98,6 @@ class HomeFragment : Fragment() {
             "ar"
         }
 
-
         if(checkForInternet(requireContext().applicationContext)) {
             println("############ lat : "+lat)
             println("############ lon : "+lon)

@@ -1,4 +1,4 @@
-package eg.gov.iti.jets.weatherapp.homeScreen.view
+package eg.gov.iti.jets.weatherapp.map
 
 import android.content.Context
 import android.graphics.Bitmap
@@ -18,7 +18,6 @@ import androidx.appcompat.content.res.AppCompatResources
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import com.mapbox.geojson.Point
-import com.mapbox.maps.CameraOptions
 import com.mapbox.maps.Style
 import com.mapbox.maps.plugin.annotation.annotations
 import com.mapbox.maps.plugin.annotation.generated.PointAnnotationOptions

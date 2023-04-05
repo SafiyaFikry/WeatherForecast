@@ -27,7 +27,7 @@
         tools:layout="@layout/fragment_settings" />
     <fragment
         android:id="@+id/mapFragment"
-        android:name="eg.gov.iti.jets.weatherapp.homeScreen.view.MapFragment"
+        android:name="eg.gov.iti.jets.weatherapp.map.MapFragment"
         android:label="fragment_map"
         tools:layout="@layout/fragment_map" />
     <fragment

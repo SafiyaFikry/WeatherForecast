@@ -2,26 +2,17 @@ package eg.gov.iti.jets.weatherapp.settingsScreen
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.content.SharedPreferences
 import android.os.Bundle
-import android.text.TextUtils
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.appcompat.app.ActionBar
 import androidx.navigation.Navigation
 import androidx.preference.ListPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
-import androidx.preference.PreferenceManager
-import androidx.preference.SwitchPreference
-import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationServices
 import eg.gov.iti.jets.weatherapp.R
 import eg.gov.iti.jets.weatherapp.databinding.FragmentSettingsBinding
-import eg.gov.iti.jets.weatherapp.homeScreen.view.MapFragment
 import java.util.*
 
 class SettingsFragment : Fragment() {

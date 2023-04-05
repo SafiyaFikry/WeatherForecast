@@ -17,8 +17,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
-import androidx.fragment.app.FragmentManager
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.ui.NavigationUI
@@ -26,8 +24,6 @@ import com.google.android.gms.location.*
 import com.google.android.material.navigation.NavigationView
 import eg.gov.iti.jets.weatherapp.databinding.ActivityMainBinding
 import eg.gov.iti.jets.weatherapp.splashScreen.shared
-import eg.gov.iti.jets.weatherapp.R
-import eg.gov.iti.jets.weatherapp.homeScreen.view.MapFragment
 import java.util.*
 
 const val PERMISSION_ID=55
@@ -43,7 +39,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding= ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
         val language= shared.getString("language","English")
         if (language=="English"){
             setLanguage(this@MainActivity,"en")
