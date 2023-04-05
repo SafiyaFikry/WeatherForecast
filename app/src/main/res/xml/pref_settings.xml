@@ -1,53 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-
     <PreferenceCategory
         app:key="prefenece"
-        app:title="Preferences">
+        app:title="@string/prefernces">
         <ListPreference
             app:key="location"
-            app:title="Location"
-            android:entryValues="@array/loacation"
-            android:entries="@array/loacation"
-            android:defaultValue="@string/Map"
-            android:summary="@string/Map"/>
+            app:title="@string/location"
+            android:entries="@array/location_name"
+            android:entryValues="@array/location_value"
+            android:defaultValue="@string/GPS"
+            android:summary="@string/GPS"
+            app:useSimpleSummaryProvider="true"/>
 
         <ListPreference
             app:key="language"
-            app:title="Languages"
-            android:entryValues="@array/language"
-            android:entries="@array/language"
+            app:title="@string/language"
+            android:entries="@array/language_name"
+            android:entryValues="@array/language_value"
             android:defaultValue="@string/English"
-            android:summary="@string/English"/>
+            android:summary="@string/English"
+            app:useSimpleSummaryProvider="true" />
 
         <SwitchPreferenceCompat
             app:key="notifications"
-            app:title="Notifications"
+            app:title="@string/notifications"
             android:summaryOn="@string/On"
             android:summaryOff="@string/Off"
-            android:defaultValue="@string/Off" />
+            android:defaultValue="@string/Off"
+            app:useSimpleSummaryProvider="true"/>
 
     </PreferenceCategory>
 
     <PreferenceCategory
         app:key="units"
-        app:title="Units">
+        app:title="@string/unit">
 
         <ListPreference
             app:key="temperature"
-            app:title="Temperature Unit"
-            android:entryValues="@array/temp_unit"
-            android:entries="@array/temp_unit"
+            app:title="@string/Temperature_Unit"
+            android:entryValues="@array/temp_unit_value"
+            android:entries="@array/temp_unit_name"
             android:defaultValue="@string/Celsius"
-            android:summary="@string/Celsius"/>
+            android:summary="@string/Celsius"
+            app:useSimpleSummaryProvider="true"/>
         <ListPreference
             app:key="windSpeed"
-            app:title="Wind Speed"
-            android:entries="@array/wind_speed"
-            android:entryValues="@array/wind_speed"
+            app:title="@string/wind_speed"
+            android:entries="@array/wind_speed_name"
+            android:entryValues="@array/wind_speed_value"
             android:defaultValue="@string/mps"
-            android:summary="@string/mps"/>
+            android:summary="@string/mps"
+            app:useSimpleSummaryProvider="true"/>
 
     </PreferenceCategory>
 </PreferenceScreen>

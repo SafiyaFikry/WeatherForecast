@@ -15,7 +15,7 @@
     <string name="humidity">Humidity</string>
     <string name="wind">Wind</string>
     <string name="cloud">Cloud</string>
-    <string name="ultra_violet">Ultra Violet</string>
+    <string name="ultra_violet">Ultraviolet</string>
     <string name="visibility">Visibility</string>
     <string name="today">Today</string>
     <string name="daily_forecast">Daily Forecast</string>
@@ -23,33 +23,77 @@
 
     <string name="Arabic">Arabic</string>
     <string name="English">English</string>
-    <string name="GPS">Gps</string>
+    <string name="GPS">GPS</string>
     <string name="Map">Map</string>
+    <string name="None">None</string>
     <string name="Celsius">Celsius</string>
     <string name="Kelvin">Kelvin</string>
-    <string name="Fehrenheit">Fehrenheit</string>
-    <string name="mps">Meter/Sec</string>
-    <string name="mph">Mile/Hour</string>
+    <string name="Fahrenheit">Fahrenheit</string>
+    <string name="mps">m/s</string>
+    <string name="mph">mph</string>
     <string name="Off">Off</string>
     <string name="On">On</string>
     <string name="no_favorites_yet">No Favorites Places Yet</string>
     <string name="no_alerts_yet">No Alerts Yet</string>
 
-    <string-array name="language">
+    <string-array name="language_name">
         <item>Arabic</item>
         <item>English</item>
     </string-array>
-    <string-array name="loacation">
+    <string-array name="language_value">
+        <item>Arabic</item>
+        <item>English</item>
+    </string-array>
+    <string-array name="location_name">
         <item>GPS</item>
         <item>Map</item>
     </string-array>
-    <string-array name="temp_unit">
+    <string-array name="location_value">
+        <item>GPS</item>
+        <item>Map</item>
+    </string-array>
+    <string-array name="temp_unit_name">
         <item>Celsius</item>
         <item>Kelvin</item>
-        <item>Fehrenheit</item>
+        <item>Fahrenheit</item>
     </string-array>
-    <string-array name="wind_speed">
-        <item>Meter/Sec</item>
-        <item>Mile/Hour</item>
+    <string-array name="temp_unit_value">
+        <item>Celsius</item>
+        <item>Kelvin</item>
+        <item>Fahrenheit</item>
     </string-array>
+    <string-array name="wind_speed_name">
+        <item>m/s</item>
+        <item>mph</item>
+    </string-array>
+    <string-array name="wind_speed_value">
+        <item>m/s</item>
+        <item>mph</item>
+    </string-array>
+
+    <string name="mapbox_access_token">sk.eyJ1IjoiYWhtZWQzYWJkbyIsImEiOiJjbGZmeGExaHYxMHZtM3puejVvODVlb3RpIn0.appO7ribZPQZivg-7FUvIA
+</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="set_Location">Set Location</string>
+    <string name="StartDate">From</string>
+    <string name="EndDate">To</string>
+    <string name="dismiss">Dismiss</string>
+    <string name="lets_go" >Let\'s Go!</string>
+    <string name="welcome">Welcome to Weather Forecast</string>
+    <string name="permissions">1- You have to choose between get location by \"Map\" or \"GPS\".\n   ( Don\'t worry you can change this later from settings. )\n2- You can add places to favorites.\n3- You can add Alert/notification to the chosen place.\n</string>
+    <string name="take_permission">Enable Permission</string>
+    <string name="location">Location</string>
+    <string name="language">Language</string>
+    <string name="notifications">Notifications</string>
+    <string name="Temperature_Unit">Temperature Unit</string>
+    <string name="wind_speed">Wind Speed Unit</string>
+    <string name="unit">Units</string>
+    <string name="prefernces">Preferences</string>
+    <string name="delete_confirmation">Delete Confirmation</string>
+    <string name="message">Are you sure that you need to delete this!</string>
+    <string name="okay">Okay</string>
+    <string name="cancel">Cancel</string>
+
+
 </resources>

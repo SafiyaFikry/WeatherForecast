@@ -1,0 +1,80 @@
+<resources>
+    <string name="app_name">النشره الجويه</string>
+    <string name="slogan">اعرف قبل ان تذهب</string>
+    <string name="home_blank_fragment">Home blank fragment</string>
+    <string name="favorite_blank_fragment">Favorite blank fragment</string>
+    <string name="alert_blank_fragment">Alert blank fragment</string>
+    <string name="settings_blank_fragment">Settings blank fragment</string>
+    <string name="open_nav">Open Navigation Drawer</string>
+    <string name="close_nav">Close Navigation Drawer</string>
+    <string name="home">الصفحه الرئيسيه</string>
+    <string name="favorite">المفضلات</string>
+    <string name="alert">التنبيهات</string>
+    <string name="settings">الاعدادات</string>
+    <string name="pressure">الضغط</string>
+    <string name="humidity">الرطوبه</string>
+    <string name="wind">الرياح</string>
+    <string name="cloud">السحب</string>
+    <string name="ultra_violet">فوق البنفسجيه</string>
+    <string name="visibility">الرؤيه</string>
+    <string name="today">اليوم</string>
+    <string name="daily_forecast">التوقعات اليوميه</string>
+    <string name="hourly_forecast">التوقعات لكل ساعه</string>
+
+    <string name="Arabic">العربيه</string>
+    <string name="English">الانجليزيه</string>
+    <string name="GPS">القمر الصناعى</string>
+    <string name="Map">الخريطه</string>
+    <string name="None">None</string>
+    <string name="Celsius">درجه مئويه</string>
+    <string name="Kelvin">كلفن</string>
+    <string name="Fahrenheit">فهرنهايت</string>
+    <string name="mps">م/ث</string>
+    <string name="mph">ميل/س</string>
+    <string name="Off">مقفول</string>
+    <string name="On">مفتوع</string>
+    <string name="no_favorites_yet">لا توجد اماكن مفضله بعد</string>
+    <string name="no_alerts_yet">لا يوجد تنبيهات بعد</string>
+
+    <string-array name="language_name">
+        <item>العربيه</item>
+        <item>الانجليزيه</item>
+    </string-array>
+    <string-array name="location_name">
+        <item>القمر الصناعى</item>
+        <item>الخريطه</item>
+    </string-array>
+    <string-array name="temp_unit_name">
+        <item>درجه مئويه</item>
+        <item>كلفن</item>
+        <item>فهرنهايت</item>
+    </string-array>
+    <string-array name="wind_speed_name">
+        <item>م/ث</item>
+        <item>ميل/س</item>
+    </string-array>
+
+    <string name="mapbox_access_token">sk.eyJ1IjoiYWhtZWQzYWJkbyIsImEiOiJjbGZmeGExaHYxMHZtM3puejVvODVlb3RpIn0.appO7ribZPQZivg-7FUvIA
+</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="set_Location">تحديد الموقع</string>
+    <string name="StartDate">من</string>
+    <string name="EndDate">الى</string>
+    <string name="dismiss">رفض</string>
+    <string name="lets_go" >هيا بنا!</string>
+    <string name="welcome">مرحبا فى النشره الجويه</string>
+    <string name="permissions">1- عليك الاختيار بين الحصول على الموقع عن طريق \ "خريطة \" أو \ "القمر الصناعى \".\n  (لا تقلق ، يمكنك تغيير هذا لاحقًا من الإعدادات.) \ n2- يمكنك إضافة أماكن إلى المفضلة. \ n3- يمكنك إضافة تنبيه / إعلام إلى المكان المختار. \ n</string>
+    <string name="take_permission">اعطاء الاذن</string>
+    <string name="location">الموقع</string>
+    <string name="language">اللغه</string>
+    <string name="notifications">الاشعارات</string>
+    <string name="Temperature_Unit">وحده الحراره</string>
+    <string name="wind_speed">وحده سرعه الرياح</string>
+    <string name="unit">وحدات</string>
+    <string name="prefernces">التفضيلات</string>
+    <string name="delete_confirmation">تأكيد الحذف</string>
+    <string name="message">هل انت متأكد من انك تريد حذف هذا !</string>
+    <string name="okay">حسنا</string>
+    <string name="cancel">الغاء</string>
+</resources>

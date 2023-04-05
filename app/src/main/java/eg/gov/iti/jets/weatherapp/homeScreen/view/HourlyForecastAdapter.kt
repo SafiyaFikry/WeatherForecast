@@ -1,17 +1,20 @@
 package eg.gov.iti.jets.weatherapp.homeScreen.view
 
 import android.content.Context
+import android.content.SharedPreferences
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import eg.gov.iti.jets.weatherapp.R
 import eg.gov.iti.jets.weatherapp.databinding.HourlyForecastBinding
-import eg.gov.iti.jets.weatherapp.homeScreen.Hour
 import eg.gov.iti.jets.weatherapp.model.Hourly
 import eg.gov.iti.jets.weatherapp.model.Root
+import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.math.roundToInt
 
 class HourlyForecastAdapter (private var hours:List<Hourly>, var root: Root, context: Context) : RecyclerView.Adapter<HourlyForecastAdapter.ViewHolder>(){
     private var mContext: Context
@@ -29,8 +32,10 @@ class HourlyForecastAdapter (private var hours:List<Hourly>, var root: Root, con
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        val sh: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(mContext)
+        val temperature= sh.getString("temperature","Celsius")
         Glide.with(mContext)
-            .load(hours[position].weather[0].icon)
+            .load("https://openweathermap.org/img/wn/"+hours[position].weather[0].icon+"@2x.png")
             .apply(
                 RequestOptions()
                     .override(150, 150)
@@ -39,9 +44,19 @@ class HourlyForecastAdapter (private var hours:List<Hourly>, var root: Root, con
             )
             .into(holder.binding.timeIconImageView)
         val long =(hours[position].dt+root.timezone_offset-7200).toLong()*1000
-        val date = Date(long).toString()
-        holder.binding.timeTextView.text=date
-        holder.binding.timeTempTextView.text=hours[position].temp.toString()
+        val date = Date(long)
+        val format = SimpleDateFormat("hh a")
+        holder.binding.timeTextView.text=format.format(date)
+        if(temperature=="Celsius") {
+            holder.binding.timeTempTextView.text=hours[position].temp.roundToInt().toString()+" °C"
+        }
+        else if (temperature=="Fahrenheit"){
+            holder.binding.timeTempTextView.text=convertFromCelsiusToFahrenheit(hours[position].temp).roundToInt().toString()+" °F"
+        }
+        else{
+            holder.binding.timeTempTextView.text=convertFromCelsiusToKelvin(hours[position].temp).roundToInt().toString()+" °K"
+        }
+
         //holder.binding.timeIconImageView.setImageResource(hours[position].thumbnail)
 
     }
@@ -51,4 +66,6 @@ class HourlyForecastAdapter (private var hours:List<Hourly>, var root: Root, con
     }
 
     class ViewHolder(var binding: HourlyForecastBinding) : RecyclerView.ViewHolder(binding.root)
+    fun convertFromCelsiusToFahrenheit(cel:Double):Double=((cel * (9.0/5)) + 32)
+    fun convertFromCelsiusToKelvin(cel:Double):Double=(cel + 273.15)
 }

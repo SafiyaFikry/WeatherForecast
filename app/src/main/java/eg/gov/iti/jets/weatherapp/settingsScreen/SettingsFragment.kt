@@ -1,5 +1,7 @@
 package eg.gov.iti.jets.weatherapp.settingsScreen
 
+import android.annotation.SuppressLint
+import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.text.TextUtils
@@ -8,89 +10,70 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.ActionBar
+import androidx.navigation.Navigation
 import androidx.preference.ListPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceManager
 import androidx.preference.SwitchPreference
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import eg.gov.iti.jets.weatherapp.R
+import eg.gov.iti.jets.weatherapp.databinding.FragmentSettingsBinding
+import eg.gov.iti.jets.weatherapp.homeScreen.view.MapFragment
+import java.util.*
 
 class SettingsFragment : Fragment() {
-
-    lateinit var sh:SharedPreferences
+    lateinit var binding:FragmentSettingsBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        fragmentManager?.beginTransaction()?.replace(R.id.fragment_container,MySettingsFragment())?.commit()
-        sh=PreferenceManager.getDefaultSharedPreferences(requireContext().applicationContext)
+        fragmentManager?.beginTransaction()?.replace(R.id.nav_host_fragment,MySettingsFragment())?.commit()//nav_host_fragment
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_settings, container, false)
+        binding=FragmentSettingsBinding.inflate(inflater,container,false)
+        return binding.root
     }
     class MySettingsFragment : PreferenceFragmentCompat() {
+        @SuppressLint("SuspiciousIndentation")
         override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
             setPreferencesFromResource(R.xml.pref_settings, rootKey)
-            val sh:SharedPreferences=PreferenceManager.getDefaultSharedPreferences(requireContext().applicationContext)
-            val isChecked= sh.getBoolean("notifications",false)
-            if(isChecked){
-                Toast.makeText(context,"on",Toast.LENGTH_SHORT).show()
-            }
-            else{
-                Toast.makeText(context,"off",Toast.LENGTH_SHORT).show()
-            }
-            val languagePreference: ListPreference? = findPreference("language")
-            languagePreference?.summaryProvider =
-                Preference.SummaryProvider<ListPreference> { preference ->
-                    val text = preference.value
-                    if (text=="Arabic") {
-                        "Arabic"
-                    } else {
-                        "English"
+           val mapPreference=findPreference<ListPreference>("location")
+                mapPreference?.setOnPreferenceChangeListener(Preference.OnPreferenceChangeListener{preference,newValue->
+                    val radio=newValue.toString()
+                    if (radio=="Map"){
+                        Navigation.findNavController(requireView()).navigate(R.id.mapFragment)
                     }
+                    true
+                })
+            val langPreference=findPreference<ListPreference>("language")
+            langPreference?.setOnPreferenceChangeListener(Preference.OnPreferenceChangeListener{preference,newValue->
+                val radio=newValue.toString()
+                if (radio=="English"){
+                    SettingsFragment().setLanguage(requireContext(),"en")
+                    activity?.recreate()
                 }
-            val locationPreference: ListPreference? = findPreference("location")
-            locationPreference?.summaryProvider =
-                Preference.SummaryProvider<ListPreference> { preference ->
-                    val text = preference.value
-                    if (text=="GPS") {
-                        "GPS"
-                    } else {
-                        "Map"
-                    }
+                else if(radio=="Arabic"){
+                    SettingsFragment().setLanguage(requireContext(),"ar")
+                    activity?.recreate()
                 }
-            val tempPreference: ListPreference? = findPreference("temperature")
-            tempPreference?.summaryProvider =
-                Preference.SummaryProvider<ListPreference> { preference ->
-                    val text = preference.value
-                    if (text=="Celsius") {
-                        "Celsius"
-                    }
-                    else if (text=="Kelvin") {
-                        "Kelvin"
-                    } else {
-                        "Fehrenheit"
-                    }
-                }
-            val windPreference: ListPreference? = findPreference("windSpeed")
-            windPreference?.summaryProvider =
-                Preference.SummaryProvider<ListPreference> { preference ->
-                    val text = preference.value
-                    if (text=="Meter/Sec") {
-                        "Meter/Sec"
-                    } else {
-                        "Mile/Hour"
-                    }
-                }
+                true
+            })
         }
     }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    fun setLanguage(context: Context, lang:String)
+    {
+        val locale = Locale(lang)
+        Locale.setDefault(locale)
+        val resource = context.resources
+        val config = resource.configuration
+        config.setLocale(locale)
+        resource.updateConfiguration(config, resource.displayMetrics)
     }
-
 }
 

@@ -12,12 +12,12 @@
         tools:layout="@layout/fragment_home" />
     <fragment
         android:id="@+id/favoriteFragment"
-        android:name="eg.gov.iti.jets.weatherapp.favoriteScreen.FavoriteFragment"
+        android:name="eg.gov.iti.jets.weatherapp.favoriteScreen.view.FavoriteFragment"
         android:label="@string/favorite"
         tools:layout="@layout/fragment_favorite" />
     <fragment
         android:id="@+id/alertFragment"
-        android:name="eg.gov.iti.jets.weatherapp.alertScreen.AlertFragment"
+        android:name="eg.gov.iti.jets.weatherapp.alertScreen.view.AlertFragment"
         android:label="@string/alert"
         tools:layout="@layout/fragment_alert" />
     <fragment
@@ -25,4 +25,13 @@
         android:name="eg.gov.iti.jets.weatherapp.settingsScreen.SettingsFragment"
         android:label="@string/settings"
         tools:layout="@layout/fragment_settings" />
+    <fragment
+        android:id="@+id/mapFragment"
+        android:name="eg.gov.iti.jets.weatherapp.homeScreen.view.MapFragment"
+        android:label="fragment_map"
+        tools:layout="@layout/fragment_map" />
+    <fragment
+        android:id="@+id/favDetailsFragment"
+        android:name="eg.gov.iti.jets.weatherapp.favDetails.view.FavDetailsFragment"
+        android:label="FavDetailsFragment" />
 </navigation>

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/carolina"
-    tools:context=".favoriteScreen.FavoriteFragment">
+    tools:context=".favoriteScreen.view.FavoriteFragment">
 
     <ImageView
         android:id="@+id/imageView"
@@ -38,7 +38,6 @@
         android:text="@string/no_alerts_yet"
         android:textColor="@color/white"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/imageView"
         app:layout_constraintHorizontal_bias="0.508"
         app:layout_constraintStart_toStartOf="@+id/imageView"
@@ -49,8 +48,11 @@
         android:id="@+id/alert_RecyclerView"
         android:layout_width="409dp"
         android:layout_height="729dp"
+        android:orientation="vertical"
+        android:padding="15dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

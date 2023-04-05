@@ -19,8 +19,8 @@ class WeatherClient private constructor():RemoteSource{
             }
         }
     }
-    override suspend fun getWeatherOverNetwork(/*lat:Double,lon:Double*/): Flow<Root> {
-        val responce=weatherService.getWeatherByLatAndLon(/*lat,lon*/)
+    override suspend fun getWeatherOverNetwork(lat:Double,lon:Double,lang:String): Flow<Root> {
+        val responce=weatherService.getWeatherByLatAndLon(lat,lon,lang)
         return flowOf(responce)
     }
 }

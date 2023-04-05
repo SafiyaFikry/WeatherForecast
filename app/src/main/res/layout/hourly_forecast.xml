@@ -2,16 +2,16 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="70dp"
-    android:layout_height="120dp"
+    android:layout_height="140dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:cardCornerRadius="40dp"
-    android:elevation="10dp"
+    app:cardElevation="5dp"
     android:backgroundTint="@color/cobalt"
     android:layout_margin="3dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="70dp"
-        android:layout_height="120dp"
+        android:layout_height="140dp"
         android:id="@+id/hourly_forecast_itemLayout"
         android:background="@color/cobalt">
 
