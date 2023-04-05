@@ -7,6 +7,7 @@ import android.app.TimePickerDialog
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
+import android.content.SharedPreferences
 import android.location.Address
 import android.location.Geocoder
 import android.net.Uri
@@ -21,6 +22,8 @@ import android.widget.Button
 import android.widget.Toast
 import android.widget.Toast.LENGTH_LONG
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContentProviderCompat
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.view.ContentInfoCompat.Flags
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -40,6 +43,7 @@ import eg.gov.iti.jets.weatherapp.splashScreen.shared
 import java.text.SimpleDateFormat
 import java.util.*
 
+lateinit var alertShared:SharedPreferences
 class AlertFragment : Fragment() {
     lateinit var binding: FragmentAlertBinding
     lateinit var alertsViewModel: ViewModelAlerts
@@ -47,9 +51,9 @@ class AlertFragment : Fragment() {
     lateinit var alertsAdapter: AlertsAdapter
     lateinit var homeFactory: ViewModelFactoryHome
     lateinit var homeViewModel: ViewModelHome
+    //var requestId=-1
     var startDate = 0L
     var endDate = 0L
-    var requestId=1
     lateinit var address: MutableList<Address>
     lateinit var geocoder: Geocoder
     lateinit var des: String
@@ -69,6 +73,7 @@ class AlertFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         geocoder = Geocoder(requireContext().applicationContext)
+        alertShared=requireContext().getSharedPreferences("alertShared",Context.MODE_PRIVATE)
         alertsFactory = ViewModelFactoryAlerts(
             Repository.getInstance(
                 WeatherClient.getInstance(),
@@ -90,7 +95,7 @@ class AlertFragment : Fragment() {
             binding.imageView.visibility = View.GONE
             binding.textView.visibility = View.GONE
             alertsAdapter = AlertsAdapter(alerts) {
-               showConfirmationDialog(it)
+                showConfirmationDialog(it)
             }
             binding.alertRecyclerView.adapter = alertsAdapter
             alertsAdapter.notifyDataSetChanged()
@@ -209,6 +214,7 @@ class AlertFragment : Fragment() {
                         ).show()
                     } else {
                         if (selectedOption == "Alert") {
+                            var requestId=alertShared.getInt("requestId",1)
                             alertsViewModel.insertAlert(
                                 AlertsDB(
                                     id=requestId,
@@ -225,14 +231,19 @@ class AlertFragment : Fragment() {
                                 )
                             )
                             //startAlarm(startDate, "alert",alertsViewModel.alertsDB.value!!.size+1)
-                           /* val id = if (alertsViewModel.alertsDB.value?.size == 0) {
-                                1
-                            } else {
-                                alertsViewModel.alertsDB.value!![alertsViewModel.alertsDB.value!!.size - 1].id + 1
-                            }*/
-                            startAlarm(startDate, "alert", requestId)
+                            /* val id = if (alertsViewModel.alertsDB.value?.size == 0) {
+                                 1
+                             } else {
+                                 alertsViewModel.alertsDB.value!![alertsViewModel.alertsDB.value!!.size - 1].id + 1
+                             }*/
+                            val lat= shared.getString("lat","33.44")
+                            val lon= shared.getString("lon","-94.04")
+                            startAlarm(startDate, "alert", requestId,lat,lon)
                             requestId++
+                            alertShared.edit().putInt("requestId",requestId).commit()
+
                         } else {
+                            var requestId=alertShared.getInt("requestId",1)
                             alertsViewModel.insertAlert(
                                 AlertsDB(
                                     id=requestId,
@@ -254,12 +265,11 @@ class AlertFragment : Fragment() {
                             } else {
                                 alertsViewModel.alertsDB.value!![alertsViewModel.alertsDB.value!!.size - 1].id + 1
                             }*/
-                            startAlarm(
-                                startDate,
-                                "notification",
-                                requestId
-                            )
+                            val lat= shared.getString("lat","33.44")
+                            val lon= shared.getString("lon","-94.04")
+                            startAlarm(startDate, "notification", requestId,lat,lon)
                             requestId++
+                            alertShared.edit().putInt("requestId",requestId).commit()
                         }
                     }
                 }
@@ -279,10 +289,12 @@ class AlertFragment : Fragment() {
             }
         }
 
-    fun startAlarm(time: Long, type: String, id: Int) {
+    fun startAlarm(time: Long, type: String, id: Int,lat:String?,lon:String?) {
         var alarmManager = requireContext().getSystemService(Context.ALARM_SERVICE) as AlarmManager
         val intent = Intent(requireContext(), AlertReceiver::class.java)
         intent.putExtra("type", type)
+        intent.putExtra("lat", lat)
+        intent.putExtra("lon", lon)
         var pendingIntent: PendingIntent =
             PendingIntent.getBroadcast(requireContext(), id, intent, PendingIntent.FLAG_IMMUTABLE)
         println("#################### start id $id")

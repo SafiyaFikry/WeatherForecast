@@ -44,6 +44,13 @@ class MainActivity : AppCompatActivity() {
         binding= ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        val language= shared.getString("language","English")
+        if (language=="English"){
+            setLanguage(this@MainActivity,"en")
+        }else{
+            setLanguage(this@MainActivity,"ar")
+        }
+
         mFusedLocationClient= LocationServices.getFusedLocationProviderClient(this)
         drawerLayout=binding.drawerLayout
         navigationView=binding.navigationView
@@ -52,14 +59,13 @@ class MainActivity : AppCompatActivity() {
         actionBar.setHomeAsUpIndicator(R.drawable.baseline_menu_24)
         actionBar.setDisplayShowHomeEnabled(true)
         actionBar.setDisplayHomeAsUpEnabled(true)
-
         navController=Navigation.findNavController(this,R.id.nav_host_fragment)
         navController.addOnDestinationChangedListener{ controller, destination, arguments ->
             title = when (destination.id) {
                 R.id.homeFragment ->{
                     if(shared.getString("location","GPS")=="GPS") {
                         println("here--------------------------------")
-                        getLastLocation()
+                        requestNewLocationData()
                     }
                     actionBar.setDisplayHomeAsUpEnabled(true)
                     actionBar.setDisplayShowHomeEnabled(true)
@@ -95,7 +101,7 @@ class MainActivity : AppCompatActivity() {
         }
         NavigationUI.setupWithNavController(navigationView,navController)
 
-        if(shared.getString("location","GPS")=="Map"&&intent.extras?.getString("firstTime")=="true") {
+        if(shared.getString("location","GPS")=="Map" && intent.extras?.getString("firstTime")=="true") {
             navController.navigate(R.id.mapFragment)
         }
         else if(shared.getString("location","GPS")=="GPS") {
@@ -158,7 +164,7 @@ class MainActivity : AppCompatActivity() {
     private fun requestNewLocationData() {
         val mLocationRequest= LocationRequest()
         mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
-        mLocationRequest.setInterval(0)
+        mLocationRequest.setInterval(10)
         mFusedLocationClient= LocationServices.getFusedLocationProviderClient(this)
         mFusedLocationClient.requestLocationUpdates(mLocationRequest,mLoactionCallback, Looper.myLooper())
 
@@ -185,6 +191,15 @@ class MainActivity : AppCompatActivity() {
             }
         }
         return   super.onOptionsItemSelected(item)
+    }
+    fun setLanguage(context: Context, lang:String)
+    {
+        val locale = Locale(lang)
+        Locale.setDefault(locale)
+        val resource = context.resources
+        val config = resource.configuration
+        config.setLocale(locale)
+        resource.updateConfiguration(config, resource.displayMetrics)
     }
 }
 

@@ -7,7 +7,7 @@
     <string name="settings_blank_fragment">Settings blank fragment</string>
     <string name="open_nav">Open Navigation Drawer</string>
     <string name="close_nav">Close Navigation Drawer</string>
-    <string name="home">الصفحه الرئسيه</string>
+    <string name="home">الصفحه الرئيسيه</string>
     <string name="favorite">المفضلات</string>
     <string name="alert">التنبيهات</string>
     <string name="settings">الاعدادات</string>
@@ -33,23 +33,23 @@
     <string name="mph">ميل/س</string>
     <string name="Off">مقفول</string>
     <string name="On">مفتوع</string>
-    <string name="no_favorites_yet">لا توجد اماكن مفضضله بعد</string>
+    <string name="no_favorites_yet">لا توجد اماكن مفضله بعد</string>
     <string name="no_alerts_yet">لا يوجد تنبيهات بعد</string>
 
-    <string-array name="language">
+    <string-array name="language_name">
         <item>العربيه</item>
         <item>الانجليزيه</item>
     </string-array>
-    <string-array name="location">
+    <string-array name="location_name">
         <item>القمر الصناعى</item>
         <item>الخريطه</item>
     </string-array>
-    <string-array name="temp_unit">
+    <string-array name="temp_unit_name">
         <item>درجه مئويه</item>
         <item>كلفن</item>
         <item>فهرنهايت</item>
     </string-array>
-    <string-array name="wind_speed">
+    <string-array name="wind_speed_name">
         <item>م/ث</item>
         <item>ميل/س</item>
     </string-array>
@@ -73,4 +73,8 @@
     <string name="wind_speed">وحده سرعه الرياح</string>
     <string name="unit">وحدات</string>
     <string name="prefernces">التفضيلات</string>
+    <string name="delete_confirmation">تأكيد الحذف</string>
+    <string name="message">هل انت متأكد من انك تريد حذف هذا !</string>
+    <string name="okay">حسنا</string>
+    <string name="cancel">الغاء</string>
 </resources>

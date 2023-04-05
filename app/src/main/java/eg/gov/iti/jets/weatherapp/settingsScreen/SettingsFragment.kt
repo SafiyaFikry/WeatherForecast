@@ -40,6 +40,7 @@ class SettingsFragment : Fragment() {
         return binding.root
     }
     class MySettingsFragment : PreferenceFragmentCompat() {
+        @SuppressLint("SuspiciousIndentation")
         override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
             setPreferencesFromResource(R.xml.pref_settings, rootKey)
            val mapPreference=findPreference<ListPreference>("location")
@@ -59,14 +60,6 @@ class SettingsFragment : Fragment() {
                 }
                 else if(radio=="Arabic"){
                     SettingsFragment().setLanguage(requireContext(),"ar")
-                    activity?.recreate()
-                }
-                else if(radio=="العربيه"){
-                    SettingsFragment().setLanguage(requireContext(),"ar")
-                    activity?.recreate()
-                }
-                else if(radio=="الانجليزيه"){
-                    SettingsFragment().setLanguage(requireContext(),"en")
                     activity?.recreate()
                 }
                 true

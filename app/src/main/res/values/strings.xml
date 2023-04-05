@@ -36,20 +36,37 @@
     <string name="no_favorites_yet">No Favorites Places Yet</string>
     <string name="no_alerts_yet">No Alerts Yet</string>
 
-    <string-array name="language">
-        <item>"Arabic"</item>
+    <string-array name="language_name">
+        <item>Arabic</item>
         <item>English</item>
     </string-array>
-    <string-array name="location">
+    <string-array name="language_value">
+        <item>Arabic</item>
+        <item>English</item>
+    </string-array>
+    <string-array name="location_name">
         <item>GPS</item>
         <item>Map</item>
     </string-array>
-    <string-array name="temp_unit">
+    <string-array name="location_value">
+        <item>GPS</item>
+        <item>Map</item>
+    </string-array>
+    <string-array name="temp_unit_name">
         <item>Celsius</item>
         <item>Kelvin</item>
         <item>Fahrenheit</item>
     </string-array>
-    <string-array name="wind_speed">
+    <string-array name="temp_unit_value">
+        <item>Celsius</item>
+        <item>Kelvin</item>
+        <item>Fahrenheit</item>
+    </string-array>
+    <string-array name="wind_speed_name">
+        <item>m/s</item>
+        <item>mph</item>
+    </string-array>
+    <string-array name="wind_speed_value">
         <item>m/s</item>
         <item>mph</item>
     </string-array>
@@ -73,4 +90,10 @@
     <string name="wind_speed">Wind Speed Unit</string>
     <string name="unit">Units</string>
     <string name="prefernces">Preferences</string>
+    <string name="delete_confirmation">Delete Confirmation</string>
+    <string name="message">Are you sure that you need to delete this!</string>
+    <string name="okay">Okay</string>
+    <string name="cancel">Cancel</string>
+
+
 </resources>

@@ -78,15 +78,15 @@ class FavoriteFragment : Fragment() {
     }
     fun showConfirmationDialog(favoritesDB: FavoritesDB) {
         MaterialAlertDialogBuilder(requireContext())
-            .setTitle("Delete Confirmation")
-            .setMessage("Are you sure that you need to delete this!")
-            .setPositiveButton("Ok") { dialog, which ->
+            .setTitle(R.string.delete_confirmation)
+            .setMessage(R.string.message)
+            .setPositiveButton(R.string.okay) { dialog, which ->
                 viewModel.deleteFav(favoritesDB)
                 favAdapter.notifyDataSetChanged()
                 Toast.makeText(requireContext(), "Deleted successfully", Toast.LENGTH_SHORT)
                     .show()
             }
-            .setNegativeButton("Cancel"){ dialogInterface: DialogInterface, i: Int ->
+            .setNegativeButton(R.string.cancel){ dialogInterface: DialogInterface, i: Int ->
 
             }
             .create().show()

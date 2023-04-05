@@ -28,6 +28,7 @@ import androidx.navigation.Navigation
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.google.android.gms.location.*
+import eg.gov.iti.jets.weatherapp.MainActivity
 import eg.gov.iti.jets.weatherapp.R
 import eg.gov.iti.jets.weatherapp.database.ConcreteLocalSource
 import eg.gov.iti.jets.weatherapp.databinding.FragmentHomeBinding
@@ -83,11 +84,12 @@ class HomeFragment : Fragment() {
         ))
         viewModelHome = ViewModelProvider(this, viewModelFactoryHome).get(ViewModelHome::class.java)
 
-        val lat=shared.getString("lat","33.44")
-        val lon=shared.getString("lon","-94.04")
+        var lat=shared.getString("lat","33.44")
+        var lon=shared.getString("lon","-94.04")
+
         println("++++++++++++ lat : "+lat)
         println("++++++++++++ lon : "+lon)
-        val lang=if (language=="English"||language=="الانجليزيه"){
+        val lang=if (language=="English"){
             setLanguage(requireContext(),"en")
             "en"
 
@@ -95,6 +97,7 @@ class HomeFragment : Fragment() {
             setLanguage(requireContext(),"ar")
             "ar"
         }
+
 
         if(checkForInternet(requireContext().applicationContext)) {
             println("############ lat : "+lat)
@@ -124,6 +127,9 @@ class HomeFragment : Fragment() {
             viewModelHome.retrievedRoot.observe(viewLifecycleOwner){ root->
                 if(root!=null){
                     setSuccessStatus(location,temperature,windSpeed,root)
+                }
+                else{
+                    Toast.makeText(requireContext(),"No network",Toast.LENGTH_LONG).show()
                 }
             }
         }

@@ -7,8 +7,8 @@
         <ListPreference
             app:key="location"
             app:title="@string/location"
-            android:entries="@array/location"
-            android:entryValues="@array/location"
+            android:entries="@array/location_name"
+            android:entryValues="@array/location_value"
             android:defaultValue="@string/GPS"
             android:summary="@string/GPS"
             app:useSimpleSummaryProvider="true"/>
@@ -16,8 +16,8 @@
         <ListPreference
             app:key="language"
             app:title="@string/language"
-            android:entries="@array/language"
-            android:entryValues="@array/language"
+            android:entries="@array/language_name"
+            android:entryValues="@array/language_value"
             android:defaultValue="@string/English"
             android:summary="@string/English"
             app:useSimpleSummaryProvider="true" />
@@ -39,16 +39,16 @@
         <ListPreference
             app:key="temperature"
             app:title="@string/Temperature_Unit"
-            android:entryValues="@array/temp_unit"
-            android:entries="@array/temp_unit"
+            android:entryValues="@array/temp_unit_value"
+            android:entries="@array/temp_unit_name"
             android:defaultValue="@string/Celsius"
             android:summary="@string/Celsius"
             app:useSimpleSummaryProvider="true"/>
         <ListPreference
             app:key="windSpeed"
             app:title="@string/wind_speed"
-            android:entries="@array/wind_speed"
-            android:entryValues="@array/wind_speed"
+            android:entries="@array/wind_speed_name"
+            android:entryValues="@array/wind_speed_value"
             android:defaultValue="@string/mps"
             android:summary="@string/mps"
             app:useSimpleSummaryProvider="true"/>

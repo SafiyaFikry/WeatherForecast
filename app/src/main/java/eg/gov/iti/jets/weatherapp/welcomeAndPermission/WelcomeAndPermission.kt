@@ -30,11 +30,12 @@ class WelcomeAndPermission : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding= ActivityWelcomeAndPermissionBinding.inflate(layoutInflater)
         setContentView(binding.root)
-         mFusedLocationClient= LocationServices.getFusedLocationProviderClient(this)
+        mFusedLocationClient= LocationServices.getFusedLocationProviderClient(this)
         binding.enablePermissionBtn.setOnClickListener {
             getLastLocation()
-            binding.enablePermissionBtn.isEnabled=false
-            binding.enablePermissionBtn.setBackgroundColor(Color.GRAY)
+            if (checkPermissions()) {
+                binding.enablePermissionBtn.isEnabled = false
+            }
         }
         binding.letsGoBtn.setOnClickListener {
             if(checkPermissions()) {
@@ -121,6 +122,7 @@ class WelcomeAndPermission : AppCompatActivity() {
 
     }
     private  val mLoactionCallback: LocationCallback =object : LocationCallback(){
+        @SuppressLint("SuspiciousIndentation")
         override fun onLocationResult(locationResult: LocationResult) {
             val mLastLocation: Location =locationResult.lastLocation
             val editor= shared.edit()

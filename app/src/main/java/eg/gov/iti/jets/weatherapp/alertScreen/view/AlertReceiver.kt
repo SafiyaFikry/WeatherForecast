@@ -35,8 +35,8 @@ class AlertReceiver:BroadcastReceiver()  {
     lateinit var des:String
     override fun onReceive(context: Context, intent: Intent) {
 
-        val lat= shared.getString("lat","33.44")
-        val lon= shared.getString("lon","-94.04")
+        val lat= intent.extras?.getString("lat")
+        val lon= intent.extras?.getString("lon")
         val lang= shared.getString("language","English")
         geocoder= Geocoder(context)
         address = geocoder.getFromLocation(lat!!.toDouble(),lon!!.toDouble(), 10) as MutableList<Address>
@@ -45,46 +45,46 @@ class AlertReceiver:BroadcastReceiver()  {
         runBlocking{
             Repository.getInstance(WeatherClient.getInstance(), ConcreteLocalSource(context))
                 .getWeather(lat.toDouble(), lon.toDouble(), lang!!).collect { root ->
-                if (root.alerts == null || root.alerts.isEmpty()) {
-                    if (intent.extras?.getString("type") == "alert") {
-                        createAlarm(context, "Everything is okay in " + des)
-                        val notification = NotificationHelper(context)
-                        var nb: NotificationCompat.Builder = notification.channelNotification
-                        nb.setContentTitle("Alert!")
-                        nb.setContentText("Everything is okay in " + des)
-                        nb.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM))
-                        notification.manager?.notify(1, nb.build())
-                    } else if (intent.extras?.getString("type") == "notification"){
-                        val uri =
-                            RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
-                        val r = RingtoneManager.getRingtone(context, uri)
-                        r.play()
-                        val notification = NotificationHelper(context)
-                        var nb: NotificationCompat.Builder = notification.channelNotification
-                        nb.setContentTitle("Notification!")
-                        nb.setContentText("Everything is okay in " + des)
-                        nb.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
-                        notification.manager?.notify(1, nb.build())
-                    }
-                } else {
-                    if (intent.extras?.getString("type") == "alert") {
-                        createAlarm(context, "There is ${root.alerts[0].event} in $des")
-                        val notification = NotificationHelper(context)
-                        var nb: NotificationCompat.Builder = notification.channelNotification
-                        nb.setContentTitle("Alert!")
-                        nb.setContentText("There is ${root.alerts[0].event} in $des")
-                        nb.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM))
-                        notification.manager?.notify(1, nb.build())
+                    if (root.alerts == null || root.alerts.isEmpty()) {
+                        if (intent.extras?.getString("type") == "alert") {
+                            createAlarm(context, "Everything is okay in " + des)
+                            val notification = NotificationHelper(context)
+                            var nb: NotificationCompat.Builder = notification.channelNotification
+                            nb.setContentTitle("Alert!")
+                            nb.setContentText("Everything is okay in " + des)
+                            nb.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM))
+                            notification.manager?.notify(1, nb.build())
+                        } else if (intent.extras?.getString("type") == "notification"){
+                            val uri =
+                                RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
+                            val r = RingtoneManager.getRingtone(context, uri)
+                            r.play()
+                            val notification = NotificationHelper(context)
+                            var nb: NotificationCompat.Builder = notification.channelNotification
+                            nb.setContentTitle("Notification!")
+                            nb.setContentText("Everything is okay in " + des)
+                            nb.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
+                            notification.manager?.notify(1, nb.build())
+                        }
                     } else {
-                        val notification = NotificationHelper(context)
-                        var nb: NotificationCompat.Builder = notification.channelNotification
-                        nb.setContentTitle("Notification!")
-                        nb.setContentText("There is ${root.alerts[0].event} in $des")
-                        nb.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
-                        notification.manager?.notify(1, nb.build())
+                        if (intent.extras?.getString("type") == "alert") {
+                            createAlarm(context, "There is ${root.alerts[0].event} in $des")
+                            val notification = NotificationHelper(context)
+                            var nb: NotificationCompat.Builder = notification.channelNotification
+                            nb.setContentTitle("Alert!")
+                            nb.setContentText("There is ${root.alerts[0].event} in $des")
+                            nb.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM))
+                            notification.manager?.notify(1, nb.build())
+                        } else {
+                            val notification = NotificationHelper(context)
+                            var nb: NotificationCompat.Builder = notification.channelNotification
+                            nb.setContentTitle("Notification!")
+                            nb.setContentText("There is ${root.alerts[0].event} in $des")
+                            nb.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
+                            notification.manager?.notify(1, nb.build())
+                        }
                     }
                 }
-            }
         }
     }
     val LAYOUT_FLAG =
